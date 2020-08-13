@@ -141,7 +141,7 @@ export default function MapScreen ({navigation}) {
              rightComponent={ <SearchBar   placeholder="mysearch" />}
              />
           */}
-         <View style={{ position:"absolute", marginTop:"9%",  left:"9%"}}>
+         <View style={{ position:"absolute", marginTop:"45%",  left:"7%", zIndex: 10}}>
           <ButtonGroup 
                      buttons={buttons}
                      selectedButtonStyle={{backgroundColor:"white",borderWidth:1,borderColor:"#57508C"}}
@@ -155,7 +155,7 @@ export default function MapScreen ({navigation}) {
         </View>
       
 
-        <MapView style={styles.Map} region={{latitude:latitude,longitude:longitude}}>
+        <MapView style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -177,7 +177,7 @@ export default function MapScreen ({navigation}) {
 const styles = StyleSheet.create({
     Map:{
         width:"100%",
-        height:"100%",
+        height:"100%"
     },
     header:{
         color:"#4D3D84",

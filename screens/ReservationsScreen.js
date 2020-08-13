@@ -9,6 +9,7 @@ function ReservationsScreen ({navigation}) {
             <Button title="Go to visit" onPress={() => navigation.navigate("Visit")}/>
             <Button title="Go to quizz" onPress={() => navigation.navigate("Quizz")}/>
             <Button title="Go to PlanScreen" onPress={() => navigation.navigate("Plan")}/>
+            {/* <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.92:3000/save-monument")}/> */}
         </View>
     )
 }

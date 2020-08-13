@@ -10,27 +10,32 @@ import { FontAwesome } from '@expo/vector-icons';
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from "../screens/Header";
+import  ListComponent from "../screens/listComponent";
 
 
 export default function List ({navigation}){
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
-    const [info,setInfo] = useState([])
+    const [infos,setInfos] = useState([]);
+    const [idArray,setIdArray] = ([]);
 
     useEffect(()=>{
         const info = async ()=>{
-            await fetch("http://10.2.3.25:3000/info-tour",{method:"POST"})
+          await fetch("http://10.2.3.25:3000/info-tour")
             .then((res)=>res.json())
-            .then((yes)=>setInfo(yes))
-            
+            .then((infoTour)=>setInfos(infoTour))
+            .catch((err)=>console.log(err)) 
         }
         info()
     },[])
- 
-    console.log(info)
+
+    var infoDynamic = infos.map(el=>{
+       return  <ListComponent/>
+    })
 
 
-    return(
+
+return (
         <View style={{flex:1}}>
             <HeaderApp/>
         <View style={{margin:0,backgroundColor:"#636363",
@@ -62,39 +67,13 @@ export default function List ({navigation}){
         </View>
 
         <ScrollView>
-            <Card style={{position:"absolute"}} image={{uri:"https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/louvre_pird42.jpg"}}>
-                <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
-                    <Ionicons name="md-share" size={24} color="#FFFFFF" />
-                    <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="white" />
-                </View>        
-                <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
-                    <View style={{width:"50%"}}>
-                        <Text style={{fontWeight:"bold", fontSize:18}}>.title</Text>
-                        <Text style={{marginBottom:-3}}>.hours</Text>
-                        <Text>.price</Text>
-                    </View>
-                    <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
-                        <View style={{display:"flex",alignItems:"center", margin:2}}>
-                            <Ionicons name="md-pin" size={24} color="#57508C" />
-                            <Text style={{ fontSize: 13 }}> Itinéraire </Text>
-                        </View>    
-                        <View style={{display:"flex",alignItems:"center", margin:2}}>
-                            <Ionicons name="md-people" size={24} color="#57508C" />
-                            <Text style={{ fontSize: 13 }}> Groupes </Text>
-                        </View>    
-                        <View style={{display:"flex",alignItems:"center", margin:2}}>
-                            <Ionicons name="md-play" size={24} color="#57508C" />
-                            <Text style={{ fontSize: 13 }}> Visiter </Text>
-                        </View> 
-                    </View>
-                </View>            
-            </Card>
+           {infoDynamic}
         </ScrollView>
         <FooterApp navigation={navigation}/>
     </View>
     </View>
 )
-}
+                          }
 
 const styles = StyleSheet.create({
     Map:{
