@@ -19,7 +19,7 @@ import AccountScreen from './screens/AccountScreen';
 import AvatarScreen from './screens/AvatarScreen';
 import SignUpScreen from './screens/SignUpScreen'; 
 import FooterApp from './screens/footer';
-import List from "../Frontend/screens/ListScreen";
+import List from "./screens/ListScreen";
 import HeaderApp from './screens/Header';
 
 
