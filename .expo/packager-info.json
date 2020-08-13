@@ -1,0 +1,9 @@
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://tg-cds.marinefo.frontend.exp.direct",
+  "packagerNgrokUrl": "https://packager.tg-cds.marinefo.frontend.exp.direct",
+  "ngrokPid": 8300,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 23620
+}
