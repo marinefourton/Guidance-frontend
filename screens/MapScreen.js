@@ -54,7 +54,7 @@ export default function MapScreen ({navigation}) {
 
 // USEEFFECT DES FILTRES
     useEffect( () => {
-        console.log("je passe dans le useEffect des filtres")
+
         let getToursWithFilters = async () => {
 
         const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
@@ -64,7 +64,6 @@ export default function MapScreen ({navigation}) {
         })
         
         const jsonResponseFilter = await response.json()
-        console.log("reponse du back in front", jsonResponseFilter);
         setTourList(jsonResponseFilter.result) 
       }
       getToursWithFilters();
@@ -105,8 +104,6 @@ export default function MapScreen ({navigation}) {
         title={tour.title}
         />
       })
-
-     console.log("voici les tours selectionnés", tourList);
 
     return (
 

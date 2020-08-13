@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Image, StyleSheet } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { Header } from "react-native-elements";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
 
