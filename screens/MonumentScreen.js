@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,6 +6,34 @@ import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
 
 function MonumentScreen ({navigation}) {
+
+    const [infosMonument, setInfosMonument]=useState();
+
+
+    useEffect(()=>{
+        async function display(){
+            
+            var rawResponse = await fetch ("http://10.2.3.92:3000/search-infos-monument");
+            var response = await rawResponse.json();
+            // console.log("response-----------------",response);
+            setInfosMonument(response);
+        } display()
+    },[]);
+
+    console.log("response-----------------",infosMonument)
+
+    // if(infosMonument != undefined){
+    // if(infosMonument.guide.lenght=1 && infosMonument.guide[0].type === "interieur"){
+    //     return(<View><Text>intérieur OK</Text></View>);
+    // }else if(infosMonument.guide.lenght=1 && infosMonument.guide[0].type === "exterieur"){
+    //     return(<View style={{marginTop:500}} ><Text>extérieur OK</Text></View>);
+    // }
+    // else if(infosMonument.guide.lenght=2){
+    //     return(<View><Text>Hello</Text></View>);
+    // }
+    // }
+
+
     return(
         <View style={{flex:1}}>
             

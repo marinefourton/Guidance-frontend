@@ -32,7 +32,7 @@ console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://10.2.3.51:3000/sign-in', {
+        const data = await fetch('http://10.2.3.92:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
@@ -54,7 +54,7 @@ console.log(tokenList, "Test Hans")
       }
     
       var tabErrorsSignin = listErrorsSignin.map((error,i) => {
-        return(<Text style={{marginLeft:"40%", marginBottom:"5%"}}>{error}</Text>)
+        return(<Text style={{color:"#aaaaaa", marginLeft:"35%", marginBottom:"3%"}}>{error}</Text>)
       })
     
       // var Labas = function(props){
@@ -79,32 +79,32 @@ console.log(tokenList, "Test Hans")
 
           
             
-          <KeyboardAvoidingView style={{width: "100%"}} behavior={"position"} enabled>
+          <KeyboardAvoidingView style={{width: "80%"}} behavior={"position"} enabled>
 
-          <Image source={require('../assets/logo.png')} style={{width:100, height: 120, marginLeft:"37%"}}/>
+          <Image source={require('../assets/logo.png')} style={{width:100, height: 120, marginLeft:"32%"}}/>
             
 
-            <Text style={{fontSize: 50, color: '#FFFFFF', marginLeft:"22%"}}> Guidance</Text>
+            <Text style={{fontSize: 50, color: '#FFFFFF', marginLeft:"10%", marginBottom:"8%"}}> Guidance</Text>
           
             {/* {signIn} */}
 
-            <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="usermail" />
+            <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="userpwd" />
+            <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignin}
 
-            <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)} style={{width:120, marginLeft:"35%", color: "#FFFFFF"}}/>
+            <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)}/>
             <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/>
 
             </KeyboardAvoidingView>
           
 
             
-            <View style={{flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
+            <View style={{ marginTop:"10%", flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
 
-            <Text> Vous n'avez pas de compte ? </Text>
-            <Button type="clear" style={{width: "100%"}} title="Inscription" onPress={() => props.navigation.navigate("SignUp")}/>
+            <Text style={{color:"#aaaaaa"}}> Vous n'avez pas de compte ? </Text>
+            <Button type="clear" title="Inscription" onPress={() => props.navigation.navigate("SignUp")}/>
 
             </View>
 
