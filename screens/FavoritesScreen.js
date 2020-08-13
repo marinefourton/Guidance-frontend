@@ -13,7 +13,7 @@ function FavoritesScreen ({navigation}) {
             <HeaderApp navigation={navigation}/>
 
             <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
-                <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
+                <Ionicons name="ios-arrow-back" size={24} color="#57508C" onPress={() => navigation.navigate("Map")}/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
             </View>
 
