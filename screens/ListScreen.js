@@ -32,14 +32,14 @@ export default function List ({navigation}){
     //  console.log(infos)
     var infoDynamic = infos.map((el, i)=>{
         var id = el._id
-       return  <ListComponent nameId = {id}/>
+       return  <ListComponent nameId = {id} navigation={navigation}/>
     })
 
 
 
 return (
         <View style={{flex:1}}>
-            <HeaderApp/>
+            <HeaderApp navigation={navigation}/>
         <View style={{margin:0,backgroundColor:"#636363",
         height:60, dispay:"flex", 
         justifyContent:"space-between", 
