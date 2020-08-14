@@ -11,6 +11,7 @@ import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from "../screens/Header";
 import  ListComponent from "../screens/listComponent";
+import {connect} from "react-redux"
 
 
 export default function List ({navigation}){
@@ -28,9 +29,10 @@ export default function List ({navigation}){
         }
         info()
     },[])
-
-    var infoDynamic = infos.map(el=>{
-       return  <ListComponent/>
+    //  console.log(infos)
+    var infoDynamic = infos.map((el, i)=>{
+        var id = el._id
+       return  <ListComponent nameId = {id}/>
     })
 
 
@@ -87,3 +89,6 @@ const styles = StyleSheet.create({
     }
 
 })
+
+
+
