@@ -14,7 +14,7 @@ function MonumentScreen (props) {
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch ("http://10.2.3.92:3000/search-infos-monument");
+            var rawResponse = await fetch ("http://10.2.3.25:3000/search-infos-monument");
             var response = await rawResponse.json();
             setInfosMonument(response);
         } display()
