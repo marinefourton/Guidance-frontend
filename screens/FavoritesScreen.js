@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import {connect} from "react-redux";
 
-function FavoritesScreen ({navigation}) {
+function FavoritesScreen (props) {
+
+    // const [myFavorites, setMyFavorites] = useState()
+
+    // useEffect(()=>{
+    //     async function display(){
+
+    //         var rawResponse = await fetch (`http://10.2.3.92:3000/search-favorites?token=${props.searchToken}`);
+    //         var response = await rawResponse.json();
+    //         setMyFavorites(response);
+    //     }display()
+    // },[]);
+
+    // var displayFavorites = [];
+
+    // for (var i=0, i<myFavorites.length, i++){
+        // displayFavorites.push(
+
+        // )
+    // }
+
+
+
     return (
 
         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
 
-            <HeaderApp navigation={navigation}/>
+            <HeaderApp navigation={props.navigation}/>
 
             <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => navigation.navigate("Map")}>
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
@@ -105,9 +128,18 @@ function FavoritesScreen ({navigation}) {
                 </Card>
 
             </ScrollView>
-            <FooterApp navigation={navigation}/>
+            <FooterApp navigation={props.navigation}/>
         </View>
     )
 }
 
-export default FavoritesScreen
+function mapStateToProps(state){
+    return {
+      searchToken: state.token
+    }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    null
+  )(FavoritesScreen)
