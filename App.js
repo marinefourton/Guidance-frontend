@@ -31,10 +31,11 @@ import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import token from './reducers/token';
 import score from './reducers/score';
+import typeVisit from './reducers/typeVisite';
 
 
 
-const store = createStore(combineReducers({token, score}));
+const store = createStore(combineReducers({token, score, typeVisit}));
 console.log(store.getState(), 'STORE INSIDE')
 
 
