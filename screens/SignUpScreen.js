@@ -67,27 +67,27 @@ function SignUpScreen (props, token, saveToken) {
      
     
       var tabErrorsSignup = listErrorsSignup.map((error,i) => {
-        return(<Text style={{marginLeft:"40%", marginBottom:"5%"}}>{error}</Text>)
+        return(<Text style={{color:"#aaaaaa", marginLeft:"35%", marginBottom:"3%"}}>{error}</Text>)
       })
 
     return (
        <ImageBackground source={require('../assets/background-home.jpg')} style={{flex:1}}>
         <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
 
-        <KeyboardAvoidingView style={{width: "100%"}} behavior={"position"} enabled>
+        <KeyboardAvoidingView style={{width: "80%"}} behavior={"position"} enabled>
 
-          <Image source={require('../assets/logo.png')} style={{width:100, height: 120, marginLeft:"37%"}}/>
+          <Image source={require('../assets/logo.png')} style={{width:100, height: 120, marginLeft:"32%"}}/>
             
 
-            <Text style={{fontSize: 50, color: '#FFFFFF', marginLeft:"22%"}}> Inscription</Text>
+            <Text style={{fontSize: 50, color: '#FFFFFF', marginLeft:"6%", marginBottom:"8%"}}> Inscription</Text>
           
 
 
-            <Input onChangeText={(e)=> setSignUpuserpseudo(e)} placeholder="Pseudo" /> 
+            <Input onChangeText={(e)=> setSignUpuserpseudo(e)} placeholder="pseudo" /> 
 
-            <Input onChangeText={(e) => setSignUpusermail(e)}  placeholder="Mail" />
+            <Input onChangeText={(e) => setSignUpusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignUpuserpwd(e)} placeholder="Password" />
+            <Input onChangeText={(e) => setSignUpuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignup}
           
@@ -96,8 +96,8 @@ function SignUpScreen (props, token, saveToken) {
 
             <View style={{flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
 
-            <Button type="solid" title= "Annuler" onPress={() => props.navigation.navigate("Home")} style={{width:120, marginLeft:"15%", marginBottom:"15%"}}/> 
-            <Button type="solid" title= "Validation" onPress={() => handleSubmitSignup(token)} style={{width:100, marginLeft:"25%", marginBottom:"15%"}}/>
+            {/* <Button type="solid" title= "Annuler" onPress={() => props.navigation.navigate("Home")} style={{width:120, marginLeft:"15%", marginBottom:"15%"}}/>  */}
+            <Button type="solid" title= "Valider" onPress={() => handleSubmitSignup(token)} />
             </View>
             </KeyboardAvoidingView>
 

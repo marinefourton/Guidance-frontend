@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Image, StyleSheet } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { Header } from "react-native-elements";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import {connect} from "react-redux"
 
 function BadgesScreen ({navigation}) {
 
@@ -26,7 +26,8 @@ function BadgesScreen ({navigation}) {
 
 
     useEffect(()=>{
-        async function calculPoint(){
+        async function calculPoint(props){
+            
             var rawResponse = await fetch ("http://10.2.3.92:3000/points-counter");
             var response = await rawResponse.json();
             var tempBadges = [];
@@ -109,5 +110,16 @@ const styles = StyleSheet.create({
     }
 
 })
+ 
 
-export default BadgesScreen
+
+function mapStateToProps(state){
+    return {
+      searchToken: state.token
+    }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    null
+  )(BadgesScreen)

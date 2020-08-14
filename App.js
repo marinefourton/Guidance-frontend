@@ -30,10 +30,11 @@ import { Ionicons } from '@expo/vector-icons';
 import {createStore, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import token from './reducers/token';
+import score from './reducers/score';
 
 
 
-const store = createStore(combineReducers({token}));
+const store = createStore(combineReducers({token, score}));
 console.log(store.getState(), 'STORE INSIDE')
 
 
@@ -48,9 +49,9 @@ var StackNavigator = createStackNavigator ({
   Reserve: ReservationsScreen,
   List:List,
   Account: AccountScreen,
-  Quiz: QuizzScreen,
+  Quizz: QuizzScreen,
+  Win: WinScreen,
   Plan: PlanScreen
-  
 },{headerMode:"none"})
 
 const Navigation = createAppContainer(StackNavigator);

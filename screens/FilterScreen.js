@@ -3,6 +3,7 @@ import { StyleSheet, Button, Text, View, Modal, Switch } from 'react-native';
 import { ListItem, Header, CheckBox, Slider } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function Filter(props) {
 
   // MODAL VISIBLE

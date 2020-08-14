@@ -40,12 +40,8 @@ function PlanScreen ({navigation}) {
 
                 <ScrollView>
                     <View>
-                        <Text style={{marginLeft:"17%", marginTop:"5%", marginBottom:"2%", fontSize:"20%"}}>Eglise de Saint-Eustache</Text>
-
-                    
-                        <Text style={{marginLeft:"2%", marginBottom:"5%", fontSize:"15%", textAlign:"center"}}>Visite Guidée interieur</Text>
-
-
+                        <Text style={{marginLeft:"17%", marginTop:"30%", marginBottom:"2%", fontSize:20}}>Eglise de Saint-Eustache</Text>
+                        <Text style={{marginLeft:"2%", marginBottom:"10%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
                         <Image source={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-plan_qaaqxd.png'}} style={{height:500, width:350, marginLeft: 1}}/>
 
 
