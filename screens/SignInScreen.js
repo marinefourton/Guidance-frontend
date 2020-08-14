@@ -17,18 +17,18 @@ function SignInScreen(props, token) {
   useEffect(() => {
     AsyncStorage.getItem("saveToken", (err, value) => {   
        
-    console.log(value,"TempoToken")
+    // console.log(value,"TempoToken")
     
     if (value) {      
       setTokenList(value);  
       props.addToken(value);
       props.navigation.navigate("Map")
      }
-      console.log(tokenList, "TokenLife")
+      // console.log(tokenList, "TokenLife")
      
   })
 }, []);
-console.log(tokenList, "Test Hans")
+// console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
      

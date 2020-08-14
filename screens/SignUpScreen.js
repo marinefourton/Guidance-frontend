@@ -33,7 +33,7 @@ function SignUpScreen (props, token) {
 
 
     var handleSubmitSignup = async () => {
-        console.log(signUpuserpseudo, "Pseudo")
+        // console.log(signUpuserpseudo, "Pseudo")
     
         const data = await fetch('http://192.168.1.14:3000/sign-up', {
           method: 'POST',
@@ -42,7 +42,7 @@ function SignUpScreen (props, token) {
         })
     
         const body = await data.json()
-        console.log(body, '')
+        // console.log(body, '')
     
         if(body.result == true){
           props.navigation.navigate("BottomNavigator"),
@@ -50,14 +50,14 @@ function SignUpScreen (props, token) {
         
           AsyncStorage.setItem("saveToken", body.token); 
           setTokenList(body.token),
-          setUserExists(true),
-          console.log(body.token, 'BODYTOKEN')
+          setUserExists(true)
+          // console.log(body.token, 'BODYTOKEN')
           
         } else {
           setErrorsSignup(body.error)
         }
       }
-      console.log(tokenList, "EtatTokenList?")
+      // console.log(tokenList, "EtatTokenList?")
 
       
       //   if(userExists == true){
