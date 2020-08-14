@@ -39,10 +39,10 @@ function MonumentScreen (props) {
             
             <HeaderApp navigation={props.navigation}/>
 
-            <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
-            </View>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={() => {props.navigation.navigate("Map"), props.selectVisit('exterieur')}}>
             <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache_gqcint.jpg'}}>       

@@ -21,6 +21,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import FooterApp from './screens/footer';
 import List from "./screens/ListScreen";
 import HeaderApp from './screens/Header';
+import ChatScreen from './screens/ChatScreen';
 
 
 import {createAppContainer } from 'react-navigation';
@@ -52,7 +53,8 @@ var StackNavigator = createStackNavigator ({
   Account: AccountScreen,
   Quizz: QuizzScreen,
   Win: WinScreen,
-  Plan: PlanScreen
+  Plan: PlanScreen,
+  Chat: ChatScreen
 },{headerMode:"none"})
 
 const Navigation = createAppContainer(StackNavigator);
