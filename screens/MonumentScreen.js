@@ -14,12 +14,14 @@ function MonumentScreen (props) {
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch ("http://10.2.3.25:3000/search-infos-monument");
+            var rawResponse = await fetch (`http://10.2.3.25:3000/search-infos-monument?idMonument=${props.searchMonument}`);
             var response = await rawResponse.json();
             setInfosMonument(response);
         } display()
     },[]);
 
+
+    // console.log(infosMonument);
 
 
     // if(infosMonument != undefined){
@@ -69,6 +71,12 @@ function mapDispatchToProps(dispatch){
       selectVisit: function(type){
         dispatch({type: 'selectType', typeVisit: type})
       }
+    }
+  }
+
+  function mapStateToProps(state){
+    return {
+      searchMonument: state.idMonument
     }
   }
   

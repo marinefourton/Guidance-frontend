@@ -63,7 +63,7 @@ return (
 
         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
 
-        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:25 }}>
+        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
             <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
             <Text style={{marginLeft:5}}>Accueil</Text>
         </View>
