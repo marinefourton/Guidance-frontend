@@ -17,22 +17,22 @@ function HomeScreen(props, token) {
   useEffect(() => {
     AsyncStorage.getItem("saveToken", (err, value) => {   
        
-    console.log(value,"TempoToken")
+    // console.log(value,"TempoToken")
     
     if (value) {      
       setTokenList(value);  
       props.addToken(value);
       props.navigation.navigate("Map")
      }
-      console.log(tokenList, "TokenLife")
+      // console.log(tokenList, "TokenLife")
      
   })
 }, []);
-console.log(tokenList, "Test Hans")
+// console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://10.2.3.92:3000/sign-in', {
+        const data = await fetch('http://10.2.3.25:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`

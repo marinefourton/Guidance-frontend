@@ -14,8 +14,8 @@ import HeaderApp from '../screens/Header';
 export default function MapScreen ({navigation}) {
 
   // ETATS
-    const [latitude,setLatitude] = useState(0);
-    const [longitude,setLongitude] = useState(0);
+    const [latitude,setLatitude] = useState(48.866667);
+    const [longitude,setLongitude] = useState(2.333333);
     const [inputValue,setInputValue] = useState("")
     const [selectedIndex,setSelectedIndex] = useState(1)
     const [filters, setFilters] = useState({
@@ -57,7 +57,7 @@ export default function MapScreen ({navigation}) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.25:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -115,8 +115,7 @@ export default function MapScreen ({navigation}) {
                                                               inputStyle={{height:100}}
                                     placeholder="Ville,monument ..." 
                                     onChangeText={(value)=>setInputValue(value)} value={inputValue}>
-                               </SearchBar>  
-                            <Button title="list" onPress={()=>{navigation.navigate("List")}}></Button>
+                               </SearchBar> 
            </View>
 
           { /*  <Header 
@@ -135,6 +134,7 @@ export default function MapScreen ({navigation}) {
                      selectedIndex={selectedIndex}
                      selectedTextStyle={{color:"#57508C"}}
                      textStyle={{color:"white"}}
+                     onPress={()=>{navigation.navigate("List")}}
                      
             >
           </ButtonGroup>

@@ -8,21 +8,36 @@ import  { Ionicons } from "react-native-vector-icons";
 
 
 
-export default function ListComponent (){
+ function ListComponent (props){
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
+<<<<<<< HEAD
+  console.log(props)
+=======
 
+  console.log(props.nameId,"voilaaaaaa")
+
+  var saveIdMonument = props.nameId;
+
+>>>>>>> f5d2daa08428a16889fa7ce43e85881d9c0784cc
     var colored ;
-    color? colored ="white": colored ="red";     
+    !color? colored ="white": colored ="red";     
+
+  const handlePress = async  () =>{
+        await  fetch(`http://10.2.3.25:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+         .then(resultat=>resultat.json())
+         .then(res=>res)
+         .catch(err=>console.log(err))
+    } 
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:"https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/louvre_pird42.jpg"}}>
     <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
         <Ionicons name="md-share" size={24} color="#FFFFFF" />
-        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color={colored}   onPress={()=>setColor(!color)}/>
+        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color={colored}   onPress={()=>{setColor(!color),handlePress()}}/>
     </View>        
     <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
         <View style={{width:"50%"}}>
@@ -40,7 +55,11 @@ return (
                 <Text style={{ fontSize: 13 }}> Groupes </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-play" size={24} color="#57508C" />
+<<<<<<< HEAD
+                <Ionicons name="md-play" size={24} color="#57508C" onPress = {()=>props.navigation.navigate('Visit')} />
+=======
+                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
+>>>>>>> f5d2daa08428a16889fa7ce43e85881d9c0784cc
                 <Text style={{ fontSize: 13 }}> Visiter </Text>
             </View> 
         </View>
@@ -50,3 +69,22 @@ return (
 )
 }
 
+function mapDispatchToProps(dispatch){
+    return {
+      searchIdMonument: function(argument){
+        dispatch({type: 'selectVisit', idMonument: argument})
+      }
+    }
+  }
+
+
+function mapStateToProps(state){
+    return {
+      searchToken: state.token
+    }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ListComponent)

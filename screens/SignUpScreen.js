@@ -33,31 +33,31 @@ function SignUpScreen (props, token, saveToken) {
 
 
     var handleSubmitSignup = async () => {
-        console.log(signUpuserpseudo, "Pseudo")
+        // console.log(signUpuserpseudo, "Pseudo")
     
-        const data = await fetch('http://10.2.3.51:3000/sign-up', {
+        const data = await fetch('http://10.2.3.25:3000/sign-up', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `userpseudoFromFront=${signUpuserpseudo}&usermailFromFront=${signUpusermail}&userpwdFromFront=${signUpuserpwd}`
         })
     
         const body = await data.json()
-        console.log(body, '')
+        // console.log(body, '')
     
         if(body.result == true){
-          props.navigation.navigate("BottomNavigator"),
+          props.navigation.navigate("Map"),
           props.addToken(body.token),
         
           AsyncStorage.setItem("saveToken", body.token); 
           setTokenList(body.token),
-          setUserExists(true),
-          console.log(body.token, 'BODYTOKEN')
+          setUserExists(true)
+          // console.log(body.token, 'BODYTOKEN')
           
         } else {
           setErrorsSignup(body.error)
         }
       }
-      console.log(tokenList, "EtatTokenList?")
+      // console.log(tokenList, "EtatTokenList?")
 
       
       //   if(userExists == true){

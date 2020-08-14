@@ -11,6 +11,7 @@ import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from "../screens/Header";
 import  ListComponent from "../screens/listComponent";
+import {connect} from "react-redux"
 
 
 export default function List ({navigation}){
@@ -28,16 +29,17 @@ export default function List ({navigation}){
         }
         info()
     },[])
-
-    var infoDynamic = infos.map(el=>{
-       return  <ListComponent/>
+    //  console.log(infos)
+    var infoDynamic = infos.map((el, i)=>{
+        var id = el._id
+       return  <ListComponent nameId = {id} navigation={navigation}/>
     })
 
 
 
 return (
         <View style={{flex:1}}>
-            <HeaderApp/>
+            <HeaderApp navigation={navigation}/>
         <View style={{margin:0,backgroundColor:"#636363",
         height:60, dispay:"flex", 
         justifyContent:"space-between", 
@@ -61,7 +63,7 @@ return (
 
         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
 
-        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:25 }}>
+        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
             <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
             <Text style={{marginLeft:5}}>Accueil</Text>
         </View>
@@ -87,3 +89,6 @@ const styles = StyleSheet.create({
     }
 
 })
+
+
+
