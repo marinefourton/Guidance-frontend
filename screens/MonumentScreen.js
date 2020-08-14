@@ -4,8 +4,9 @@ import { Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import {connect} from "react-redux";
 
-function MonumentScreen ({navigation}) {
+function MonumentScreen (props) {
 
     const [infosMonument, setInfosMonument]=useState();
 
@@ -15,12 +16,11 @@ function MonumentScreen ({navigation}) {
             
             var rawResponse = await fetch ("http://10.2.3.25:3000/search-infos-monument");
             var response = await rawResponse.json();
-            // console.log("response-----------------",response);
             setInfosMonument(response);
         } display()
     },[]);
 
-    console.log("response-----------------",infosMonument)
+
 
     // if(infosMonument != undefined){
     // if(infosMonument.guide.lenght=1 && infosMonument.guide[0].type === "interieur"){
@@ -37,30 +37,42 @@ function MonumentScreen ({navigation}) {
     return(
         <View style={{flex:1}}>
             
-            <HeaderApp navigation={navigation}/>
+            <HeaderApp navigation={props.navigation}/>
 
-            <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
-            </View>
+            </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Map")}>
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Map"), props.selectVisit('exterieur')}}>
             <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache_gqcint.jpg'}}>       
                 <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
             </Card>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Map")}>
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Map"), props.selectVisit('interieur')}}>
             <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-interieur_cludef.jpg'}}>     
                 <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
             </Card>
             </TouchableOpacity>
 
-            <FooterApp navigation={navigation}/>
+            <FooterApp navigation={props.navigation}/>
 
         </View>
     
     )
 }
 
-export default MonumentScreen
+
+function mapDispatchToProps(dispatch){
+    return {
+      selectVisit: function(type){
+        dispatch({type: 'selectType', typeVisit: type})
+      }
+    }
+  }
+  
+  export default connect(
+    null,
+    mapDispatchToProps
+  )(MonumentScreen)

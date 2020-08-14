@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Image, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
 import {connect} from "react-redux"
 
-function BadgesScreen ({navigation}) {
+function BadgesScreen (props) {
 
     const [myBadges, setMyBadges]=useState([]);
 
@@ -26,14 +26,16 @@ function BadgesScreen ({navigation}) {
 
 
     useEffect(()=>{
-        async function calculPoint(props){
-            
-            var rawResponse = await fetch ("http://10.2.3.92:3000/points-counter");
+        async function calculPoint(){
+
+            var rawResponse = await fetch (`http://10.2.3.92:3000/points-counter?token=${props.searchToken}`);
             var response = await rawResponse.json();
             var tempBadges = [];
             for (var i=0; i<badgesList.length ; i++) {
                 if(response.points>=badgesList[i].points){
                     tempBadges.push(badgesList[i]);
+                }else{
+                    tempBadges.push({ points:badgesList[i].points ,src:"../assets/empty-badge.jpg", name:badgesList[i].name})
                 }
             }
             setMyBadges(tempBadges);
@@ -57,17 +59,30 @@ function BadgesScreen ({navigation}) {
         require('../assets/badge-1250-miles.jpg'),
         require('../assets/badge-1500-miles.jpg'),
         require('../assets/badge-2000-miles.jpg'),
+        require('../assets/empty-badge.jpg'),
+        
     ];
 
 
             for (var i=0; i<myBadges.length; i++) {
-                displayBadges.push(
-                <View style={{width:"33%", display:"flex", alignItems:"center", padding:5}}>
-                <Image source={randomImages[i]} style={{flex:1, resizeMode:"contain", width:100}}/>
-                <Text style={{marginTop:-20}}>{myBadges[i].name}</Text>
-                <Text style={{fontWeight:"bold"}}>{myBadges[i].points} miles</Text>
-                </View>
+                
+                if(myBadges[i].src != "../assets/empty-badge.jpg"){
+                    displayBadges.push(
+                        <View style={{width:"33%", display:"flex", alignItems:"center", padding:5}}>
+                            <Image source={randomImages[i]} style={{flex:1, resizeMode:"contain", width:100}}/>
+                            <Text style={{marginTop:-20}}>{myBadges[i].name}</Text>
+                            <Text style={{fontWeight:"bold"}}>{myBadges[i].points} miles</Text>
+                        </View>
                 )
+                }else{
+                    displayBadges.push(
+                        <View style={{width:"33%", display:"flex", alignItems:"center", padding:5}}>
+                            <Image source={randomImages[11]} style={{flex:1, resizeMode:"contain", width:100}}/>
+                            <Text style={{marginTop:-20}}>{myBadges[i].name}</Text>
+                            <Text style={{fontWeight:"bold"}}>{myBadges[i].points} miles</Text>
+                        </View>
+                    )
+                }
             }
     
     
@@ -76,23 +91,22 @@ function BadgesScreen ({navigation}) {
 
         <View style={{backgroundColor:"white", height:"100%", flex:1}}>
 
-            <HeaderApp navigation={navigation}/>
+            <HeaderApp navigation={props.navigation}/>
 
-            <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10, alignItems:"center"}}>
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
-                <Text style={{marginLeft:5}}>Retour</Text>
-            </View>
-
+                <Text style={{marginLeft:5}}>Accueil</Text>
+            </TouchableOpacity>
 
             <ScrollView>
-                <View style={{width:"100%", height:"100%", display:'flex', flexDirection:'row', flexWrap: 'wrap'}}>
-                    
+                <View style={{width:"100%", height:"100%", display:'flex', flexDirection:'row', flexWrap: 'wrap', paddingBottom:55}}>
+                {/* , justifyContent:"center" */}
                 {displayBadges}
                     
                 </View>    
             </ScrollView>
 
-            <FooterApp navigation={navigation}/>
+            <FooterApp navigation={props.navigation}/>
 
         </View>        
     )
