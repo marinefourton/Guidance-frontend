@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from './SignInScreen';
 
 export default function FooterApp({navigation}) {
   return (

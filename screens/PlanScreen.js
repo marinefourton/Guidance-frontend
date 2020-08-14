@@ -15,18 +15,25 @@ function PlanScreen ({navigation}) {
 
     useEffect(()=>{
         const point = async ()=>{
-            await fetch("http://10.2.3.51:3000/points-tour")
+            await fetch("http://192.168.1.14:3000/points-tour")
             .then((res)=>res.json())
             .then((yes)=>setPointList(yes))
 
             
         }
         point()
-        console.log(pointList,'Light')
+        console.log(pointList,'-------------------Light')
     },[])
  
         
-        console.log(pointList.coordx, 'franky')
+        // console.log(pointList.point[0], '-----------------franky')
+        // var position = pointList.point[i].map(())
+        // var markerPOI = listPOI.map((POI, i)=>{
+        //     return <Marker key={i} pinColor="blue" coordinate={{latitude: POI.latitude, longitude: POI.longitude}}
+        //         title={POI.titre}
+        //         description={POI.description}
+        //         />
+        //   });
         
    
     return (
@@ -40,8 +47,8 @@ function PlanScreen ({navigation}) {
 
                 <ScrollView>
                     <View>
-                        <Text style={{marginLeft:"17%", marginTop:"30%", marginBottom:"2%", fontSize:20}}>Eglise de Saint-Eustache</Text>
-                        <Text style={{marginLeft:"2%", marginBottom:"10%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
+                        <Text style={{marginLeft:"21%", marginTop:"5%", marginBottom:"2%", fontSize:20}}>Eglise de Saint-Eustache</Text>
+                        <Text style={{marginLeft:"2%", marginBottom:"7%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
                         <Image source={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-plan_qaaqxd.png'}} style={{height:500, width:350, marginLeft: 1}}/>
 
 
