@@ -7,7 +7,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
-import ReservationsScreen from './screens/ReservationsScreen';
 import MonumentScreen from './screens/MonumentScreen';
 import PlanScreen from './screens/PlanScreen';
 import QuizzScreen from './screens/QuizzScreen';
@@ -21,6 +20,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import FooterApp from './screens/footer';
 import List from "./screens/ListScreen";
 import HeaderApp from './screens/Header';
+import ResaPasséesScreen from './screens/ResaPasséesScreen';
 
 
 import {createAppContainer } from 'react-navigation';
@@ -46,7 +46,7 @@ var StackNavigator = createStackNavigator ({
   SignUp: SignUpScreen,
   Favorites: FavoritesScreen,
   Visit: MonumentScreen,
-  Reserve: ReservationsScreen,
+  Reserve: ResaPasséesScreen,
   List:List,
   Account: AccountScreen,
   Quizz: QuizzScreen,

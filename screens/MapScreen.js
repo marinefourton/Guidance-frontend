@@ -69,20 +69,6 @@ export default function MapScreen ({navigation}) {
       getToursWithFilters();
       }, [filters, inputValue])
 
-      // useEffect( () => {
-      //   console.log("je passe dans le useEffect de l'input")
-      //   let getToursWithInput = async () => {
-      //   const response = await fetch('http://10.2.3.47:3000/display-input-tours', {
-      //     method: 'POST',
-      //     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      //     body: `title=${inputValue}`
-      //   })
-      //   const jsonResponseInput = await response.json()
-      //   setTourList(jsonResponseInput.result) 
-      // }
-      //   getToursWithInput();
-      // }, [inputValue])
-
   // Boucle marker
   let markerList = tourList.map((tour, i) => {
     let color

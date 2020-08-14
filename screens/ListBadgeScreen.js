@@ -60,18 +60,16 @@ function BadgesScreen ({navigation}) {
     ];
 
 
-            for (var i=0; i<myBadges.length; i++) {
-                displayBadges.push(
-                <View style={{width:"33%", display:"flex", alignItems:"center", padding:5}}>
-                <Image source={randomImages[i]} style={{flex:1, resizeMode:"contain", width:100}}/>
-                <Text style={{marginTop:-20}}>{myBadges[i].name}</Text>
-                <Text style={{fontWeight:"bold"}}>{myBadges[i].points} miles</Text>
-                </View>
-                )
-            }
+    for (var i=0; i<myBadges.length; i++) {
+        displayBadges.push(
+        <View style={{width:"33%", display:"flex", alignItems:"center", padding:5}}>
+        <Image source={randomImages[i]} style={{flex:1, resizeMode:"contain", width:100}}/>
+        <Text style={{marginTop:-20}}>{myBadges[i].name}</Text>
+        <Text style={{fontWeight:"bold"}}>{myBadges[i].points} miles</Text>
+        </View>
+        )
+    }
     
-    
-
     return (
 
         <View style={{backgroundColor:"white", height:"100%", flex:1}}>

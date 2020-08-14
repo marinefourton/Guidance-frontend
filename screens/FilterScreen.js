@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, Text, View, Modal, Switch } from 'react-native';
-import { ListItem, Header, CheckBox, Slider } from 'react-native-elements'
+import { StyleSheet, Button, Text, View, Modal, Switch, Animated } from 'react-native';
+import { ListItem, Header, CheckBox } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
-
+import Slider from "react-native-slider";
 
 export default function Filter(props) {
 
@@ -36,7 +36,7 @@ export default function Filter(props) {
 
   //PRICE
   const [priceMax, setPriceMax] = useState(50);
-  
+  console.log(priceMax);
 
   // SWITCH
   const [isSwitched, setIsSwitched] = useState(false);
@@ -215,16 +215,19 @@ export default function Filter(props) {
               Reset
             </Text>}
             />
-          
+          <View>
             <Slider
-                style={{margin:15}}
+                style={{width:'80%', alignSelf:'center', margin:15}}
                 value={priceMax}
                 onValueChange={(value) => setPriceMax(value)}
                 maximumValue={50}
-                minimumValue={0}
+                minimumValue={1}
                 thumbTintColor='#57508C'
                 step={1}
             />
+
+
+          </View>
 
             <Text
               style={{margin:20}}
