@@ -19,7 +19,7 @@ export default function List ({navigation}){
 
     useEffect(()=>{
         const info = async ()=>{
-            await fetch("http://10.2.3.25:3000/info-tour",{method:"POST"})
+            await fetch("http://10.2.3.25:3000/info-tour")
             .then((res)=>res.json())
             .then((yes)=>setInfo(yes))
             
@@ -27,7 +27,7 @@ export default function List ({navigation}){
         info()
     },[])
  
-    console.log(info)
+    console.log(info, "HansList")
 
 
     return(
