@@ -14,14 +14,18 @@ import  { Ionicons } from "react-native-vector-icons";
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
+
   console.log(props.nameId,"voilaaaaaa")
+
+  var saveIdMonument = props.nameId;
+
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
         await  fetch(`http://10.2.3.25:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
-         .then(res=>console.log(res))
+         .then(res=>res)
          .catch(err=>console.log(err))
     } 
 
@@ -47,7 +51,7 @@ return (
                 <Text style={{ fontSize: 13 }}> Groupes </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-play" size={24} color="#57508C" />
+                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
                 <Text style={{ fontSize: 13 }}> Visiter </Text>
             </View> 
         </View>
@@ -57,6 +61,15 @@ return (
 )
 }
 
+function mapDispatchToProps(dispatch){
+    return {
+      searchIdMonument: function(argument){
+        dispatch({type: 'selectVisit', idMonument: argument})
+      }
+    }
+  }
+
+
 function mapStateToProps(state){
     return {
       searchToken: state.token
@@ -65,5 +78,5 @@ function mapStateToProps(state){
   
   export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
   )(ListComponent)
