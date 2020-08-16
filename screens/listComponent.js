@@ -15,15 +15,17 @@ import  { Ionicons } from "react-native-vector-icons";
     const [idArray,setIdArray] = ([]);
 
 
-  console.log(props.nameId,"voilaaaaaa")
+  // console.log(props.nameId,"voilaaaaaa")
 
   var saveIdMonument = props.nameId;
+
+  console.log(saveIdMonument,"recuuuuuuup");
 
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.25:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://192.168.1.18:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
