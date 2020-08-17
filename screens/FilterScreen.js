@@ -42,7 +42,7 @@ export default function Filter(props) {
   const [isSwitched, setIsSwitched] = useState(false);
   var toggleSwitch = () => setIsSwitched(!isSwitched);
 
-  // Reverse Data Flow
+  // Reverse Data Flow si filtres appliqués
   var sendToMap = () => {
     props.userFilterParent({
       categories : tabCheckboxes,
@@ -51,6 +51,7 @@ export default function Filter(props) {
     }, false)
   }
 
+    // Reverse Data Flow si modal fermée sans filtres appliqués
   var closeModal = () => {
     props.userFilterParent({
       categories : [{state: true,

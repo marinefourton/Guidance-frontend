@@ -57,7 +57,7 @@ export default function MapScreen ({navigation}) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.25:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`

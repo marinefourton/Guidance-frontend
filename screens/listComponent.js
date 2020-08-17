@@ -14,24 +14,24 @@ import  { Ionicons } from "react-native-vector-icons";
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
-<<<<<<< HEAD
-  console.log(props)
-=======
 
   console.log(props.nameId,"voilaaaaaa")
 
   var saveIdMonument = props.nameId;
 
->>>>>>> f5d2daa08428a16889fa7ce43e85881d9c0784cc
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.25:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
     } 
+  
+  var redirectToGoogleMap = () => {
+      
+  }
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:"https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/louvre_pird42.jpg"}}>
@@ -47,7 +47,7 @@ return (
         </View>
         <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-pin" size={24} color="#57508C" />
+                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap()} />
                 <Text style={{ fontSize: 13 }}> Itinéraire </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
@@ -55,11 +55,7 @@ return (
                 <Text style={{ fontSize: 13 }}> Groupes </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-<<<<<<< HEAD
-                <Ionicons name="md-play" size={24} color="#57508C" onPress = {()=>props.navigation.navigate('Visit')} />
-=======
                 <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
->>>>>>> f5d2daa08428a16889fa7ce43e85881d9c0784cc
                 <Text style={{ fontSize: 13 }}> Visiter </Text>
             </View> 
         </View>
