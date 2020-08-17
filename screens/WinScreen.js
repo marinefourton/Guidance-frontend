@@ -66,7 +66,7 @@ function Win(props) {
                 method: 'PUT'
               });
             const jsonResponse = await response.json()
-            console.log(jsonResponse)
+            // console.log(jsonResponse)
             setUserPoints(jsonResponse.userpoints)
         }
         updatePoints();

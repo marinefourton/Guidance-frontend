@@ -35,7 +35,7 @@ function SignUpScreen (props, token, saveToken) {
     var handleSubmitSignup = async () => {
         // console.log(signUpuserpseudo, "Pseudo")
     
-        const data = await fetch('http://10.2.3.25:3000/sign-up', {
+        const data = await fetch('http://10.2.3.92:3000/sign-up', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `userpseudoFromFront=${signUpuserpseudo}&usermailFromFront=${signUpusermail}&userpwdFromFront=${signUpuserpwd}`

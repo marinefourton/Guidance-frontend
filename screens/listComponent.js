@@ -14,23 +14,22 @@ import  { Ionicons } from "react-native-vector-icons";
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
+  // console.log(props.nameId,"voilaaaaaa")
 
-  console.log(props.nameId,"voilaaaaaa")
-
-  var saveIdMonument = props.nameId;
+    var saveIdMonument = props.nameId;
 
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
     } 
   
   var redirectToGoogleMap = () => {
-      
+
   }
 
 return (

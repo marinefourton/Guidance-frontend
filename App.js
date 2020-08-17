@@ -38,7 +38,7 @@ import idMonument from './reducers/idMonument';
 
 
 const store = createStore(combineReducers({token, score, typeVisit, idMonument}));
-console.log(store.getState(), 'STORE INSIDE')
+// console.log(store.getState(), 'STORE INSIDE')
 
 
 

@@ -11,8 +11,12 @@ function ResaPasséesScreen(props) {
     const [selectedIndex, setSelectedIndex] = useState(1)
     const buttons = ["Passées","A venir"]
     const [pastBookedTours, setPastBookedTours] = useState([])
+<<<<<<< HEAD
     console.log(selectedIndex)
     
+=======
+// console.log(selectedIndex)
+>>>>>>> db3953fed6fe242debf35e38b33a7d209f7b87e8
     useEffect(() => {
       async function recupPastVisit() {
         const response = await fetch('http://10.2.3.47:3000/get-past-visit', {
@@ -21,7 +25,7 @@ function ResaPasséesScreen(props) {
           body: `token=${props.searchToken}`
         })
         const jsonResponse = await response.json()
-        console.log("reponse du back", jsonResponse);
+        // console.log("reponse du back", jsonResponse);
         setPastBookedTours(jsonResponse)
       }
       recupPastVisit();      

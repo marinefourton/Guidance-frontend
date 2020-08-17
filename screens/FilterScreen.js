@@ -36,7 +36,7 @@ export default function Filter(props) {
 
   //PRICE
   const [priceMax, setPriceMax] = useState(50);
-  console.log(priceMax);
+  // console.log(priceMax);
 
   // SWITCH
   const [isSwitched, setIsSwitched] = useState(false);
