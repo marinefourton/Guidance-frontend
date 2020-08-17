@@ -14,12 +14,9 @@ import  { Ionicons } from "react-native-vector-icons";
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
-
   // console.log(props.nameId,"voilaaaaaa")
 
-  var saveIdMonument = props.nameId;
-
-  console.log(saveIdMonument,"recuuuuuuup");
+    var saveIdMonument = props.nameId;
 
     var colored ;
     !color? colored ="white": colored ="red";     

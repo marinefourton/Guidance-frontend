@@ -25,10 +25,24 @@ function Win(props) {
         { points:1500 ,src:"../assets/badge-1500-miles.jpg", name:"World Traveller"},
         { points:2000 ,src:"../assets/badge-2000-miles.jpg", name:"Super Guider"}
     ];
+
+    var randomImages = [
+        require('../assets/badge-0-miles.jpg'),
+        require('../assets/badge-50-miles.jpg'),
+        require('../assets/badge-100-miles.jpg'),
+        require('../assets/badge-200-miles.jpg'),
+        require('../assets/badge-300-miles.jpg'),
+        require('../assets/badge-500-miles.jpg'),
+        require('../assets/badge-700-miles.jpg'),
+        require('../assets/badge-1000-miles.jpg'),
+        require('../assets/badge-1250-miles.jpg'),
+        require('../assets/badge-1500-miles.jpg'),
+        require('../assets/badge-2000-miles.jpg'),
+    ];
     
     let palier = "";
     let nextLevel= "";
-    let badge = "";
+    let badge = "" ;
     let difference = 0;
 
     badgesList.forEach((rang, i, tab) => {
@@ -39,14 +53,23 @@ function Win(props) {
         } else if (userPoints>=rang.points && userPoints<tab[i+1].points) {
             palier = rang.name;
             nextLevel = tab[i+1].name;
-            badge = rang.src;
+            badge = randomImages[i];
             difference = tab[i+1].points-userPoints
         } 
     })
 
-    // A L'INITIALISATION : RECUP LE SCORE DU STORE ET ON LE STOCK DANS L'ETAT SCORE, et LES POINTS DU USER DU STORE. Faire le traitement score+points (mais on pourra pas etre en negatif),  storer LE RESULTAT dans l'etat USERPOINTS + en BDD + dans le store
+    // A L'INITIALISATION : RECUP LE SCORE DU STORE ET ON LE STOCK DANS L'ETAT SCORE, ON RECUPERE LES NOUVEAUX POINTS DU USER MIS A JOUR
     useEffect(() => {
-        setScore(props.recupScore)
+        setScore(props.recupScore);
+        let updatePoints = async () => {
+            const response = await fetch(`http://10.2.3.47:3000/update-point/${props.searchToken}/${props.recupScore}`, {
+                method: 'PUT'
+              });
+            const jsonResponse = await response.json()
+            // console.log(jsonResponse)
+            setUserPoints(jsonResponse.userpoints)
+        }
+        updatePoints();
         }, [])
 
     let resultatDuQuizz= ""
@@ -66,9 +89,12 @@ function Win(props) {
     return(
         <View style={styles.container}>
         <HeaderApp navigation={props.navigation}/>
+        
+
             <Card
             title={resultatDuQuizz}
-            wrapperStyle={{alignItems: 'center', justifyContent: 'center'}}
+            wrapperStyle={{alignItems: 'center'}}
+            containerStyle={{marginTop:100}}
             >
                 <Text style={{marginBottom: 10, textAlign: 'center', justifyContent: 'center'}}>
                 {plusQue}
@@ -76,7 +102,7 @@ function Win(props) {
                 <Text style={{marginBottom: 10, alignItems: 'center', justifyContent: 'center'}}>
                 Votre badge est
                 </Text>
-                <Image source={require('../assets/badge-0-miles.jpg')}/>
+                <Image source={badge}/>
                 <Text>Niveau : {palier}</Text>
                 <Button
                     buttonStyle={{backgroundColor: '#FFFFFF', borderColor: '#000000', marginTop:"3%", marginBottom:"3%", borderWidth: 1}}
@@ -94,9 +120,12 @@ function Win(props) {
 
 function WinParent(storestate){
     return {
-        recupScore: storestate.score
+        recupScore: storestate.score,
+        searchToken: storestate.token
     }
 }
+
+
 
 export default connect(
     WinParent,
@@ -108,6 +137,6 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#a2a1e5',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'flex-start',
     }
   });
