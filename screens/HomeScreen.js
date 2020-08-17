@@ -32,7 +32,7 @@ function HomeScreen(props, token) {
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://192.168.1.18:3000/sign-in', {
+        const data = await fetch('http://10.2.3.92:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
@@ -95,7 +95,7 @@ function HomeScreen(props, token) {
             {tabErrorsSignin}
 
             <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)}/>
-            <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/>
+            {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
             </KeyboardAvoidingView>
           

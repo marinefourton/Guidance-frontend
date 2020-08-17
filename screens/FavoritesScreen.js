@@ -13,7 +13,7 @@ function FavoritesScreen (props) {
     useEffect(()=>{
         async function display(){
 
-            var rawResponse = await fetch (`http://192.168.1.18:3000/search-favorites?token=${props.searchToken}`);
+            var rawResponse = await fetch (`http://10.2.3.92:3000/search-favorites?token=${props.searchToken}`);
             var response = await rawResponse.json();
             var tempResponse = response
             setMyFavorites(tempResponse);
@@ -25,13 +25,15 @@ function FavoritesScreen (props) {
     var displayFavorites = [];
 
     for (var i=0; i<myFavorites.length; i++){
+
+
         displayFavorites.push(
 
-            <Card style={{position:"absolute"}} image={{uri:"https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/louvre_pird42.jpg"}}>
+            <Card style={{position:"absolute"}} image={{uri:myFavorites[i].picture}}>
             <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
                 <Ionicons name="md-share" size={24} color="#FFFFFF" />
                 <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
-            </View>        
+            </View>         
             <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
                 <View style={{width:"50%"}}>
                     <Text style={{fontWeight:"bold", fontSize:18}}>{myFavorites[i].title.substr(0,1).toUpperCase()+myFavorites[i].title.substr(1)}</Text>
