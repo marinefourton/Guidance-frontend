@@ -31,6 +31,7 @@ export default function MapScreen ({navigation}) {
       });
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
+    const [modalVisible,setModalVisible] = useState(false);
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -57,7 +58,7 @@ export default function MapScreen ({navigation}) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.25:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.35:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -102,7 +103,9 @@ export default function MapScreen ({navigation}) {
         longitudeDelta:longitude
                     }}
         title={tour.title}
-        />
+        onPress={()=>{setModalVisible(!modalVisible)}} />
+        
+
       })
 
     return (
@@ -167,6 +170,11 @@ export default function MapScreen ({navigation}) {
         </MapView>
 
         <FooterApp navigation={navigation}/>
+                <Modal  animationType="slide" visible={modalVisible} >
+                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
+
+
+                  </Modal>
 
         <Filter visible={visibleModal} userFilterParent={userFilter}/>
         
@@ -183,7 +191,18 @@ const styles = StyleSheet.create({
         color:"#4D3D84",
         flex: 1,
         alignItems:"center"
-    }
-
-})
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      height:"15%",
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1
+      }
+ } })
 

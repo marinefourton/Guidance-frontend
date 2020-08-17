@@ -1,6 +1,6 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,ScrollView} from 'react-native';
+import { Text, View ,StyleSheet ,Image,ScrollView,TouchableOpacity} from 'react-native';
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
@@ -22,7 +22,7 @@ export default function List ({navigation}){
 
     useEffect(()=>{
         const info = async ()=>{
-          await fetch("http://10.2.3.25:3000/info-tour")
+          await fetch("http://10.2.3.35:3000/info-tour")
             .then((res)=>res.json())
             .then((infoTour)=>setInfos(infoTour))
             .catch((err)=>console.log(err)) 
@@ -32,7 +32,7 @@ export default function List ({navigation}){
     //  console.log(infos)
     var infoDynamic = infos.map((el, i)=>{
         var id = el._id
-       return  <ListComponent nameId = {id} navigation={navigation}/>
+       return  <ListComponent nameId = {id} navigation = {navigation} element= {el}/>
     })
 
 
@@ -63,10 +63,10 @@ return (
 
         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
 
-        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
+        <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
             <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
-            <Text style={{marginLeft:5}}>Accueil</Text>
-        </View>
+            <Text style={{marginLeft:5}} onPress={()=>navigation.navigate("Map")}>Accueil</Text>
+        </TouchableOpacity>
 
         <ScrollView>
            {infoDynamic}
