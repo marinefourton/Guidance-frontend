@@ -10,46 +10,47 @@ function Quizz(props) {
 
     const[isDisabled, setIsDisabled] = useState(false);
     const[indexQuestion, setIndexQuestion] = useState(0);
+    const[quizz, setQuizz] = useState([])
+    const[score, setScore] = useState(0);
 
     // A DECOMMENTER : AU CHARGEMENT DU SCREEN : REINITIALISATION DU SCORE A 0 DANS LE STORE, RECUP DE L'ID DU TOUR ET DONC LE QUIZZ, AJOUTER LA VISITE A L'HISTORIQUE
     useEffect(() => {
         props.resetScore();
-        // let updateVisitHistory = async () => {
-        //     const response = await fetch(`http://10.2.3.47:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
-        //         method: 'PUT'
-        //       });
-        // }
-        // updateVisitHistory();
-        // let getQuizz = async () => {
-        //     const response = await fetch('http://10.2.3.47:3000/get-quizz', {
-        //         method: 'POST',
-        //         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        //         body: `tourID=${props.tourID}`
-        //     })
-        //     const jsonResponse = await response.json()
-        //     setQuizz(jsonResponse.quizz)
-        // }
-        // getQuizz();
+        let updateVisitHistory = async () => {
+            const response = await fetch(`http://10.2.3.47:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
+                method: 'PUT'
+              });
+        }
+        updateVisitHistory();
+        let getQuizz = async () => {
+            const response = await fetch('http://10.2.3.47:3000/get-quizz', {
+                method: 'POST',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: `tourID=${props.tourID}`
+            })
+            const jsonResponse = await response.json()
+            setQuizz(jsonResponse.quizz)
+        }
+        getQuizz();
         }, [])
 
+    // const[quizz, setQuizz] = useState([
+    //             {question: "De quoi est mort Oscar Wilde ?",
+    //              reponses: ["D'une meningite" , "De la tuberculose", "Il n'est pas mort", "D'amour"],
+    //              win: "D'une meningite"},
+    //              {question: "c'est la question B",
+    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
+    //              win: "reponse B"},
+    //              {question: "c'est la question C",
+    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
+    //              win: "reponse C"},
+    //              {question: "c'est la question D",
+    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
+    //              win: "reponse D"}
+    //         ]
+    // );
 
-    const[quizz, setQuizz] = useState([
-                {question: "De quoi est mort Oscar Wilde ?",
-                 reponses: ["D'une meningite" , "De la tuberculose", "Il n'est pas mort", "D'amour"],
-                 win: "D'une meningite"},
-                 {question: "c'est la question B",
-                 reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-                 win: "reponse B"},
-                 {question: "c'est la question C",
-                 reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-                 win: "reponse C"},
-                 {question: "c'est la question D",
-                 reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-                 win: "reponse D"}
-            ]
-    );
 
-    const[score, setScore] = useState(0);
 
 
     useEffect(() => {

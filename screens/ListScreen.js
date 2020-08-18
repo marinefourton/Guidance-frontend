@@ -18,7 +18,7 @@ export default function List ({navigation}){
 
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
-     const [infos,setInfos] = useState([]);
+    // const [infos,setInfos] = useState([]);
     const [tourList, setTourList] = useState([]);
     const [idArray,setIdArray] = ([]);
     const [visibleModal, setVisibleModal]= useState(false);
@@ -34,15 +34,15 @@ export default function List ({navigation}){
         showClosed: false
       });
 
-    useEffect(()=>{
-        const info = async ()=>{
-          await fetch("http://10.2.3.6:3000/info-tour")
-            .then((res)=>res.json())
-            .then((infoTour)=>setInfos(infoTour))
-            .catch((err)=>console.log(err)) 
-        }
-        info()
-    },[])
+    // useEffect(()=>{
+    //     const info = async ()=>{
+    //       await fetch("http://10.2.3.6:3000/info-tour")
+    //         .then((res)=>res.json())
+    //         .then((infoTour)=>setInfos(infoTour))
+    //         .catch((err)=>console.log(err)) 
+    //     }
+    //     info()
+    // },[])
     // useEffect(()=>{
     //     const info = async ()=>{
     //       await fetch("http://10.2.3.47:3000/info-tour")
@@ -55,7 +55,7 @@ export default function List ({navigation}){
     //  console.log(infos)
     var infoDynamic = tourList.map((el, i)=>{
 
-       return  <ListComponent tour={el} navigation={navigation}/>
+       return  <ListComponent element={el} navigation={navigation} />
     })
 
     var userFilter = (obj, hideModal) => {
@@ -67,7 +67,7 @@ export default function List ({navigation}){
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
