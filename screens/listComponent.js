@@ -1,6 +1,6 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,ScrollView} from 'react-native';
+import { Text, View ,StyleSheet ,Image,ScrollView, Linking} from 'react-native';
 import {connect} from "react-redux";
 import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
@@ -33,9 +33,16 @@ import  { Ionicons } from "react-native-vector-icons";
          .catch(err=>console.log(err))
     } 
   
-  var redirectToGoogleMap = () => {
-
-  }
+    var redirectToGoogleMap = (lng, lat) => {
+      const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+      const latLng = `${lat},${lng}`;
+      const label = 'Custom Label';
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      Linking.openURL(url); 
+    }
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.element.picture}}>
@@ -45,13 +52,13 @@ return (
     </View>        
     <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
         <View style={{width:"50%"}}>
-            <Text style={{fontWeight:"bold", fontSize:18}}>{props.element.title}</Text>
-<Text style={{marginBottom:-3}}>{props.element.hours}</Text>
+            <Text style={{fontWeight:"bold", fontSize:18}}>{props.element.title.substr(0,1).toUpperCase()+props.element.title.substr(1)}</Text>
+<Text style={{marginBottom:-3}}>{props.element.openingSynthesis}</Text>
 <Text>{props.element.duration}</Text>
         </View>
         <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap()} />
+                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap(props.element.location.longitude, props.element.location.latitude)} />
                 <Text style={{ fontSize: 13 }}> Itinéraire </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
