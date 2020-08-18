@@ -10,9 +10,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
-import MarkerComponent from "../screens/MarkerComponent"
+import MarkerComponent from "../screens/MarkerComponent";
+import { connect } from "react-redux";
 
-export default function MapScreen ({navigation}) {
+function MapScreen ({navigation}) {
 
   // ETATS
     const [latitude,setLatitude] = useState(48.866667);
@@ -33,6 +34,11 @@ export default function MapScreen ({navigation}) {
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
+    const [name,setName] = useState("");
+    const  [hours,setHours] = useState(0);
+    const  [monument,setMonument] =  useState(0);
+    const [id,setId] = useState("")
+
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -84,8 +90,20 @@ export default function MapScreen ({navigation}) {
       default : color="red"
     }
 
+    const handleClick = (title,hours,price,id)=>{
+        setName(title.substr(0,1).toUpperCase()+title.substr(1))
+        setHours(hours)
+        setMonument(`${price}€ ∼ `)
+        setId(id) 
+        console.log(id)  
+       }
+
       return (
-        <MarkerComponent index={i} color={color} tour={tour} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible} />
+        <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
+        handleClickParent = {handleClick}
+
+
+         />
       )})
 
       var redirectToGoogleMap = (lng, lat) => {
@@ -98,6 +116,8 @@ export default function MapScreen ({navigation}) {
         });
         Linking.openURL(url); 
       }
+
+      
 
     return (
 
@@ -174,9 +194,9 @@ export default function MapScreen ({navigation}) {
                             />
                         </TouchableOpacity>
                   
-                                  <Text style={{fontSize:22, marginBottom:5}}>Tour</Text>
-                                  <Text>Hoiraires</Text>
-                                  <Text>Tour Eiffel</Text>
+          <Text style={{fontSize:22, marginBottom:5}}>{name}</Text>
+          <Text>{hours}</Text>
+                                  <Text>{monument}</Text>
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
                                        <Ionicons  name="md-heart" size={24} color="red" />
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
@@ -194,7 +214,7 @@ export default function MapScreen ({navigation}) {
                                 </View>    
 
                                 <View style={{display:"flex",alignItems:"center"}}>
-                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>navigation.navigate("Visit")} />
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{navigation.navigate("Visit"),props.searchIdMonument(id)}} />
                                     <Text style={{ fontSize: 15}}> Visiter </Text>
                                 </View> 
                             </View>                       
@@ -236,3 +256,18 @@ const styles = StyleSheet.create({
       },
     }})
 
+
+
+    function MapDispatchToProps(dispatch){
+      return {
+        searchIdMonument: function(argument){
+          dispatch({type: 'selectVisit', idMonument: argument})
+        }
+      }
+    }
+  
+
+export default connect(
+null,
+MapDispatchToProps
+)(MapScreen)

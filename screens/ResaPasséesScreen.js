@@ -1,5 +1,6 @@
+console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet} from 'react-native';
+import { Text, View, ScrollView, StyleSheet} from 'react-native';
 import { ButtonGroup, Button, Card, TouchableOpacity} from "react-native-elements";
 import SwitchButton from 'switch-button-react-native';
 import {connect} from 'react-redux';
@@ -10,43 +11,82 @@ function ResaPasséesScreen(props) {
 
     const [selectedIndex, setSelectedIndex] = useState(1)
     const buttons = ["Passées","A venir"]
-    const [pastBookedTours, setPastBookedTours] = useState([])
-    console.log(selectedIndex)
-    
-// console.log(selectedIndex)
-    useEffect(() => {
-      async function recupPastVisit() {
-        const response = await fetch('http://10.2.3.92:3000/get-past-visit', {
-          method: 'POST',
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
-          body: `token=${props.searchToken}`
-        })
-        const jsonResponse = await response.json()
-        // console.log("reponse du back", jsonResponse);
-        setPastBookedTours(jsonResponse)
-      }
-      recupPastVisit();      
-      }, [])
+    const [pasDeVisite, setPasDeVisite] = useState("")
+    const [cardList, setCardList] = useState([])
 
-      var pasDeVisite = ""
-      var cardList= []
-      if(pastBookedTours.length==0) {
-        pasDeVisite = "Vous n'avez pas encore visité des lieux"
+// Fonction qui met la date au bon format
+      var getDate = (date) => {
+        var newDate = new Date(Number(date));
+        var format = newDate.getDate()+'/'+(newDate.getMonth()+1)+'/'+newDate.getFullYear();
+        return format;
       }
-      else {
-        pastBookedTours.forEach(tour=> {
-          cardList.push(
-            <Card style={{position:"absolute"}} image={tour.picture}>     
-            <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
-                <View style={{width:"50%"}}>
-                    <Text style={{fontWeight:"bold", fontSize:18}}>{tour.bookedplace.title}</Text>
-                    <Text style={{marginBottom:-3}}>{tour.bookedhours}</Text>
-                </View>
-            </View>            
-            </Card>
-          )
-        })
-      }
+
+      useEffect(() => {
+        if (selectedIndex==1) {
+          // RECUP VISITES PASSEES EN BDD
+          async function recupPastVisit() {
+            const response = await fetch('http://10.2.3.47:3000/get-past-visit', {
+              method: 'POST',
+              headers: {'Content-Type':'application/x-www-form-urlencoded'},
+              body: `token=${props.searchToken}`
+            })
+            const jsonResponse = await response.json()
+
+          // Si pas de visites passées en BDD
+          if(jsonResponse.length==0) {
+            setPasDeVisite("Vous n'avez pas encore visité des lieux")
+          } else {
+            let inter = jsonResponse.map(tour=> {
+              let date = getDate(tour.bookedhour)
+               return <Card 
+                      style={{position:"absolute"}}
+                      image={{uri:tour.bookedplace.picture}}>     
+                        <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
+                            <View style={{width:"95%"}}>
+                                <Text style={{fontWeight:"bold", fontSize:18, marginTop: 20}}>{tour.bookedplace.title}</Text>
+                                <Text style={{marginBottom:-3}}>Visité le {date}</Text>
+                            </View>
+                        </View>            
+                      </Card>
+            })
+            setCardList(inter)
+            }
+          }
+          recupPastVisit(); 
+
+  // Sinon => visites à venir
+        } else {
+          async function recupFuturVisit() {
+            const response = await fetch('http://10.2.3.47:3000/get-futur-visit', {
+              method: 'POST',
+              headers: {'Content-Type':'application/x-www-form-urlencoded'},
+              body: `token=${props.searchToken}`
+            })
+            const jsonResponse = await response.json()
+
+            if(jsonResponse.length==0) {
+              pasDeVisite = "Vous n'avez pas encore visité des lieux"
+            }
+            else {
+              let inter = jsonResponse.map(tour=> {
+                let date = getDate(tour.bookedhour)
+                 return <Card 
+                        style={{position:"absolute"}}
+                        image={{uri:tour.bookedplace.picture}}>     
+                          <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
+                              <View style={{width:"95%"}}>
+                                  <Text style={{fontWeight:"bold", fontSize:18, marginTop: 20}}>{tour.bookedplace.title}</Text>
+                                  <Text style={{marginBottom:-3}}>Visite prévue le {date}</Text>
+                              </View>
+                          </View>            
+                        </Card>
+              })
+              setCardList(inter)
+              }
+          }
+          recupFuturVisit(); 
+        }
+      }, [selectedIndex])
 
     return (
         <View style={styles.container}>
@@ -55,7 +95,7 @@ function ResaPasséesScreen(props) {
         
         <View style={styles.switch}>
         <SwitchButton
-            onValueChange={(val) => console.log(val)}      
+            onValueChange={(val) => setSelectedIndex(val)}      
             text1 = 'Passées'                 
             text2 = 'A venir'                    
             switchWidth = {300}                
@@ -84,7 +124,9 @@ function ResaPasséesScreen(props) {
           </ButtonGroup> */}
 
           <Text>{pasDeVisite}</Text>
+          <ScrollView>
           {cardList}
+          </ScrollView>
 
             
             <Button title="Go to badges" onPress={() => props.navigation.navigate("MyBadges")}/>

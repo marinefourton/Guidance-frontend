@@ -151,10 +151,11 @@ export default function Filter(props) {
   </Modal>
 
   {/* CATEGEORIE MODAL */}
+  <View>
   <Modal 
     animationType="slide"
     visible={isVisibleCategeryModal}>
-          <View style={styles.ViewInModal}>
+          <View style={styles.ViewInModal2}>
 
           <Header
             containerStyle={{
@@ -197,12 +198,13 @@ export default function Filter(props) {
                />
           </View>
   </Modal>
+  </View>
 
     {/* PRICE MODAL */}
     <Modal 
     animationType="slide"
     visible={isVisiblePriceModal}>
-          <View style={styles.ViewInModal}>
+          <View style={styles.ViewInModal2}>
 
             <Header
             containerStyle={{
