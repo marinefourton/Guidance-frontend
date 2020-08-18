@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, A
 import {Button, Input} from 'react-native-elements';
 import {connect} from 'react-redux';
 
-function HomeScreen(props, token) {
+function SignInScreen(props, token) {
 
   const [signInusermail, setSignInusermail] = useState('')
   const [signInuserpwd, setSignInuserpwd] = useState('')
@@ -32,7 +32,7 @@ function HomeScreen(props, token) {
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://10.2.3.47:3000/sign-in', {
+        const data = await fetch('http://10.2.3.51:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
   export default connect(
     null,
     mapDispatchToProps
-  )(HomeScreen)
+  )(SignInScreen)

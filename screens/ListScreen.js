@@ -36,7 +36,7 @@ export default function List ({navigation}){
 
     useEffect(()=>{
         const info = async ()=>{
-          await fetch("http://10.2.3.92:3000/info-tour")
+          await fetch("http://10.2.3.51:3000/info-tour")
             .then((res)=>res.json())
             .then((infoTour)=>setInfos(infoTour))
             .catch((err)=>console.log(err)) 
