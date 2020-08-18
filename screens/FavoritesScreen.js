@@ -1,113 +1,135 @@
-import React from 'react';
-import { Text, View, ScrollView } from 'react-native';
-import { Card, TouchableOpacity, Icon } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { Text, View, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import {connect} from "react-redux";
 
-function FavoritesScreen ({navigation}) {
+function FavoritesScreen (props) {
+
+    const [myFavorites, setMyFavorites] = useState([])
+    const [isLoaded, setLoaded] = useState(false)
+
+    useEffect(()=>{
+        async function display(){
+
+            var rawResponse = await fetch (`http://10.2.3.6:3000/search-favorites?token=${props.searchToken}`);
+            var response = await rawResponse.json();
+            var tempResponse = response
+            setMyFavorites(tempResponse);
+            setLoaded(true);
+        }display()
+    },[]);
+
+    // console.log(myFavorites,"respoooooonse2")
+
+    var redirectToGoogleMap = (lng, lat) => {
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${lat},${lng}`;
+        const label = 'Custom Label';
+        const url = Platform.select({
+          ios: `${scheme}${label}@${latLng}`,
+          android: `${scheme}${latLng}(${label})`
+        });
+        Linking.openURL(url); 
+      }
+
+
+    var displayFavorites = [];
+
+
+  
+    for (let i=0; i<myFavorites.length; i++){
+
+        // console.log(myFavorites[0].location);
+
+        displayFavorites.push(
+
+            <Card style={{position:"absolute"}} image={{uri:myFavorites[i].picture}}>
+            <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
+                <Ionicons name="md-share" size={24} color="#FFFFFF" />
+                <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
+            </View>         
+            <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
+                <View style={{width:"50%"}}>
+                    <Text style={{fontWeight:"bold", fontSize:18}}>{myFavorites[i].title.substr(0,1).toUpperCase()+myFavorites[i].title.substr(1)}</Text>
+                    <Text style={{marginBottom:-3}}>{myFavorites[i].openingSynthesis}</Text>
+                    <Text>{myFavorites[i].simpleprice}€ ∼ {myFavorites[i].duration}</Text>
+                </View>
+                <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
+                    <View style={{display:"flex",alignItems:"center", margin:2}}>
+                        <Ionicons name="md-pin" size={24} color="#57508C" 
+                        onPress={() => redirectToGoogleMap(myFavorites[i].location.longitude, myFavorites[i].location.latitude)}
+                        />
+                        <Text style={{ fontSize: 13 }}> Itinéraire </Text>
+                    </View>    
+                    <View style={{display:"flex",alignItems:"center", margin:2}}>
+                        <Ionicons name="md-people" size={24} color="#57508C" />
+                        <Text style={{ fontSize: 13 }}> Groupes </Text>
+                    </View>    
+                    <View style={{display:"flex",alignItems:"center", margin:2}}>
+                        <Ionicons name="md-play" size={24} color="#57508C" />
+                        <Text style={{ fontSize: 13 }}> Visiter </Text>
+                    </View> 
+                </View>
+            </View>            
+        </Card>
+
+        )
+    }
+    
+
+    var conditionnalDisplay = [];
+    
+    if(isLoaded == false) {
+        conditionnalDisplay.push (
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+            </View> )
+    } else if(displayFavorites.length > 0){
+        conditionnalDisplay = displayFavorites
+    }else if(displayFavorites.length == 0){
+
+        conditionnalDisplay.push(
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Text style={{marginTop:100}}>
+                    Vous n'avez pas encore enregistré de favoris
+                </Text>
+            </View>
+        )
+    }
+
+
     return (
 
-        <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
+        <View style={{paddingTop: 10, paddingBottom:50, flex:1, backgroundColor:"white"}}>
 
-            <HeaderApp navigation={navigation}/>
+            <HeaderApp navigation={props.navigation}/>
 
-            <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
-                <Ionicons name="ios-arrow-back" size={24} color="#57508C" onPress={() => navigation.navigate("Map")}/>
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
+                <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
-            </View>
+            </TouchableOpacity>
 
             <ScrollView>
 
-
-                <Card style={{position:"absolute"}} image={require('../assets/background-home.jpg')}>
-                    <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
-                        <Ionicons name="md-share" size={24} color="#FFFFFF" />
-                        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
-                    </View>        
-                    <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
-                        <View style={{width:"50%"}}>
-                            <Text style={{fontWeight:"bold", fontSize:18}}>Tour Eiffel</Text>
-                            <Text style={{marginBottom:-3}}>9h - 19h</Text>
-                            <Text>12€ ∼ 30min</Text>
-                        </View>
-                        <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-pin" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Itinéraire </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-people" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Groupes </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-play" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Visiter </Text>
-                            </View> 
-                        </View>
-                    </View>            
-                </Card>
-
-                <Card style={{position:"absolute"}} image={require('../assets/background-home.jpg')}>
-                    <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
-                        <Ionicons name="md-share" size={24} color="#FFFFFF" />
-                        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
-                    </View>        
-                    <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
-                        <View style={{width:"50%"}}>
-                            <Text style={{fontWeight:"bold", fontSize:18}}>Tour Eiffel</Text>
-                            <Text style={{marginBottom:-3}}>9h - 19h</Text>
-                            <Text>12€ ∼ 30min</Text>
-                        </View>
-                        <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-pin" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Itinéraire </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-people" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Groupes </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-play" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Visiter </Text>
-                            </View> 
-                        </View>
-                    </View>            
-                </Card>
-
-                <Card style={{position:"absolute"}} image={require('../assets/background-home.jpg')}>
-                    <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
-                        <Ionicons name="md-share" size={24} color="#FFFFFF" />
-                        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
-                    </View>        
-                    <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
-                        <View style={{width:"50%"}}>
-                            <Text style={{fontWeight:"bold", fontSize:18}}>Tour Eiffel</Text>
-                            <Text style={{marginBottom:-3}}>9h - 19h</Text>
-                            <Text>12€ ∼ 30min</Text>
-                        </View>
-                        <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-pin" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Itinéraire </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-people" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Groupes </Text>
-                            </View>    
-                            <View style={{display:"flex",alignItems:"center", margin:2}}>
-                                <Ionicons name="md-play" size={24} color="#57508C" />
-                                <Text style={{ fontSize: 13 }}> Visiter </Text>
-                            </View> 
-                        </View>
-                    </View>            
-                </Card>
+            {conditionnalDisplay}
+                
 
             </ScrollView>
-            <FooterApp navigation={navigation}/>
+            <FooterApp navigation={props.navigation}/>
         </View>
     )
 }
 
-export default FavoritesScreen
+function mapStateToProps(state){
+    return {
+      searchToken: state.token
+    }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    null
+  )(FavoritesScreen)

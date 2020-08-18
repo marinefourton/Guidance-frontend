@@ -45,8 +45,8 @@ function SignUpScreen (props, token) {
         // console.log(body, '')
     
         if(body.result == true){
-          props.navigation.navigate("BottomNavigator"),
-          props.addToken(body.token),
+          props.navigation.navigate("Map"),
+          props.addToken(body.token),//envoi le token dans le store 
         
           AsyncStorage.setItem("saveToken", body.token); 
           setTokenList(body.token),
@@ -66,7 +66,7 @@ function SignUpScreen (props, token) {
       // }
      
     
-      var tabErrorsSignup = listErrorsSignup.map((error,i) => {
+      var tabErrorsSignup = listErrorsSignup.map((error) => {
         return(<Text style={{color:"#aaaaaa", marginLeft:"35%", marginBottom:"3%"}}>{error}</Text>)
       })
 
@@ -97,7 +97,7 @@ function SignUpScreen (props, token) {
             <View style={{flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
 
             {/* <Button type="solid" title= "Annuler" onPress={() => props.navigation.navigate("Home")} style={{width:120, marginLeft:"15%", marginBottom:"15%"}}/>  */}
-            <Button type="solid" title= "Valider" onPress={() => handleSubmitSignup(token)} />
+            <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"85%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Valider" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignup(token)}/>
             </View>
             </KeyboardAvoidingView>
 

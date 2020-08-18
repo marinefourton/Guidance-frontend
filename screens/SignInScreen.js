@@ -36,7 +36,7 @@ function SignInScreen(props, token) {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
-        })
+        } )
     
         const body = await data.json();
         
@@ -90,12 +90,12 @@ function SignInScreen(props, token) {
 
             <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
+            <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignin}
 
-            <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)}/>
-            <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/>
+            <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"60%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Connexion" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignin(token)}/>
+            {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
             </KeyboardAvoidingView>
           
