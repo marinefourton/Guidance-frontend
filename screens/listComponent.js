@@ -24,7 +24,11 @@ import  { Ionicons } from "react-native-vector-icons";
          !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
+<<<<<<< HEAD
         await  fetch(`http://10.2.3.6:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+=======
+        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+>>>>>>> de0f404f4c0983a4d609fde1f9eee5ce76ab190a
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err));
@@ -33,6 +37,7 @@ import  { Ionicons } from "react-native-vector-icons";
      
     } 
   
+<<<<<<< HEAD
     var redirectToGoogleMap = (lng, lat) => {
       const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
       const latLng = `${lat},${lng}`;
@@ -46,6 +51,18 @@ import  { Ionicons } from "react-native-vector-icons";
 
 
 
+=======
+  var redirectToGoogleMap = (lng, lat) => {
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${lat},${lng}`;
+    const label = 'Custom Label';
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+    Linking.openURL(url); 
+  }
+>>>>>>> de0f404f4c0983a4d609fde1f9eee5ce76ab190a
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.tour.picture}}>

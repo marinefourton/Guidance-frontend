@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 function FavoritesScreen (props) {
 
     const [myFavorites, setMyFavorites] = useState([])
+    const [isLoaded, setLoaded] = useState(false)
 
     useEffect(()=>{
         async function display(){
@@ -17,6 +18,7 @@ function FavoritesScreen (props) {
             var response = await rawResponse.json();
             var tempResponse = response
             setMyFavorites(tempResponse);
+            setLoaded(true);
         }display()
     },[]);
 
@@ -36,6 +38,8 @@ function FavoritesScreen (props) {
 
     var displayFavorites = [];
 
+
+  
     for (let i=0; i<myFavorites.length; i++){
 
         // console.log(myFavorites[0].location);
@@ -74,13 +78,19 @@ function FavoritesScreen (props) {
 
         )
     }
+    
 
     var conditionnalDisplay = [];
     
-    
-    if(displayFavorites.length != 0){
+    if(isLoaded == false) {
+        conditionnalDisplay.push (
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+            </View> )
+    } else if(displayFavorites.length > 0){
         conditionnalDisplay = displayFavorites
-    }else{
+    }else if(displayFavorites.length == 0){
+
         conditionnalDisplay.push(
             <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                 <Text style={{marginTop:100}}>
@@ -91,10 +101,9 @@ function FavoritesScreen (props) {
     }
 
 
-
     return (
 
-        <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
+        <View style={{paddingTop: 10, paddingBottom:50, flex:1, backgroundColor:"white"}}>
 
             <HeaderApp navigation={props.navigation}/>
 

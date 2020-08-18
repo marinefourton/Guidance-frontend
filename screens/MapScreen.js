@@ -68,7 +68,11 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
+<<<<<<< HEAD
         const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
+=======
+        const response = await fetch('http://10.2.3.51:3000/display-filtered-tours', {
+>>>>>>> de0f404f4c0983a4d609fde1f9eee5ce76ab190a
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -192,7 +196,7 @@ function MapScreen (props) {
         </View>
       
 
-        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,

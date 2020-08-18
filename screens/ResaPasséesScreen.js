@@ -25,7 +25,7 @@ function ResaPasséesScreen(props) {
         if (selectedIndex==1) {
           // RECUP VISITES PASSEES EN BDD
           async function recupPastVisit() {
-            const response = await fetch('http://10.2.3.47:3000/get-past-visit', {
+            const response = await fetch('http://10.2.3.51:3000/get-past-visit', {
               method: 'POST',
               headers: {'Content-Type':'application/x-www-form-urlencoded'},
               body: `token=${props.searchToken}`
