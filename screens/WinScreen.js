@@ -62,7 +62,7 @@ function Win(props) {
     useEffect(() => {
         setScore(props.recupScore);
         let updatePoints = async () => {
-            const response = await fetch(`http://10.2.3.47:3000/update-point/${props.searchToken}/${props.recupScore}`, {
+            const response = await fetch(`http://10.2.3.6:3000/update-point/${props.searchToken}/${props.recupScore}`, {
                 method: 'PUT'
               });
             const jsonResponse = await response.json()

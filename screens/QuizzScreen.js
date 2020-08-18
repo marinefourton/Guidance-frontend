@@ -11,7 +11,7 @@ function Quizz(props) {
     const[isDisabled, setIsDisabled] = useState(false);
     const[indexQuestion, setIndexQuestion] = useState(0);
 
-    // AU CHARGEMENT DU SCREEN : REINITIALISATION DU SCORE A 0 DANS LE STORE, RECUP DE L'ID DU TOUR ET DONC LE QUIZZ, AJOUTER LA VISITE A L'HISTORIQUE
+    // A DECOMMENTER : AU CHARGEMENT DU SCREEN : REINITIALISATION DU SCORE A 0 DANS LE STORE, RECUP DE L'ID DU TOUR ET DONC LE QUIZZ, AJOUTER LA VISITE A L'HISTORIQUE
     useEffect(() => {
         props.resetScore();
         // let updateVisitHistory = async () => {
@@ -153,7 +153,7 @@ function QuizzParentEcriture(dispatch) {
 
 function QuizzParentLecture(storestate){
     return {
-        tourID: storestate.tourID,
+        tourID: storestate.idMonument,
         searchToken: storestate.token,
         typeVisit: storestate.typeVisit
     }

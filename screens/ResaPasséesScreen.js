@@ -11,10 +11,12 @@ function ResaPasséesScreen(props) {
     const [selectedIndex, setSelectedIndex] = useState(1)
     const buttons = ["Passées","A venir"]
     const [pastBookedTours, setPastBookedTours] = useState([])
+    console.log(selectedIndex)
+    
 // console.log(selectedIndex)
     useEffect(() => {
       async function recupPastVisit() {
-        const response = await fetch('http://10.2.3.47:3000/get-past-visit', {
+        const response = await fetch('http://10.2.3.6:3000/get-past-visit', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `token=${props.searchToken}`

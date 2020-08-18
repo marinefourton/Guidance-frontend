@@ -14,6 +14,11 @@ import  { Ionicons } from "react-native-vector-icons";
     const [infos,setInfos] = useState([])
     const [idArray,setIdArray] = ([]);
 
+
+    console.log(props)
+
+  var saveIdMonument = props.nameId;
+
   // console.log(props.nameId,"voilaaaaaa")
 
     var saveIdMonument = props.nameId;
@@ -22,27 +27,31 @@ import  { Ionicons } from "react-native-vector-icons";
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.6:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
     } 
+  
+  var redirectToGoogleMap = () => {
+
+  }
 
 return (
-    <Card   style={{position:"absolute"}} image={{uri:"https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/louvre_pird42.jpg"}}>
+    <Card   style={{position:"absolute"}} image={{uri:props.element.picture}}>
     <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
         <Ionicons name="md-share" size={24} color="#FFFFFF" />
         <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color={colored}   onPress={()=>{setColor(!color),handlePress()}}/>
     </View>        
     <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
         <View style={{width:"50%"}}>
-            <Text style={{fontWeight:"bold", fontSize:18}}></Text>
-            <Text style={{marginBottom:-3}}></Text>
-            <Text></Text>
+            <Text style={{fontWeight:"bold", fontSize:18}}>{props.element.title}</Text>
+<Text style={{marginBottom:-3}}>{props.element.hours}</Text>
+<Text>{props.element.duration}</Text>
         </View>
         <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-pin" size={24} color="#57508C" />
+                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap()} />
                 <Text style={{ fontSize: 13 }}> Itinéraire </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
