@@ -159,13 +159,14 @@ export default function Filter(props) {
 
           <Header
             containerStyle={{
+              marginTop:-20,
               backgroundColor: '#4D3D84',
               justifyContent: 'space-around',
             }}
             placement="center"
             centerComponent={{ text: 'CATEGORIES', style: { color: '#fff' } }}
             leftComponent={<Text  
-              style={{ color: '#fff' }}
+              style={{ color: '#fff',  width:100  }}
               onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false)}}
               >
             Tout effacer
@@ -192,6 +193,8 @@ export default function Filter(props) {
             />
 
             <Button 
+              buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+              titleStyle={{color:"#57508C"}}
               title="Appliquer"
               onPress={() => setIsVisibleCategeryModal(false)}
               color='#4D3D84'
@@ -208,16 +211,17 @@ export default function Filter(props) {
 
             <Header
             containerStyle={{
+              marginTop:-20,
               backgroundColor: '#4D3D84',
               justifyContent: 'space-around',
             }}
               placement="center"
               centerComponent={{ text: 'PRIX', style: { color: '#fff' } }}
               leftComponent={<Text  
-                style={{ color: '#fff' }}
+                style={{ color: '#fff',  width:100  }}
                 onPress={() => setPriceMax(50)}
                 >
-              Reset
+              Réinitialiser
             </Text>}
             />
           <View>
@@ -235,13 +239,15 @@ export default function Filter(props) {
           </View>
 
             <Text
-              style={{margin:20}}
+              style={{margin:20, textAlign:"center"}}
             >
             Gamme de prix sélectionnée
             0 € - {priceMax} €
             </Text>
 
               <Button 
+              buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+              titleStyle={{color:"#57508C"}}
               title="Appliquer"
               onPress={() => setIsVisiblePriceModal(false)}
               color='#4D3D84'
@@ -256,10 +262,10 @@ export default function Filter(props) {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
 
   },
   ViewInModal: {
