@@ -1,15 +1,16 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,Modal} from 'react-native';
+import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking} from 'react-native';
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
-import { Header ,SearchBar,ButtonGroup, withTheme,Button} from "react-native-elements";
+import { Header ,SearchBar,ButtonGroup, withTheme,Button,} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
 import { FontAwesome } from '@expo/vector-icons'; 
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import MarkerComponent from "../screens/MarkerComponent"
 
 export default function MapScreen ({navigation}) {
 
@@ -31,6 +32,7 @@ export default function MapScreen ({navigation}) {
       });
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
+    const [modalVisible,setModalVisible] = useState(false);
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -57,7 +59,7 @@ export default function MapScreen ({navigation}) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -69,7 +71,10 @@ export default function MapScreen ({navigation}) {
       getToursWithFilters();
       }, [filters, inputValue])
 
-  // Boucle marker
+
+
+  // Boucle marker 
+  
   let markerList = tourList.map((tour, i) => {
     let color
     switch (tour.category) {
@@ -78,18 +83,21 @@ export default function MapScreen ({navigation}) {
       case "Parcs et Jardins" : color="green"; break;     
       default : color="red"
     }
-      return <Marker 
-        key={i}
-        pinColor={color}
-        coordinate={{
-        latitude:tour.location.latitude,
-        longitude:tour.location.longitude,
-        latitudeDelta:latitude,
-        longitudeDelta:longitude
-                    }}
-        title={tour.title}
-        />
-      })
+
+      return (
+        <MarkerComponent index={i} color={color} tour={tour} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible} />
+      )})
+
+      var redirectToGoogleMap = (lng, lat) => {
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${lat},${lng}`;
+        const label = 'Custom Label';
+        const url = Platform.select({
+          ios: `${scheme}${label}@${latLng}`,
+          android: `${scheme}${latLng}(${label})`
+        });
+        Linking.openURL(url); 
+      }
 
     return (
 
@@ -141,7 +149,7 @@ export default function MapScreen ({navigation}) {
         </View>
       
 
-        <MapView style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -149,10 +157,49 @@ export default function MapScreen ({navigation}) {
             latitudeDelta:latitude,
             longitudeDelta:longitude
             }}
-             title="tu es la "   description="tu es la"/>
+            image={require("../assets/man.png")}
+            title="Vous êtes ici"/>
         </MapView>
 
         <FooterApp navigation={navigation}/>
+                <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
+                      <View  style = {styles.modalView}   >
+                        <TouchableOpacity   style={{ position:"absolute",right:20,top:10}}>
+                                <Ionicons 
+                              name="ios-close" 
+                              size={36} 
+                              color="black" 
+                              position="absolute"
+                              onPress={() => setModalVisible(false)}
+                            />
+                        </TouchableOpacity>
+                  
+                                  <Text style={{fontSize:22, marginBottom:5}}>Tour</Text>
+                                  <Text>Hoiraires</Text>
+                                  <Text>Tour Eiffel</Text>
+                                  <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
+                                       <Ionicons  name="md-heart" size={24} color="red" />
+                                       <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
+                                  </View> 
+                          <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
+                                <View style={{display:"flex",alignItems:"center"}}>
+                                    <Ionicons name="md-pin" size={40} color="#57508C"
+                                    onPress={()=>redirectToGoogleMap(longitude,latitude)} />
+                                    <Text style={{ fontSize: 15 }}> Itinéraire </Text>
+                                </View>    
+
+                                <View style={{display:"flex",alignItems:"center"}}>
+                                    <Ionicons name="md-people" size={40} color="#57508C" />
+                                    <Text style={{ fontSize: 15}}> Groupes </Text>
+                                </View>    
+
+                                <View style={{display:"flex",alignItems:"center"}}>
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>navigation.navigate("Visit")} />
+                                    <Text style={{ fontSize: 15}}> Visiter </Text>
+                                </View> 
+                            </View>                       
+                      </View>
+                  </Modal>
 
         <Filter visible={visibleModal} userFilterParent={userFilter}/>
         
@@ -169,7 +216,23 @@ const styles = StyleSheet.create({
         color:"#4D3D84",
         flex: 1,
         alignItems:"center"
-    }
-
-})
+    },
+    modalView: {
+      marginTop: "auto",
+      marginBottom:55,
+      backgroundColor: "white",
+      padding: 35,
+      display:"flex", 
+     // flexDirection:"row",
+      // justifyContent:"space-around",
+      alignItems:"center",
+      shadowColor: "#000",
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 3,
+      shadowOffset: {
+        width: 0,
+        height:1
+      },
+    }})
 

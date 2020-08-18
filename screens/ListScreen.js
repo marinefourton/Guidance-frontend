@@ -1,6 +1,6 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,ScrollView} from 'react-native';
+import { Text, View ,StyleSheet ,Image,ScrollView,TouchableOpacity} from 'react-native';
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
@@ -18,7 +18,7 @@ export default function List ({navigation}){
 
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
-    // const [infos,setInfos] = useState([]);
+     const [infos,setInfos] = useState([]);
     const [tourList, setTourList] = useState([]);
     const [idArray,setIdArray] = ([]);
     const [visibleModal, setVisibleModal]= useState(false);
@@ -34,6 +34,15 @@ export default function List ({navigation}){
         showClosed: false
       });
 
+    useEffect(()=>{
+        const info = async ()=>{
+          await fetch("http://10.2.3.6:3000/info-tour")
+            .then((res)=>res.json())
+            .then((infoTour)=>setInfos(infoTour))
+            .catch((err)=>console.log(err)) 
+        }
+        info()
+    },[])
     // useEffect(()=>{
     //     const info = async ()=>{
     //       await fetch("http://10.2.3.47:3000/info-tour")
@@ -58,7 +67,7 @@ export default function List ({navigation}){
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -70,7 +79,6 @@ export default function List ({navigation}){
       getToursWithFilters();
       }, [filters, inputValue])
 
-console.log()
 
 return (
         <View style={{flex:1}}>
@@ -98,10 +106,10 @@ return (
 
         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
 
-        <View style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
+        <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }}>
             <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
-            <Text style={{marginLeft:5}}>Accueil</Text>
-        </View>
+            <Text style={{marginLeft:5}} onPress={()=>navigation.navigate("Map")}>Accueil</Text>
+        </TouchableOpacity>
 
         <ScrollView>
            {infoDynamic}
