@@ -36,7 +36,7 @@ export default function List ({navigation}){
 
     useEffect(()=>{
         const info = async ()=>{
-          await fetch("http://10.2.3.6:3000/info-tour")
+          await fetch("http://10.2.3.92:3000/info-tour")
             .then((res)=>res.json())
             .then((infoTour)=>setInfos(infoTour))
             .catch((err)=>console.log(err)) 
@@ -52,7 +52,18 @@ export default function List ({navigation}){
     //     }
     //     info()
     // },[])
-    //  console.log(infos)
+    //  console.log(infos, "infossssss")
+
+    var loader = []
+
+    if(infos.length == 0) {
+        loader.push(
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+            </View> 
+        )
+    }
+
     var infoDynamic = tourList.map((el, i)=>{
         var id = el._id
        return  <ListComponent nameId = {id} navigation = {navigation} element= {el}/>
@@ -67,7 +78,7 @@ export default function List ({navigation}){
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -81,7 +92,7 @@ export default function List ({navigation}){
 
 
 return (
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:"white"}}>
             <HeaderApp navigation={navigation}/>
         <View style={{margin:0,backgroundColor:"#636363",
         height:60, dispay:"flex", 
@@ -112,6 +123,7 @@ return (
         </TouchableOpacity>
 
         <ScrollView>
+            {loader}
            {infoDynamic}
         </ScrollView>
         <FooterApp navigation={navigation}/>

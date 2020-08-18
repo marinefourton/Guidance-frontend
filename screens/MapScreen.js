@@ -149,7 +149,7 @@ export default function MapScreen ({navigation}) {
         </View>
       
 
-        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
