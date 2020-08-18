@@ -55,7 +55,7 @@ export default function List ({navigation}){
     //  console.log(infos)
     var infoDynamic = tourList.map((el, i)=>{
 
-       return  <ListComponent tour={el} navigation={navigation}/>
+       return  <ListComponent tour={el} navigation={navigation} nameId = {el._id}/>
     })
 
     var userFilter = (obj, hideModal) => {
