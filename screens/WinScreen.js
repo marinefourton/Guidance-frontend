@@ -11,6 +11,8 @@ function Win(props) {
 
     const[score, setScore] = useState(0);
     const[userPoints, setUserPoints] = useState(0);
+    console.log(userPoints)
+    console.log(score)
 
     var badgesList = [
         { points:0 ,src:"../assets/badge-0-miles.jpg", name:"Beginner"},
@@ -44,19 +46,8 @@ function Win(props) {
     let nextLevel= "";
     let badge = "" ;
     let difference = 0;
-
-    badgesList.forEach((rang, i, tab) => {
-        if (userPoints>=2000) {
-            palier = "Super Guider";
-            nextLevel= "";
-            badge = "../assets/badge-2000-miles.jpg";
-        } else if (userPoints>=rang.points && userPoints<tab[i+1].points) {
-            palier = rang.name;
-            nextLevel = tab[i+1].name;
-            badge = randomImages[i];
-            difference = tab[i+1].points-userPoints
-        } 
-    })
+    let resultatDuQuizz= ""
+    let plusQue= ""
 
     // A L'INITIALISATION : RECUP LE SCORE DU STORE ET ON LE STOCK DANS L'ETAT SCORE, ON RECUPERE LES NOUVEAUX POINTS DU USER MIS A JOUR
     useEffect(() => {
@@ -72,19 +63,28 @@ function Win(props) {
         updatePoints();
         }, [])
 
-    let resultatDuQuizz= ""
+        badgesList.forEach((rang, i, tab) => {
+            if (userPoints>=2000) {
+                palier = "Super Guider";
+                nextLevel= "";
+                badge = "../assets/badge-2000-miles.jpg";
+            } else if (userPoints>=rang.points && userPoints<tab[i+1].points) {
+                palier = rang.name;
+                nextLevel = tab[i+1].name;
+                badge = randomImages[i];
+                difference = tab[i+1].points-userPoints
+            } 
+        })
+
     if (score>0) {
         resultatDuQuizz=`Bravo ! Vous avez gagné ${score} Miles !`
     } else {
         resultatDuQuizz=`Vous avez perdu ${Math.abs(score)} Miles ... Rattrapez-vous lors d'une prochaine visite !`
     }
 
-    let plusQue= ""
     if (difference!=0) {
         plusQue=`Plus que ${difference} Miles pour gagner le prochain badge ${nextLevel} !`
     }
-
-
 
     return(
         <View style={styles.container}>

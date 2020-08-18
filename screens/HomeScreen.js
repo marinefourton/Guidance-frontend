@@ -32,11 +32,7 @@ function HomeScreen(props, token) {
 
       var handleSubmitSignin = async () => {
      
-<<<<<<< HEAD
         const data = await fetch('http://10.2.3.47:3000/sign-in', {
-=======
-        const data = await fetch('http://10.2.3.92:3000/sign-in', {
->>>>>>> db3953fed6fe242debf35e38b33a7d209f7b87e8
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`

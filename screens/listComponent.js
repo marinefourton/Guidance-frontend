@@ -1,12 +1,9 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,ScrollView} from 'react-native';
+import { Text, View ,StyleSheet ,Image,ScrollView, Linking} from 'react-native';
 import {connect} from "react-redux";
 import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
-
-
-
 
  function ListComponent (props){
     const [inputValue,setInputValue] = useState("")
@@ -16,20 +13,27 @@ import  { Ionicons } from "react-native-vector-icons";
 
   // console.log(props.nameId,"voilaaaaaa")
 
-    var saveIdMonument = props.nameId;
+    var saveIdMonument = props.tour
 
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
     } 
   
-  var redirectToGoogleMap = () => {
-
+  var redirectToGoogleMap = (lng, lat) => {
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${lat},${lng}`;
+    const label = 'Custom Label';
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+    Linking.openURL(url); 
   }
 
 return (
@@ -40,13 +44,13 @@ return (
     </View>        
     <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
         <View style={{width:"50%"}}>
-            <Text style={{fontWeight:"bold", fontSize:18}}></Text>
-            <Text style={{marginBottom:-3}}></Text>
+            <Text style={{fontWeight:"bold", fontSize:18}}>{props.tour.title}</Text>
+            <Text style={{marginBottom:-3}}>{props.tour.openingSynthesis}</Text>
             <Text></Text>
         </View>
         <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap()} />
+                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap(props.tour.location.longitude, props.tour.location.latitude)} />
                 <Text style={{ fontSize: 13 }}> Itinéraire </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
