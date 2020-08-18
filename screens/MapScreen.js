@@ -10,9 +10,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
-import MarkerComponent from "../screens/MarkerComponent"
+import MarkerComponent from "../screens/MarkerComponent";
+import { connect } from "react-redux";
 
-export default function MapScreen ({navigation}) {
+function MapScreen (props) {
 
   // ETATS
     const [latitude,setLatitude] = useState(48.866667);
@@ -33,6 +34,14 @@ export default function MapScreen ({navigation}) {
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
+    const [name,setName] = useState("");
+    const  [hours,setHours] = useState(0);
+    const  [monument,setMonument] =  useState(0);
+    const [id,setId] = useState("");
+    const [duration,setDuration] = useState(0)
+    const [color,setColor] = useState(false);
+
+
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -84,8 +93,30 @@ export default function MapScreen ({navigation}) {
       default : color="red"
     }
 
+    const handleClick = (title,hours,price,id,duration)=>{
+        setName(title.substr(0,1).toUpperCase()+title.substr(1))
+        setHours(hours)
+        setDuration(duration)
+        setMonument(`${price}€ ∼${duration} `)
+        setId(id) 
+       }
+
+       var colored 
+       !color? colored ="white": colored ="red";     
+   
+   const handlePress = async  () =>{
+      await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+       .then(resultat=>resultat.json())
+       .then(res=>res)
+       .catch(err=>console.log(err));
+   } 
+
       return (
-        <MarkerComponent index={i} color={color} tour={tour} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible} />
+        <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
+        handleClickParent = {handleClick}
+
+
+         />
       )})
 
       var redirectToGoogleMap = (lng, lat) => {
@@ -99,11 +130,23 @@ export default function MapScreen ({navigation}) {
         Linking.openURL(url); 
       }
 
+      var colored 
+      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+  
+  const handlePresse = async  () =>{
+     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+      .then(resultat=>resultat.json())
+      .then(res=>res)
+      .catch(err=>console.log(err));
+  } 
+
+      console.log(id)
+
     return (
 
        <View style={{flex:1}}>
 
-        <HeaderApp navigation={navigation}/>
+        <HeaderApp navigation={props.navigation}/>
                        
         <View style={{margin:0,backgroundColor:"#636363",
             height:60, dispay:"flex", 
@@ -142,14 +185,14 @@ export default function MapScreen ({navigation}) {
                      selectedIndex={selectedIndex}
                      selectedTextStyle={{color:"#57508C"}}
                      textStyle={{color:"white"}}
-                     onPress={()=>{navigation.navigate("List")}}
+                     onPress={()=>{props.navigation.navigate("List")}}
                      
             >
           </ButtonGroup>
         </View>
       
 
-        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -161,7 +204,7 @@ export default function MapScreen ({navigation}) {
             title="Vous êtes ici"/>
         </MapView>
 
-        <FooterApp navigation={navigation}/>
+        <FooterApp navigation={props.navigation}/>
                 <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
                       <View  style = {styles.modalView}   >
                         <TouchableOpacity   style={{ position:"absolute",right:20,top:10}}>
@@ -174,11 +217,11 @@ export default function MapScreen ({navigation}) {
                             />
                         </TouchableOpacity>
                   
-                                  <Text style={{fontSize:22, marginBottom:5}}>Tour</Text>
-                                  <Text>Hoiraires</Text>
-                                  <Text>Tour Eiffel</Text>
+          <Text style={{marginTop:25, fontSize:22, marginBottom:5}}>{name}</Text>
+          <Text>{hours}</Text>
+                                  <Text>{monument}</Text>
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
-                                       <Ionicons  name="md-heart" size={24} color="red" />
+                                               {colored}
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
                                   </View> 
                           <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
@@ -194,7 +237,7 @@ export default function MapScreen ({navigation}) {
                                 </View>    
 
                                 <View style={{display:"flex",alignItems:"center"}}>
-                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>navigation.navigate("Visit")} />
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}} />
                                     <Text style={{ fontSize: 15}}> Visiter </Text>
                                 </View> 
                             </View>                       
@@ -220,6 +263,8 @@ const styles = StyleSheet.create({
     modalView: {
       marginTop: "auto",
       marginBottom:55,
+      borderTopLeftRadius:20,
+      borderTopRightRadius:20,
       backgroundColor: "white",
       padding: 35,
       display:"flex", 
@@ -236,3 +281,24 @@ const styles = StyleSheet.create({
       },
     }})
 
+
+
+    function MapDispatchToProps(dispatch){
+      return {
+        searchIdMonument: function(argument){
+          dispatch({type: 'selectVisit', idMonument: argument})
+        }
+      }
+    }
+
+    function MapStateToProps(state){
+      return { 
+        searchToken:state.token
+      }
+    }
+  
+
+export default connect(
+MapStateToProps,
+MapDispatchToProps
+)(MapScreen)

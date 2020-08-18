@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, A
 import {Button, Input} from 'react-native-elements';
 import {connect} from 'react-redux';
 
-function HomeScreen(props, token) {
+function SignInScreen(props, token) {
 
   const [signInusermail, setSignInusermail] = useState('')
   const [signInuserpwd, setSignInuserpwd] = useState('')
@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
   export default connect(
     null,
     mapDispatchToProps
-  )(HomeScreen)
+  )(SignInScreen)

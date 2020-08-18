@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 
 
-function SignUpScreen (props, token, saveToken) {
+function SignUpScreen (props, token) {
 
   const [signUpuserpseudo, setSignUpuserpseudo] = useState('')
   const [signUpusermail, setSignUpusermail] = useState('')
@@ -35,7 +35,7 @@ function SignUpScreen (props, token, saveToken) {
     var handleSubmitSignup = async () => {
         // console.log(signUpuserpseudo, "Pseudo")
     
-        const data = await fetch('http://10.2.3.6:3000/sign-up', {
+        const data = await fetch('http://10.2.3.47:3000/sign-up', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `userpseudoFromFront=${signUpuserpseudo}&usermailFromFront=${signUpusermail}&userpwdFromFront=${signUpuserpwd}`

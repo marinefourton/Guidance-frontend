@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import HomeScreen from './screens/HomeScreen';
+import SignInScreen from './screens/SignInScreen';
 import MapScreen from './screens/MapScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import MonumentScreen from './screens/MonumentScreen';
@@ -43,7 +43,7 @@ const store = createStore(combineReducers({token, score, typeVisit, idMonument})
 
 
 var StackNavigator = createStackNavigator ({
-  Home:HomeScreen,
+  SignIn: SignInScreen,
   Map: MapScreen,
   MyBadges:ListBadgeScreen,
   SignUp: SignUpScreen,
