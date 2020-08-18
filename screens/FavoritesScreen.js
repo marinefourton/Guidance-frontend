@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
@@ -22,10 +22,23 @@ function FavoritesScreen (props) {
 
     // console.log(myFavorites,"respoooooonse2")
 
+    var redirectToGoogleMap = (lng, lat) => {
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${lat},${lng}`;
+        const label = 'Custom Label';
+        const url = Platform.select({
+          ios: `${scheme}${label}@${latLng}`,
+          android: `${scheme}${latLng}(${label})`
+        });
+        Linking.openURL(url); 
+      }
+
+
     var displayFavorites = [];
 
-    for (var i=0; i<myFavorites.length; i++){
+    for (let i=0; i<myFavorites.length; i++){
 
+        // console.log(myFavorites[0].location);
 
         displayFavorites.push(
 
@@ -37,12 +50,14 @@ function FavoritesScreen (props) {
             <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
                 <View style={{width:"50%"}}>
                     <Text style={{fontWeight:"bold", fontSize:18}}>{myFavorites[i].title.substr(0,1).toUpperCase()+myFavorites[i].title.substr(1)}</Text>
-                    <Text style={{marginBottom:-3}}>{myFavorites[i].hours}</Text>
+                    <Text style={{marginBottom:-3}}>{myFavorites[i].openingSynthesis}</Text>
                     <Text>{myFavorites[i].simpleprice}€ ∼ {myFavorites[i].duration}</Text>
                 </View>
                 <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
                     <View style={{display:"flex",alignItems:"center", margin:2}}>
-                        <Ionicons name="md-pin" size={24} color="#57508C" />
+                        <Ionicons name="md-pin" size={24} color="#57508C" 
+                        onPress={() => redirectToGoogleMap(myFavorites[i].location.longitude, myFavorites[i].location.latitude)}
+                        />
                         <Text style={{ fontSize: 13 }}> Itinéraire </Text>
                     </View>    
                     <View style={{display:"flex",alignItems:"center", margin:2}}>

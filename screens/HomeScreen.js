@@ -90,7 +90,7 @@ function HomeScreen(props, token) {
 
             <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
+            <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignin}
 

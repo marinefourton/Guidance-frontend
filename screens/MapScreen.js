@@ -141,7 +141,7 @@ export default function MapScreen ({navigation}) {
         </View>
       
 
-        <MapView style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -149,7 +149,8 @@ export default function MapScreen ({navigation}) {
             latitudeDelta:latitude,
             longitudeDelta:longitude
             }}
-             title="tu es la "   description="tu es la"/>
+            image={require("../assets/man.png")}
+            title="Vous êtes ici"/>
         </MapView>
 
         <FooterApp navigation={navigation}/>

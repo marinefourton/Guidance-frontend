@@ -89,7 +89,7 @@ function ResaPasséesScreen(props) {
             <Button title="Go to visit" onPress={() => props.navigation.navigate("Visit")}/>
             <Button title="Go to quizz" onPress={() => props.navigation.navigate("Quizz")}/>
             <Button title="Go to PlanScreen" onPress={() => props.navigation.navigate("Plan")}/>
-            {/* <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.92:3000/save-monument")}/> */}
+            <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.92:3000/save-monument")}/>
 
         <FooterApp navigation={props.navigation}/>
         </View>
