@@ -31,8 +31,8 @@ function HomeScreen(props, token) {
 // console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
-    
-        const data = await fetch('http://10.2.3.6:3000/sign-in', {
+     
+        const data = await fetch('http://10.2.3.47:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
@@ -90,11 +90,11 @@ function HomeScreen(props, token) {
 
             <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
+            <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignin}
 
-            <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)}/>
+            <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"60%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Connexion" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignin(token)}/>
             {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
             </KeyboardAvoidingView>

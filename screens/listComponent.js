@@ -5,9 +5,6 @@ import {connect} from "react-redux";
 import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
 
-
-
-
  function ListComponent (props){
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
@@ -21,18 +18,19 @@ import  { Ionicons } from "react-native-vector-icons";
 
   // console.log(props.nameId,"voilaaaaaa")
 
-    var saveIdMonument = props.nameId;
+    var saveIdMonument = props.tour
 
     var colored ;
     !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.6:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err))
     } 
   
+<<<<<<< HEAD
     var redirectToGoogleMap = (lng, lat) => {
       const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
       const latLng = `${lat},${lng}`;
@@ -43,6 +41,18 @@ import  { Ionicons } from "react-native-vector-icons";
       });
       Linking.openURL(url); 
     }
+=======
+  var redirectToGoogleMap = (lng, lat) => {
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${lat},${lng}`;
+    const label = 'Custom Label';
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+    Linking.openURL(url); 
+  }
+>>>>>>> 818b64efae1c73b59ee178818338bad11e58d658
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.element.picture}}>
@@ -58,7 +68,11 @@ return (
         </View>
         <View style={{width:"50%",display:"flex", flexDirection:"row", marginTop:5, justifyContent:"flex-end"}}>
             <View style={{display:"flex",alignItems:"center", margin:2}}>
+<<<<<<< HEAD
                 <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap(props.element.location.longitude, props.element.location.latitude)} />
+=======
+                <Ionicons name="md-pin" size={24} color="#57508C" onPress={() => redirectToGoogleMap(props.tour.location.longitude, props.tour.location.latitude)} />
+>>>>>>> 818b64efae1c73b59ee178818338bad11e58d658
                 <Text style={{ fontSize: 13 }}> Itinéraire </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>

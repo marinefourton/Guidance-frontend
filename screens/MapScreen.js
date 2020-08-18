@@ -65,7 +65,7 @@ function MapScreen ({navigation}) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -169,7 +169,7 @@ function MapScreen ({navigation}) {
         </View>
       
 
-        <MapView style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
+        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -177,7 +177,8 @@ function MapScreen ({navigation}) {
             latitudeDelta:latitude,
             longitudeDelta:longitude
             }}
-             title="tu es la "   description="tu es la"/>
+            image={require("../assets/man.png")}
+            title="Vous êtes ici"/>
         </MapView>
 
         <FooterApp navigation={navigation}/>
