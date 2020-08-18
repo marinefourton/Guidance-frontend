@@ -8,32 +8,60 @@ import {connect} from "react-redux";
 
 function MonumentScreen (props) {
 
-    const [infosMonument, setInfosMonument]=useState();
+    const [infosMonument, setInfosMonument]=useState({});
 
 
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch (`http://10.2.3.35:3000/search-infos-monument?idMonument=${props.searchMonument}`);
+            var rawResponse = await fetch (`http://10.2.3.6:3000/search-infos-monument?idMonument=${props.searchMonument}`);
             var response = await rawResponse.json();
             setInfosMonument(response);
         } display()
     },[]);
+    
 
+    // console.log(infosMonument.guide[0].type,infosMonument.guide[0].urlcouv);
+    // console.log(infosMonument.guide[1].type,infosMonument.guide[1].urlcouv);
+    // console.log(infosMonument.guide.length);
 
-    // console.log(infosMonument);
+    var displayType = [];
 
-
-    // if(infosMonument != undefined){
-    // if(infosMonument.guide.lenght=1 && infosMonument.guide[0].type === "interieur"){
-    //     return(<View><Text>intérieur OK</Text></View>);
-    // }else if(infosMonument.guide.lenght=1 && infosMonument.guide[0].type === "exterieur"){
-    //     return(<View style={{marginTop:500}} ><Text>extérieur OK</Text></View>);
-    // }
-    // else if(infosMonument.guide.lenght=2){
-    //     return(<View><Text>Hello</Text></View>);
-    // }
-    // }
+    if(infosMonument.guide){
+      if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "interieur"){
+          displayType.push(
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
+            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-interieur_cludef.jpg'}}>     
+                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
+            </Card>
+            </TouchableOpacity>
+          );
+      }else if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "exterieur"){
+          displayType.push(
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
+            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache_gqcint.jpg'}}>       
+                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
+            </Card>
+            </TouchableOpacity>
+          );
+      }
+      else if(infosMonument.guide.length === 2){
+          displayType.push(
+            <View>
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
+            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache_gqcint.jpg'}}>       
+                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
+            </Card>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
+            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-interieur_cludef.jpg'}}>     
+                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
+            </Card>
+            </TouchableOpacity>
+            </View>
+          );
+      }
+    }
 
 
     return(
@@ -45,19 +73,9 @@ function MonumentScreen (props) {
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => {props.navigation.navigate("Map"), props.selectVisit('exterieur')}}>
-            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache_gqcint.jpg'}}>       
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
-            </Card>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => {props.navigation.navigate("Map"), props.selectVisit('interieur')}}>
-            <Card image={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-interieur_cludef.jpg'}}>     
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
-            </Card>
-            </TouchableOpacity>
-
+            
+            {displayType}
+            
             <FooterApp navigation={props.navigation}/>
 
         </View>
@@ -81,6 +99,6 @@ function mapDispatchToProps(dispatch){
   }
   
   export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(MonumentScreen)

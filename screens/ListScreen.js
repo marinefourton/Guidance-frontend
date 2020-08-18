@@ -15,26 +15,69 @@ import {connect} from "react-redux"
 
 
 export default function List ({navigation}){
+
     const [inputValue,setInputValue] = useState("")
     const [color,setColor] = useState(false);
-    const [infos,setInfos] = useState([]);
+     const [infos,setInfos] = useState([]);
+    const [tourList, setTourList] = useState([]);
     const [idArray,setIdArray] = ([]);
+    const [visibleModal, setVisibleModal]= useState(false);
+    const [filters, setFilters] = useState({
+        categories : [{state: true,
+            signification: "Monuments"},
+           {state: true,
+            signification: "Musées"},
+          {state: true,
+            signification: "Parcs et Jardins"}
+          ],
+        price: 50,
+        showClosed: false
+      });
 
     useEffect(()=>{
         const info = async ()=>{
-          await fetch("http://10.2.3.35:3000/info-tour")
+          await fetch("http://10.2.3.6:3000/info-tour")
             .then((res)=>res.json())
             .then((infoTour)=>setInfos(infoTour))
             .catch((err)=>console.log(err)) 
         }
         info()
     },[])
+    // useEffect(()=>{
+    //     const info = async ()=>{
+    //       await fetch("http://10.2.3.47:3000/info-tour")
+    //         .then((res)=>res.json())
+    //         .then((infoTour)=>setInfos(infoTour))
+    //         .catch((err)=>console.log(err)) 
+    //     }
+    //     info()
+    // },[])
     //  console.log(infos)
-    var infoDynamic = infos.map((el, i)=>{
+    var infoDynamic = tourList.map((el, i)=>{
         var id = el._id
        return  <ListComponent nameId = {id} navigation = {navigation} element= {el}/>
     })
 
+    var userFilter = (obj, hideModal) => {
+        setVisibleModal(hideModal);
+        setFilters(obj)
+    }
+
+    useEffect( () => {
+
+        let getToursWithFilters = async () => {
+
+        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
+        })
+        
+        const jsonResponseFilter = await response.json()
+        setTourList(jsonResponseFilter.result) 
+      }
+      getToursWithFilters();
+      }, [filters, inputValue])
 
 
 return (
@@ -72,6 +115,7 @@ return (
            {infoDynamic}
         </ScrollView>
         <FooterApp navigation={navigation}/>
+        <Filter visible={visibleModal} userFilterParent={userFilter}/>
     </View>
     </View>
 )

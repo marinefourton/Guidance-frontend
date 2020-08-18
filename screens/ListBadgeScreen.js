@@ -28,7 +28,7 @@ function BadgesScreen (props) {
     useEffect(()=>{
         async function calculPoint(){
 
-            var rawResponse = await fetch (`http://10.2.3.35:3000/points-counter?token=${props.searchToken}`);
+            var rawResponse = await fetch (`http://10.2.3.6:3000/points-counter?token=${props.searchToken}`);
             var response = await rawResponse.json();
             var tempBadges = [];
             for (var i=0; i<badgesList.length ; i++) {
@@ -86,7 +86,6 @@ function BadgesScreen (props) {
             }
     
     
-
     return (
 
         <View style={{backgroundColor:"white", height:"100%", flex:1}}>

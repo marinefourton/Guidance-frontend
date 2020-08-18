@@ -31,12 +31,12 @@ function HomeScreen(props, token) {
 // console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
-     
-        const data = await fetch('http://10.2.3.35:3000/sign-in', {
+    
+        const data = await fetch('http://10.2.3.6:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
-        })
+        } )
     
         const body = await data.json();
         
@@ -95,7 +95,7 @@ function HomeScreen(props, token) {
             {tabErrorsSignin}
 
             <Button type="solid" title= "Connexion" onPress={() => handleSubmitSignin(token)}/>
-            <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/>
+            {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
             </KeyboardAvoidingView>
           
