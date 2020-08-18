@@ -16,7 +16,7 @@ function ResaPasséesScreen(props) {
 // console.log(selectedIndex)
     useEffect(() => {
       async function recupPastVisit() {
-        const response = await fetch('http://10.2.3.6:3000/get-past-visit', {
+        const response = await fetch('http://10.2.3.92:3000/get-past-visit', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `token=${props.searchToken}`

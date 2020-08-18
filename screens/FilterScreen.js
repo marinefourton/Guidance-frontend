@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, Text, View, Modal, Switch, Animated } from 'react-native';
-import { ListItem, Header, CheckBox } from 'react-native-elements'
+import { StyleSheet, Text, View, Modal, Switch, Animated } from 'react-native';
+import { ListItem, Header, CheckBox, Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 import Slider from "react-native-slider";
 
@@ -27,7 +27,7 @@ export default function Filter(props) {
   if (isMonumentChecked || isMuseumChecked || isParkChecked){
           tabCheckboxes.forEach(obj => {
             if (obj.state) {
-              categorySubtitle = categorySubtitle + " " + obj.signification+','
+              categorySubtitle = categorySubtitle + "" + obj.signification+', '
             }
           })
   } else {
@@ -79,12 +79,12 @@ export default function Filter(props) {
           
           <Header
             containerStyle={{
+              marginTop:-20,
               backgroundColor: '#4D3D84',
-              justifyContent: 'space-around',
             }}
             placement="center"
             leftComponent={<Text  
-                              style={{ color: '#fff' }}
+                              style={{ color: '#ffffff', width:100 }}
                               onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false); setPriceMax(50); setIsSwitched(false)}}
                               >
                             Tout effacer
@@ -141,8 +141,10 @@ export default function Filter(props) {
           />
 
             <Button 
+              buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+              titleStyle={{color:"#57508C"}}
               title="Appliquer"
-              color='#4D3D84'
+              color='#57508C'
               onPress={() => sendToMap()}
                />
           </View>
@@ -252,17 +254,20 @@ export default function Filter(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // flex: 1,
+    // backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
 
   },
   ViewInModal: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    margin: 3,
-    borderRadius: 20,
+    marginTop:"auto",
+    marginBottom:50,
+    // justifyContent: 'flex-end',
+    // margin: 3,
+    backgroundColor:"white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     overflow: 'hidden',
   }
 });

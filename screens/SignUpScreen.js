@@ -97,7 +97,7 @@ function SignUpScreen (props, token, saveToken) {
             <View style={{flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
 
             {/* <Button type="solid" title= "Annuler" onPress={() => props.navigation.navigate("Home")} style={{width:120, marginLeft:"15%", marginBottom:"15%"}}/>  */}
-            <Button type="solid" title= "Valider" onPress={() => handleSubmitSignup(token)} />
+            <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"85%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Valider" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignup(token)}/>
             </View>
             </KeyboardAvoidingView>
 
