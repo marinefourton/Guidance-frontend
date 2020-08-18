@@ -14,10 +14,12 @@ function MonumentScreen (props) {
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch ("http://192.168.1.14:3000/search-infos-monument");
+            var rawResponse = await fetch ("http://10.2.3.51:3000/search-infos-monument");
             var response = await rawResponse.json();
+            console.log('--------------',response, '--------------MERCI')
             setInfosMonument(response);
         } display()
+        
     },[]);
 
 
