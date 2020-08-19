@@ -91,27 +91,19 @@ function Win(props) {
         <HeaderApp navigation={props.navigation}/>
         
 
-            <Card
-            title={resultatDuQuizz}
-            wrapperStyle={{alignItems: 'center'}}
-            containerStyle={{marginTop:100}}
-            >
-                <Text style={{marginBottom: 10, textAlign: 'center', justifyContent: 'center'}}>
-                {plusQue}
-                </Text>
-                <Text style={{marginBottom: 10, alignItems: 'center', justifyContent: 'center'}}>
-                Votre badge est
-                </Text>
+            <View style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+            <Text style={{display:"flex", alignItems:"center", marginTop:65, marginBottom:20, textTransform:"uppercase", fontSize:16}}> {resultatDuQuizz} </Text>
+                <Text style={{marginBottom: 30, width:250,textAlign: 'center'}}> {plusQue} </Text>
+                <Text style={{marginBottom: 10, textAlign: 'center'}}> Vous êtes actuellement </Text>
                 <Image source={badge}/>
-                <Text>Niveau : {palier}</Text>
-                <Button
-                    buttonStyle={{backgroundColor: '#FFFFFF', borderColor: '#000000', marginTop:"3%", marginBottom:"3%", borderWidth: 1}}
-                    titleStyle={{color: '#000000'}}
-                    onPress={() => props.navigation.navigate("MyBadges")}
+                <Text style={{textAlign:"center"}}>{palier}</Text>
+                <Button onPress={() => props.navigation.navigate("MyBadges")}
+                    buttonStyle={{margin:15, marginTop:50, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"50%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+                    titleStyle={{color:"#57508C", marginRight:"auto", marginLeft:"auto"}}
                     title="VOIR MES BADGES"
-                    type="outline"
+                    color='#57508C'              
                 />
-            </Card>
+            </View>
             <FooterApp navigation={props.navigation}/>
         </View>
     )
@@ -135,8 +127,6 @@ export default connect(
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#a2a1e5',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
+      backgroundColor: '#ffffff',
     }
   });

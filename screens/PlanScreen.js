@@ -205,6 +205,9 @@ function PlanScreen (props) {
     return (
             <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
                 <HeaderApp navigation={props.navigation}/>
+
+                <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
+
                     <View style={styles.centeredView}>
 
                         <Modal

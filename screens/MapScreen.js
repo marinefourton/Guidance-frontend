@@ -256,7 +256,7 @@ var userFilter = (obj, hideModal) => {
 
         <FooterApp navigation={props.navigation}/>
                 <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
-                      <View  style = {styles.modalView}   >
+                      <View style = {styles.modalView}>
                         <TouchableOpacity   style={{ position:"absolute",right:20,top:10}}>
                                 <Ionicons 
                               name="ios-close" 
@@ -266,10 +266,15 @@ var userFilter = (obj, hideModal) => {
                               onPress={() => setModalVisible(false)}
                             />
                         </TouchableOpacity>
-                  
-          <Text style={{marginTop:25, fontSize:22, marginBottom:5}}>{name}</Text>
-          <Text>{hours}</Text>
-                                  <Text>{monument}</Text>
+                          <View style={{display:"flex", flexDirection:"row", justifyContent:"center", marginTop:10, marginBottom:10}}>
+                            <Image source={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597666547/musee-arts-et-metiers-plan-ext_rgg5er.jpg'}} style={{height:70, marginTop:"auto", width:70, borderRadius:50, marginLeft:"2%"}}></Image>
+                            <View style={{display:"flex", justifyContent:"center", marginTop:25, paddingLeft:10}}>
+                              <Text style={{fontSize:21, marginBottom:5}}>{name}</Text>
+                              <Text>{hours}</Text>
+                              <Text>{monument}</Text>
+                            </View>
+                          </View>
+
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
                                                {colored}
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
@@ -304,6 +309,7 @@ const styles = StyleSheet.create({
     Map:{
         width:"100%",
         height:"100%"
+        
     },
     header:{
         color:"#4D3D84",
