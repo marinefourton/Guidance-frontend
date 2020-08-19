@@ -40,6 +40,8 @@ function MapScreen (props) {
     const [id,setId] = useState("");
     const [duration,setDuration] = useState(0)
     const [color,setColor] = useState(false);
+    const [latitudeItineraire,setLatitudeItineraire] = useState(0)
+    const [longitudeItineraire,setlongitudeItineraire] = useState(0)
 
 
     const buttons = ["Carte","Liste"]
@@ -68,11 +70,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-<<<<<<< HEAD
-        const response = await fetch('http://10.2.3.6:3000/display-filtered-tours', {
-=======
-        const response = await fetch('http://10.2.3.51:3000/display-filtered-tours', {
->>>>>>> de0f404f4c0983a4d609fde1f9eee5ce76ab190a
+        const response = await fetch('http://10.2.3.7:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -97,29 +95,30 @@ function MapScreen (props) {
       default : color="red"
     }
 
-    const handleClick = (title,hours,price,id,duration)=>{
+    const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
         setMonument(`${price}€ ∼${duration} `)
-        setId(id) 
+        setId(id)
+        setLatitudeItineraire(latitude)
+        setlongitudeItineraire(longitude)
+      
        }
 
        var colored 
        !color? colored ="white": colored ="red";     
-   
-   const handlePress = async  () =>{
-      await  fetch(`http://10.2.3.6:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+
+ /*    const handlePresse = async  () =>{
+      await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
        .then(resultat=>resultat.json())
        .then(res=>res)
        .catch(err=>console.log(err));
-   } 
-
+   }  */
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
-
-
+        handleClickParentItineraire={handleItineraire}
          />
       )})
 
@@ -134,17 +133,24 @@ function MapScreen (props) {
         Linking.openURL(url); 
       }
 
-      var colored 
-      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
-  
-  const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.6:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-      .then(resultat=>resultat.json())
-      .then(res=>res)
-      .catch(err=>console.log(err));
-  } 
 
-      console.log(id)
+      var handleItineraire = (latitude,longitude) =>{
+        setLatitudeItineraire(latitude)
+        setlongitudeItineraire(longitude)
+
+      }
+
+      var colored 
+      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+  
+      const handlePresse = async  () =>{
+        await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+         .then(resultat=>resultat.json())
+         .then(res=>console.log(res))
+         .catch(err=>console.log(err));
+     } 
+  
+
 
     return (
 
@@ -231,7 +237,7 @@ function MapScreen (props) {
                           <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
                                 <View style={{display:"flex",alignItems:"center"}}>
                                     <Ionicons name="md-pin" size={40} color="#57508C"
-                                    onPress={()=>redirectToGoogleMap(longitude,latitude)} />
+                                    onPress={()=>{redirectToGoogleMap(longitudeItineraire,latitudeItineraire)}} />
                                     <Text style={{ fontSize: 15 }}> Itinéraire </Text>
                                 </View>    
 

@@ -40,7 +40,7 @@ function PlanScreen (props) {
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch("http://10.2.3.51:3000/points-tour")
+            var allDataBack = await fetch("http://10.2.3.7:3000/points-tour")
             var allData = await allDataBack.json()
             // console.log('-------------', allData.guide,'Tableau ou pas' )
 
