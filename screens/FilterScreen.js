@@ -87,7 +87,7 @@ export default function Filter(props) {
                               style={{ color: '#ffffff', width:100 }}
                               onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false); setPriceMax(50); setIsSwitched(false)}}
                               >
-                            Tout effacer
+                            Réinitialiser
                           </Text>}
             centerComponent={{ text: 'FILTRES', style: { color: '#fff' } }}
             rightComponent={<Ionicons 
@@ -169,7 +169,7 @@ export default function Filter(props) {
               style={{ color: '#fff',  width:100  }}
               onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false)}}
               >
-            Tout effacer
+            Réinitialiser
           </Text>}
           />
 
