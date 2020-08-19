@@ -56,7 +56,7 @@ export default function List ({navigation}){
 
     var loader = []
 
-    if(infos.length == 0) {
+    if(tourList.length == 0) {
         loader.push(
             <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                 <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
