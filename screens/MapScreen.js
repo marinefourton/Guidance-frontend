@@ -21,19 +21,18 @@ function MapScreen (props) {
     const [latitude,setLatitude] = useState(48.866667);
     const [longitude,setLongitude] = useState(2.333333);
     const [inputValue,setInputValue] = useState("")
-    const [selectedIndex,setSelectedIndex] = useState(1);
-    const defaultFilterVal  = {
-      categories : [{state: true,
-          signification: "Monuments"},
-         {state: true,
-          signification: "Musées"},
-        {state: true,
-          signification: "Parcs et Jardins"}
-        ],
-      price: 50,
-      showClosed: false
-    }
-    const [filters, setFilters] = useState(defaultFilterVal);
+    const [selectedIndex,setSelectedIndex] = useState(1)
+    const [filters, setFilters] = useState({
+        categories : [{state: true,
+            signification: "Monuments"},
+           {state: true,
+            signification: "Musées"},
+          {state: true,
+            signification: "Parcs et Jardins"}
+          ],
+        price: 50,
+        showClosed: false
+      });
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
@@ -55,15 +54,8 @@ function MapScreen (props) {
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
         setVisibleModal(hideModal);
-        obj = !obj ? {...defaultFilterVal} : {...obj}
-        //console.log(obj);
         setFilters(obj)
     }
-
-    var displayModal = (val) => {
-      setVisibleModal(val);
-  }
-
 
 // USEEFFECT PERMISSION LOCALISATION
     useEffect(() => {
@@ -90,7 +82,6 @@ function MapScreen (props) {
         })
         
         const jsonResponseFilter = await response.json()
-       // console.log(jsonResponseFilter)
         setTourList(jsonResponseFilter.result) 
       }
       getToursWithFilters();
@@ -98,20 +89,20 @@ function MapScreen (props) {
 
   // version liste
 
-//   useEffect(()=>{
-//     const info = async ()=>{
-//       await fetch("http://10.2.3.92:3000/info-tour")
-//         .then((res)=>res.json())
-//         .then((infoTour)=>setInfos(infoTour))
-//         .catch((err)=>console.log(err)) 
-//     }
-//     info()
-// },[])
+  useEffect(()=>{
+    const info = async ()=>{
+      await fetch("http://10.2.3.92:3000/info-tour")
+        .then((res)=>res.json())
+        .then((infoTour)=>setInfos(infoTour))
+        .catch((err)=>console.log(err)) 
+    }
+    info()
+},[])
 
 
 var loader = []
 
-if(tourList.length == 0) {
+if(infos.length == 0) {
     loader.push(
         <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
             <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
@@ -129,21 +120,8 @@ var userFilter = (obj, hideModal) => {
     setFilters(obj)
 }
 
-const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
-  setName(title.substr(0,1).toUpperCase()+title.substr(1))
-  setHours(hours)
-  setDuration(duration)
-  setMonument(`${price}€ ∼${duration} `)
-  setId(id)
-  setLatitudeItineraire(latitude)
-  setlongitudeItineraire(longitude)
-
- }
-
- var colored 
- !color? colored ="white": colored ="red";    
-
   // Boucle marker 
+  
   let markerList = tourList.map((tour, i) => {
     let color
     switch (tour.category) {
@@ -151,8 +129,36 @@ const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
       case "Musées" : color="blue"; break;
       case "Parcs et Jardins" : color="green"; break;     
       default : color="red"
-    } 
+    }
 
+    const handleClick = (title,hours,price,id,duration,picture)=>{
+        setName(title.substr(0,1).toUpperCase()+title.substr(1))
+        setHours(hours)
+        setDuration(duration)
+        setMonument(`${price}€ ∼${duration} `)
+        setId(id)
+        setPicture(picture)
+       }
+
+       console.log(picture);
+
+       var colored 
+       !color? colored ="white": colored ="red";     
+
+ /*    const handlePresse = async  () =>{
+      await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+       .then(resultat=>resultat.json())
+       .then(res=>res)
+       .catch(err=>console.log(err));
+   }  */
+
+   var handleItineraire = (latitude,longitude) =>{
+    setLatitudeItineraire(latitude)
+    setlongitudeItineraire(longitude)
+
+  }
+
+  
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
@@ -317,7 +323,7 @@ const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
                       </View>
                   </Modal>
 
-        <Filter visible={visibleModal} userFilterParent={userFilter} displayModal={displayModal}/>
+        <Filter visible={visibleModal} userFilterParent={userFilter}/>
         
         </View>
     )
