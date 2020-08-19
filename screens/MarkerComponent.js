@@ -7,6 +7,7 @@ import React, { useEffect , useState }from 'react';
 
 export default function MarkerComponent (props){
     const [modalVisible,setModalVisible] = useState(false);
+    console.log(props.tour.location.latitude)
 
     return (
         <View>
@@ -19,8 +20,9 @@ longitude:props.tour.location.longitude,
 latitudeDelta:props.latitude,
 longitudeDelta:props.longitude
            }}
-title={props.tour.title.substr(0,1).toUpperCase()+props.tour.title.substr(1)}
-onPress={()=>{props.setModal(props.modalVisible),props.handleClickParent(props.tour.title,props.tour.openingSynthesis,props.tour.simpleprice,props.tour._id,props.tour.duration)}} 
+title={props.tour.title}
+onPress={()=>{props.setModal(props.modalVisible),props.handleClickParent(props.tour.title,props.tour.openingSynthesis,props.tour.simpleprice,props.tour._id,props.tour.duration),
+props.handleClickParentItineraire(props.tour.location.latitude,props.tour.location.longitude)}}
 />
 </View>
     )

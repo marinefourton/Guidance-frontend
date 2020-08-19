@@ -13,13 +13,12 @@ function List () {
 
 export default List
 
-
 // console.disableYellowBox = true;
 // import React, { useEffect , useState }from 'react';
 // import { Text, View ,StyleSheet ,Image,ScrollView,TouchableOpacity} from 'react-native';
-// import MapView , { Marker } from 'react-native-maps';
-// import * as Permissions from "expo-permissions";
-// import * as Location from 'expo-location';
+// import MapView , { Marker } from 'react-native-maps';
+// import  as Permissions from "expo-permissions";
+// import  as Location from 'expo-location';
 // import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 // import  { Ionicons } from "react-native-vector-icons";
 // import { FontAwesome } from '@expo/vector-icons'; 
@@ -28,7 +27,6 @@ export default List
 // import HeaderApp from "../screens/Header";
 // import  ListComponent from "../screens/listComponent";
 // import {connect} from "react-redux"
-
 
 // export default function List ({navigation}){
 
@@ -97,15 +95,14 @@ export default List
 //         const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
 //           method: 'POST',
 //           headers: {'Content-Type':'application/x-www-form-urlencoded'},
-//           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
+//           body: categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}
 //         })
-        
+
 //         const jsonResponseFilter = await response.json()
 //         setTourList(jsonResponseFilter.result) 
 //       }
 //       getToursWithFilters();
 //       }, [filters, inputValue])
-
 
 // return (
 //         <View style={{flex:1, backgroundColor:"white"}}>
@@ -128,7 +125,7 @@ export default List
 //                                                           inputStyle={{height:100}}
 //                                 placeholder="Ville,monument ..." 
 //                                 onChangeText={(value)=>setInputValue(value)} value={inputValue}>
-//                            </SearchBar>  
+//                            </SearchBar>
 //        </View>
 
 //         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
@@ -161,6 +158,4 @@ export default List
 //     }
 
 // })
-
-
 
