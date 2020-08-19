@@ -1,140 +1,24 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import FooterApp from '../screens/footer';
-<<<<<<< HEAD
 import HeaderApp from '../screens/Header';
 
 function List () {
     return (
         <View style={{flex:1, display:"flex", alignItems:"center"}}>
             <Text>Cette page n'est plus utilisée</Text>
-=======
-import HeaderApp from "../screens/Header";
-import  ListComponent from "../screens/listComponent";
-import {connect} from "react-redux"
-
-
-export default function List ({navigation}){
-
-    const [inputValue,setInputValue] = useState("")
-    const [color,setColor] = useState(false);
-    // const [infos,setInfos] = useState([]);
-    const [tourList, setTourList] = useState([]);
-    const [idArray,setIdArray] = ([]);
-    const [visibleModal, setVisibleModal]= useState(false);
-    const [filters, setFilters] = useState({
-        categories : [{state: true,
-            signification: "Monuments"},
-           {state: true,
-            signification: "Musées"},
-          {state: true,
-            signification: "Parcs et Jardins"}
-          ],
-        price: 50,
-        showClosed: false
-      });
-
-<<<<<<< HEAD
-    useEffect(()=>{
-        const info = async ()=>{
-          await fetch("http://10.2.3.6:3000/info-tour")
-            .then((res)=>res.json())
-            .then((infoTour)=>setInfos(infoTour))
-            .catch((err)=>console.log(err)) 
-        }
-        info()
-    },[])
-=======
->>>>>>> a1497635a28e46178d1b745bdbe66100a339d0b4
-    // useEffect(()=>{
-    //     const info = async ()=>{
-    //       await fetch("http://10.2.3.6:3000/info-tour")
-    //         .then((res)=>res.json())
-    //         .then((infoTour)=>setInfos(infoTour))
-    //         .catch((err)=>console.log(err)) 
-    //     }
-    //     info()
-    // },[])
-    // useEffect(()=>{
-    //     const info = async ()=>{
-    //       await fetch("http://10.2.3.92:3000/info-tour")
-    //         .then((res)=>res.json())
-    //         .then((infoTour)=>setInfos(infoTour))
-    //         .catch((err)=>console.log(err)) 
-    //     }
-    //     info()
-    // },[])
-    //  console.log(infos, "infossssss")
-
-    var loader = []
-
-    if(tourList.length == 0) {
-        loader.push(
-            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
-            </View> 
-        )
-    }
-
-    var infoDynamic = tourList.map((el, i)=>{
-
-       return  <ListComponent tour={el} navigation={navigation} nameId = {el._id}/>
-    })
-
-    var userFilter = (obj, hideModal) => {
-        setVisibleModal(hideModal);
-        setFilters(obj)
-    }
-
-    useEffect( () => {
-
-        let getToursWithFilters = async () => {
-
-<<<<<<< HEAD
-        const response = await fetch('http://10.2.3.7:3000/display-filtered-tours', {
-=======
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
->>>>>>> a1497635a28e46178d1b745bdbe66100a339d0b4
-          method: 'POST',
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
-          body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
-        })
-        
-        const jsonResponseFilter = await response.json()
-        setTourList(jsonResponseFilter.result) 
-      }
-      getToursWithFilters();
-      }, [filters, inputValue])
-
-
-return (
-        <View style={{flex:1, backgroundColor:"white"}}>
-            <HeaderApp navigation={navigation}/>
-        <View style={{margin:0,backgroundColor:"#636363",
-        height:60, dispay:"flex", 
-        justifyContent:"space-between", 
-        alignItems:"center", 
-        flexDirection:"row"}}>
-        <View style={{display:"flex",
-         flexDirection:"row",
-         justifyContent:"space-between",
-         widtht:"30%"}}>
-             <Ionicons name="ios-options" size={24} color="white" style={{marginLeft:8}} onPress={()=>setVisibleModal(true)}/>
-                <Text style={{color:"white",fontSize:20,marginLeft:8}}>Filtres</Text>
->>>>>>> 6cf17478ca84d4ff81e9f6f30df78000f3ee6075
         </View>
     )
 }
 
 export default List
 
-
 // console.disableYellowBox = true;
 // import React, { useEffect , useState }from 'react';
 // import { Text, View ,StyleSheet ,Image,ScrollView,TouchableOpacity} from 'react-native';
-// import MapView , { Marker } from 'react-native-maps';
-// import * as Permissions from "expo-permissions";
-// import * as Location from 'expo-location';
+// import MapView , { Marker } from 'react-native-maps';
+// import  as Permissions from "expo-permissions";
+// import  as Location from 'expo-location';
 // import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 // import  { Ionicons } from "react-native-vector-icons";
 // import { FontAwesome } from '@expo/vector-icons'; 
@@ -143,7 +27,6 @@ export default List
 // import HeaderApp from "../screens/Header";
 // import  ListComponent from "../screens/listComponent";
 // import {connect} from "react-redux"
-
 
 // export default function List ({navigation}){
 
@@ -212,15 +95,14 @@ export default List
 //         const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
 //           method: 'POST',
 //           headers: {'Content-Type':'application/x-www-form-urlencoded'},
-//           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
+//           body: categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}
 //         })
-        
+
 //         const jsonResponseFilter = await response.json()
 //         setTourList(jsonResponseFilter.result) 
 //       }
 //       getToursWithFilters();
 //       }, [filters, inputValue])
-
 
 // return (
 //         <View style={{flex:1, backgroundColor:"white"}}>
@@ -243,7 +125,7 @@ export default List
 //                                                           inputStyle={{height:100}}
 //                                 placeholder="Ville,monument ..." 
 //                                 onChangeText={(value)=>setInputValue(value)} value={inputValue}>
-//                            </SearchBar>  
+//                            </SearchBar>
 //        </View>
 
 //         <View style={{paddingTop: 10, paddingBottom:50, flex:1}}>
@@ -276,6 +158,3 @@ export default List
 //     }
 
 // })
-
-
-

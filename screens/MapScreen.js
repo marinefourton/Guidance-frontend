@@ -130,14 +130,13 @@ var userFilter = (obj, hideModal) => {
       default : color="red"
     }
 
-    const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
+    const handleClick = (title,hours,price,id,duration,picture)=>{
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
         setMonument(`${price}€ ∼${duration} `)
         setId(id)
-        setLatitudeItineraire(latitude)
-        setlongitudeItineraire(longitude)
+    
       
        }
 
@@ -150,6 +149,11 @@ var userFilter = (obj, hideModal) => {
        .then(res=>res)
        .catch(err=>console.log(err));
    }  */
+   var handleItineraire = (latitude,longitude) =>{
+    setLatitudeItineraire(latitude)
+    setlongitudeItineraire(longitude)
+
+  }
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
@@ -169,21 +173,17 @@ var userFilter = (obj, hideModal) => {
       }
 
 
-      var handleItineraire = (latitude,longitude) =>{
-        setLatitudeItineraire(latitude)
-        setlongitudeItineraire(longitude)
 
-      }
 
       var colored 
       !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
   
-      const handlePresse = async  () =>{
+/*       const handlePresse = async  () =>{
         await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
          .then(resultat=>resultat.json())
          .then(res=>console.log(res))
          .catch(err=>console.log(err));
-     } 
+     }  */
   
   const handlePresse = async  () =>{
      await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
