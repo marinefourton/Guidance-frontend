@@ -21,7 +21,7 @@ latitudeDelta:props.latitude,
 longitudeDelta:props.longitude
            }}
 title={props.tour.title}
-onPress={()=>{props.setModal(props.modalVisible),props.handleClickParent(props.tour.title,props.tour.openingSynthesis,props.tour.simpleprice,props.tour._id,props.tour.duration),
+onPress={()=>{props.setModal(props.modalVisible),props.handleClickParent(props.tour.title,props.tour.openingSynthesis,props.tour.simpleprice,props.tour._id,props.tour.duration,props.tour.picture),
 props.handleClickParentItineraire(props.tour.location.latitude,props.tour.location.longitude)}}
 />
 </View>
