@@ -159,8 +159,6 @@ const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
         handleClickParentItineraire={handleItineraire}
          />
       )})
-      
-     console.log(markerList.length);
 
       var redirectToGoogleMap = (lng, lat) => {
         const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
