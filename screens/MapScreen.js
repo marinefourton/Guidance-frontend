@@ -1,17 +1,19 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking} from 'react-native';
+import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking, ScrollView} from 'react-native';
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
-import { Header ,SearchBar,ButtonGroup, withTheme,Button,} from "react-native-elements";
+import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
 import { FontAwesome } from '@expo/vector-icons'; 
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import  ListComponent from "../screens/listComponent";
 import MarkerComponent from "../screens/MarkerComponent";
 import { connect } from "react-redux";
+import SwitchButton from 'switch-button-react-native';
 
 function MapScreen (props) {
 
@@ -35,8 +37,8 @@ function MapScreen (props) {
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [name,setName] = useState("");
-    const  [hours,setHours] = useState(0);
-    const  [monument,setMonument] =  useState(0);
+    const [hours,setHours] = useState(0);
+    const [monument,setMonument] =  useState(0);
     const [id,setId] = useState("");
     const [duration,setDuration] = useState(0)
     const [color,setColor] = useState(false);
@@ -44,6 +46,8 @@ function MapScreen (props) {
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
 
 
+    const [infos,setInfos] = useState([]);
+    const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -82,7 +86,38 @@ function MapScreen (props) {
       getToursWithFilters();
       }, [filters, inputValue])
 
+  // version liste
 
+  useEffect(()=>{
+    const info = async ()=>{
+      await fetch("http://10.2.3.92:3000/info-tour")
+        .then((res)=>res.json())
+        .then((infoTour)=>setInfos(infoTour))
+        .catch((err)=>console.log(err)) 
+    }
+    info()
+},[])
+
+
+var loader = []
+
+if(infos.length == 0) {
+    loader.push(
+        <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+        </View> 
+    )
+}
+
+var infoDynamic = tourList.map((el, i)=>{
+
+   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id}/>
+})
+
+var userFilter = (obj, hideModal) => {
+    setVisibleModal(hideModal);
+    setFilters(obj)
+}
 
   // Boucle marker 
   
@@ -150,6 +185,45 @@ function MapScreen (props) {
          .catch(err=>console.log(err));
      } 
   
+  const handlePresse = async  () =>{
+     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+      .then(resultat=>resultat.json())
+      .then(res=>res)
+      .catch(err=>console.log(err));
+  } 
+
+     
+
+    // switch button
+  
+  if(selectedIndex == 2){
+    var displayMapList = (
+
+      <View style={{paddingTop: 85, paddingBottom:200}}>
+  <ScrollView>
+      {loader}
+     {infoDynamic}
+  </ScrollView>
+    </View>
+
+
+    )
+  }else if(selectedIndex == 1){
+    var displayMapList = (
+
+       <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
+         {markerList}
+         <Marker coordinate={{
+           latitude:latitude,
+           longitude:longitude,
+           latitudeDelta:latitude,
+           longitudeDelta:longitude
+           }}
+           image={require("../assets/man.png")}
+           title="Vous êtes ici"/>
+       </MapView>   
+   )
+  }
 
 
     return (
@@ -179,40 +253,31 @@ function MapScreen (props) {
                                </SearchBar> 
            </View>
 
-          { /*  <Header 
-             containerStyle={{height:"7%"}}
-             leftContainerStyle={{alignItems:"center",height:"150%",marginLeft:-20}}
-             rightContainerStyle={{alignItems:"center",marginRight:60, width: "50%"}}
-             leftComponent={<Ionicons name="ios-options" size={24} color="white"  />}
-             rightComponent={ <SearchBar   placeholder="mysearch" />}
-             />
-          */}
+          
          <View style={{ position:"absolute", marginTop:"45%",  left:"7%", zIndex: 10}}>
-          <ButtonGroup 
-                     buttons={buttons}
-                     selectedButtonStyle={{backgroundColor:"white",borderWidth:1,borderColor:"#57508C"}}
-                     containerStyle={{height:50,width:300,borderRadius:10,backgroundColor:"#57508C"}}
-                     selectedIndex={selectedIndex}
-                     selectedTextStyle={{color:"#57508C"}}
-                     textStyle={{color:"white"}}
-                     onPress={()=>{props.navigation.navigate("List")}}
-                     
-            >
-          </ButtonGroup>
+          
+          <View>
+        <SwitchButton
+            onValueChange={(val) => setSelectedIndex(val)}      
+            text1 = 'Carte'                 
+            text2 = 'Liste'                    
+            switchWidth = {300}                
+            switchHeight = {40}                 
+            switchdirection = 'ltr'             
+            switchBorderRadius = {100}          
+            switchSpeedChange = {200}
+            switchBackgroundColor = '#fff'           
+            btnBorderColor = "#57508C"
+            btnBackgroundColor = "#57508C"          
+            fontColor = '#b1b1b1'               
+            activeFontColor = '#fff' 
+            marginTop={30}
+        />
+      </View>
         </View>
       
-
-        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
-          {markerList}
-          <Marker coordinate={{
-            latitude:latitude,
-            longitude:longitude,
-            latitudeDelta:latitude,
-            longitudeDelta:longitude
-            }}
-            image={require("../assets/man.png")}
-            title="Vous êtes ici"/>
-        </MapView>
+          {displayMapList}
+       
 
         <FooterApp navigation={props.navigation}/>
                 <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
@@ -272,7 +337,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
       marginTop: "auto",
-      marginBottom:55,
+      marginBottom:50,
       borderTopLeftRadius:20,
       borderTopRightRadius:20,
       backgroundColor: "white",

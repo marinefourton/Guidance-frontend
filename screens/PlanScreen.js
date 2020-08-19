@@ -201,12 +201,12 @@ function PlanScreen (props) {
         // }
 
       
-   console.log(audioPosition, audioTime, 'HAMMMMMEDDDD BOSSSSSS')
+//    console.log(audioPosition, audioTime, 'HAMMMMMEDDDD BOSSSSSS')
     return (
             <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
                 <HeaderApp navigation={props.navigation}/>
-                
                     <View style={styles.centeredView}>
+
                         <Modal
                             animationType="slide"
                             transparent={true}
