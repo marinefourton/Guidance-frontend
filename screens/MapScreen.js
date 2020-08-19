@@ -1,17 +1,19 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking} from 'react-native';
+import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking, ScrollView} from 'react-native';
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
-import { Header ,SearchBar,ButtonGroup, withTheme,Button,} from "react-native-elements";
+import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
 import { FontAwesome } from '@expo/vector-icons'; 
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+import  ListComponent from "../screens/listComponent";
 import MarkerComponent from "../screens/MarkerComponent";
 import { connect } from "react-redux";
+import SwitchButton from 'switch-button-react-native';
 
 function MapScreen (props) {
 
@@ -36,13 +38,17 @@ function MapScreen (props) {
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
     const [name,setName] = useState("");
-    const  [hours,setHours] = useState(0);
-    const  [monument,setMonument] =  useState(0);
+    const [hours,setHours] = useState(0);
+    const [monument,setMonument] =  useState(0);
     const [id,setId] = useState("");
     const [duration,setDuration] = useState(0)
     const [color,setColor] = useState(false);
+    const [latitudeItineraire,setLatitudeItineraire] = useState(0)
+    const [longitudeItineraire,setlongitudeItineraire] = useState(0)
 
 
+    const [infos,setInfos] = useState([]);
+    const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
@@ -76,7 +82,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.7:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -89,11 +95,54 @@ function MapScreen (props) {
       getToursWithFilters();
       }, [filters, inputValue])
 
+  // version liste
 
+//   useEffect(()=>{
+//     const info = async ()=>{
+//       await fetch("http://10.2.3.92:3000/info-tour")
+//         .then((res)=>res.json())
+//         .then((infoTour)=>setInfos(infoTour))
+//         .catch((err)=>console.log(err)) 
+//     }
+//     info()
+// },[])
+
+
+var loader = []
+
+if(tourList.length == 0) {
+    loader.push(
+        <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+        </View> 
+    )
+}
+
+var infoDynamic = tourList.map((el, i)=>{
+
+   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id}/>
+})
+
+var userFilter = (obj, hideModal) => {
+    setVisibleModal(hideModal);
+    setFilters(obj)
+}
+
+const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
+  setName(title.substr(0,1).toUpperCase()+title.substr(1))
+  setHours(hours)
+  setDuration(duration)
+  setMonument(`${price}€ ∼${duration} `)
+  setId(id)
+  setLatitudeItineraire(latitude)
+  setlongitudeItineraire(longitude)
+
+ }
+
+ var colored 
+ !color? colored ="white": colored ="red";    
 
   // Boucle marker 
-
-
   let markerList = tourList.map((tour, i) => {
     let color
     switch (tour.category) {
@@ -101,33 +150,12 @@ function MapScreen (props) {
       case "Musées" : color="blue"; break;
       case "Parcs et Jardins" : color="green"; break;     
       default : color="red"
-    }
-
-    console.log(`Je suis ${tour.title}, la categorie est ${tour.category}, la couleur est ${color}`)
-
-    const handleClick = (title,hours,price,id,duration)=>{
-        setName(title.substr(0,1).toUpperCase()+title.substr(1))
-        setHours(hours)
-        setDuration(duration)
-        setMonument(`${price}€ ∼${duration} `)
-        setId(id) 
-       }
-
-      //  var colored 
-      //  !color? colored ="white": colored ="red";     
-   
-   const handlePress = async  () =>{
-      await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-       .then(resultat=>resultat.json())
-       .then(res=>res)
-       .catch(err=>console.log(err));
-   } 
+    } 
 
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
-
-
+        handleClickParentItineraire={handleItineraire}
          />
       )})
       
@@ -144,8 +172,22 @@ function MapScreen (props) {
         Linking.openURL(url); 
       }
 
+
+      var handleItineraire = (latitude,longitude) =>{
+        setLatitudeItineraire(latitude)
+        setlongitudeItineraire(longitude)
+
+      }
+
       var colored 
-      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+  
+      const handlePresse = async  () =>{
+        await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+         .then(resultat=>resultat.json())
+         .then(res=>console.log(res))
+         .catch(err=>console.log(err));
+     } 
   
   const handlePresse = async  () =>{
      await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
@@ -153,6 +195,40 @@ function MapScreen (props) {
       .then(res=>res)
       .catch(err=>console.log(err));
   } 
+
+     
+
+    // switch button
+  
+  if(selectedIndex == 2){
+    var displayMapList = (
+
+      <View style={{paddingTop: 85, paddingBottom:200}}>
+  <ScrollView>
+      {loader}
+     {infoDynamic}
+  </ScrollView>
+    </View>
+
+
+    )
+  }else if(selectedIndex == 1){
+    var displayMapList = (
+
+       <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
+         {markerList}
+         <Marker coordinate={{
+           latitude:latitude,
+           longitude:longitude,
+           latitudeDelta:latitude,
+           longitudeDelta:longitude
+           }}
+           image={require("../assets/man.png")}
+           title="Vous êtes ici"/>
+       </MapView>   
+   )
+  }
+
 
     return (
 
@@ -181,44 +257,35 @@ function MapScreen (props) {
                                </SearchBar> 
            </View>
 
-          { /*  <Header 
-             containerStyle={{height:"7%"}}
-             leftContainerStyle={{alignItems:"center",height:"150%",marginLeft:-20}}
-             rightContainerStyle={{alignItems:"center",marginRight:60, width: "50%"}}
-             leftComponent={<Ionicons name="ios-options" size={24} color="white"  />}
-             rightComponent={ <SearchBar   placeholder="mysearch" />}
-             />
-          */}
+          
          <View style={{ position:"absolute", marginTop:"45%",  left:"7%", zIndex: 10}}>
-          <ButtonGroup 
-                     buttons={buttons}
-                     selectedButtonStyle={{backgroundColor:"white",borderWidth:1,borderColor:"#57508C"}}
-                     containerStyle={{height:50,width:300,borderRadius:10,backgroundColor:"#57508C"}}
-                     selectedIndex={selectedIndex}
-                     selectedTextStyle={{color:"#57508C"}}
-                     textStyle={{color:"white"}}
-                     onPress={()=>{props.navigation.navigate("List")}}
-                     
-            >
-          </ButtonGroup>
+          
+          <View>
+        <SwitchButton
+            onValueChange={(val) => setSelectedIndex(val)}      
+            text1 = 'Carte'                 
+            text2 = 'Liste'                    
+            switchWidth = {300}                
+            switchHeight = {40}                 
+            switchdirection = 'ltr'             
+            switchBorderRadius = {100}          
+            switchSpeedChange = {200}
+            switchBackgroundColor = '#fff'           
+            btnBorderColor = "#57508C"
+            btnBackgroundColor = "#57508C"          
+            fontColor = '#b1b1b1'               
+            activeFontColor = '#fff' 
+            marginTop={30}
+        />
+      </View>
         </View>
       
-
-        <MapView key={Math.random()*1000} index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
-          {markerList}
-          <Marker coordinate={{
-            latitude:latitude,
-            longitude:longitude,
-            latitudeDelta:latitude,
-            longitudeDelta:longitude
-            }}
-            image={require("../assets/man.png")}
-            title="Vous êtes ici"/>
-        </MapView>
+          {displayMapList}
+       
 
         <FooterApp navigation={props.navigation}/>
                 <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
-                      <View  style = {styles.modalView}   >
+                      <View style = {styles.modalView}>
                         <TouchableOpacity   style={{ position:"absolute",right:20,top:10}}>
                                 <Ionicons 
                               name="ios-close" 
@@ -228,10 +295,15 @@ function MapScreen (props) {
                               onPress={() => setModalVisible(false)}
                             />
                         </TouchableOpacity>
-                  
-          <Text style={{marginTop:25, fontSize:22, marginBottom:5}}>{name}</Text>
-          <Text>{hours}</Text>
-                                  <Text>{monument}</Text>
+                          <View style={{display:"flex", flexDirection:"row", justifyContent:"center", marginTop:10, marginBottom:10}}>
+                            <Image source={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597666547/musee-arts-et-metiers-plan-ext_rgg5er.jpg'}} style={{height:70, marginTop:"auto", width:70, borderRadius:50, marginLeft:"2%"}}></Image>
+                            <View style={{display:"flex", justifyContent:"center", marginTop:25, paddingLeft:10}}>
+                              <Text style={{fontSize:21, marginBottom:5}}>{name}</Text>
+                              <Text>{hours}</Text>
+                              <Text>{monument}</Text>
+                            </View>
+                          </View>
+
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
                                                {colored}
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
@@ -239,7 +311,7 @@ function MapScreen (props) {
                           <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
                                 <View style={{display:"flex",alignItems:"center"}}>
                                     <Ionicons name="md-pin" size={40} color="#57508C"
-                                    onPress={()=>redirectToGoogleMap(longitude,latitude)} />
+                                    onPress={()=>{redirectToGoogleMap(longitudeItineraire,latitudeItineraire)}} />
                                     <Text style={{ fontSize: 15 }}> Itinéraire </Text>
                                 </View>    
 
@@ -266,6 +338,7 @@ const styles = StyleSheet.create({
     Map:{
         width:"100%",
         height:"100%"
+        
     },
     header:{
         color:"#4D3D84",
@@ -274,7 +347,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
       marginTop: "auto",
-      marginBottom:55,
+      marginBottom:50,
       borderTopLeftRadius:20,
       borderTopRightRadius:20,
       backgroundColor: "white",

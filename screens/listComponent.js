@@ -24,25 +24,25 @@ import  { Ionicons } from "react-native-vector-icons";
          !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err));
-
-       
-     
     } 
   
-  var redirectToGoogleMap = (lng, lat) => {
-    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-    const latLng = `${lat},${lng}`;
-    const label = 'Custom Label';
-    const url = Platform.select({
-      ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`
-    });
-    Linking.openURL(url); 
-  }
+    var redirectToGoogleMap = (lng, lat) => {
+      const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+      const latLng = `${lat},${lng}`;
+      const label = 'Custom Label';
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      Linking.openURL(url); 
+    }
+
+
+
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.tour.picture}}>
