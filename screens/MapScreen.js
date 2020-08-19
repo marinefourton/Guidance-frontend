@@ -19,18 +19,19 @@ function MapScreen (props) {
     const [latitude,setLatitude] = useState(48.866667);
     const [longitude,setLongitude] = useState(2.333333);
     const [inputValue,setInputValue] = useState("")
-    const [selectedIndex,setSelectedIndex] = useState(1)
-    const [filters, setFilters] = useState({
-        categories : [{state: true,
-            signification: "Monuments"},
-           {state: true,
-            signification: "Musées"},
-          {state: true,
-            signification: "Parcs et Jardins"}
-          ],
-        price: 50,
-        showClosed: false
-      });
+    const [selectedIndex,setSelectedIndex] = useState(1);
+    const defaultFilterVal  = {
+      categories : [{state: true,
+          signification: "Monuments"},
+         {state: true,
+          signification: "Musées"},
+        {state: true,
+          signification: "Parcs et Jardins"}
+        ],
+      price: 50,
+      showClosed: false
+    }
+    const [filters, setFilters] = useState(defaultFilterVal);
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
@@ -47,8 +48,15 @@ function MapScreen (props) {
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
         setVisibleModal(hideModal);
+        obj = !obj ? {...defaultFilterVal} : {...obj}
+        //console.log(obj);
         setFilters(obj)
     }
+
+    var displayModal = (val) => {
+      setVisibleModal(val);
+  }
+
 
 // USEEFFECT PERMISSION LOCALISATION
     useEffect(() => {
@@ -75,6 +83,7 @@ function MapScreen (props) {
         })
         
         const jsonResponseFilter = await response.json()
+       // console.log(jsonResponseFilter)
         setTourList(jsonResponseFilter.result) 
       }
       getToursWithFilters();
@@ -83,7 +92,8 @@ function MapScreen (props) {
 
 
   // Boucle marker 
-  
+
+
   let markerList = tourList.map((tour, i) => {
     let color
     switch (tour.category) {
@@ -93,6 +103,8 @@ function MapScreen (props) {
       default : color="red"
     }
 
+    console.log(`Je suis ${tour.title}, la categorie est ${tour.category}, la couleur est ${color}`)
+
     const handleClick = (title,hours,price,id,duration)=>{
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
@@ -101,8 +113,8 @@ function MapScreen (props) {
         setId(id) 
        }
 
-       var colored 
-       !color? colored ="white": colored ="red";     
+      //  var colored 
+      //  !color? colored ="white": colored ="red";     
    
    const handlePress = async  () =>{
       await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
@@ -118,6 +130,8 @@ function MapScreen (props) {
 
          />
       )})
+      
+     console.log(markerList.length);
 
       var redirectToGoogleMap = (lng, lat) => {
         const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
@@ -139,8 +153,6 @@ function MapScreen (props) {
       .then(res=>res)
       .catch(err=>console.log(err));
   } 
-
-      console.log(id)
 
     return (
 
@@ -192,7 +204,7 @@ function MapScreen (props) {
         </View>
       
 
-        <MapView index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
+        <MapView key={Math.random()*1000} index={20} style={styles.Map} mapType="standard" region={{latitude:latitude,longitude:longitude, latitudeDelta:0.1, longitudeDelta:0.1}}>
           {markerList}
           <Marker coordinate={{
             latitude:latitude,
@@ -244,7 +256,7 @@ function MapScreen (props) {
                       </View>
                   </Modal>
 
-        <Filter visible={visibleModal} userFilterParent={userFilter}/>
+        <Filter visible={visibleModal} userFilterParent={userFilter} displayModal={displayModal}/>
         
         </View>
     )

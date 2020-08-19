@@ -11,7 +11,7 @@ export default function MarkerComponent (props){
     return (
         <View>
 <Marker 
-key={props.index}
+key={props.tour.location.latitude+"-"+props.tour.location.longitude}
 pinColor={props.color}
 coordinate={{
 latitude:props.tour.location.latitude,
