@@ -44,6 +44,7 @@ function MapScreen (props) {
     const [color,setColor] = useState(false);
     const [latitudeItineraire,setLatitudeItineraire] = useState(0)
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
+    const [picture, setPicture] = useState("");
 
 
     const [infos,setInfos] = useState([]);
@@ -74,7 +75,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.7:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -130,16 +131,16 @@ var userFilter = (obj, hideModal) => {
       default : color="red"
     }
 
-    const handleClick = (title,hours,price,id,duration,latitude,longitude)=>{
+    const handleClick = (title,hours,price,id,duration,picture)=>{
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
         setMonument(`${price}€ ∼${duration} `)
         setId(id)
-        setLatitudeItineraire(latitude)
-        setlongitudeItineraire(longitude)
-      
+        setPicture(picture)
        }
+
+       console.log(picture);
 
        var colored 
        !color? colored ="white": colored ="red";     
@@ -150,6 +151,14 @@ var userFilter = (obj, hideModal) => {
        .then(res=>res)
        .catch(err=>console.log(err));
    }  */
+
+   var handleItineraire = (latitude,longitude) =>{
+    setLatitudeItineraire(latitude)
+    setlongitudeItineraire(longitude)
+
+  }
+
+  
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
@@ -169,24 +178,14 @@ var userFilter = (obj, hideModal) => {
       }
 
 
-      var handleItineraire = (latitude,longitude) =>{
-        setLatitudeItineraire(latitude)
-        setlongitudeItineraire(longitude)
-
-      }
+ 
 
       var colored 
       !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
-  
-      const handlePresse = async  () =>{
-        await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-         .then(resultat=>resultat.json())
-         .then(res=>console.log(res))
-         .catch(err=>console.log(err));
-     } 
+
   
   const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+     await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
@@ -292,7 +291,7 @@ var userFilter = (obj, hideModal) => {
                             />
                         </TouchableOpacity>
                           <View style={{display:"flex", flexDirection:"row", justifyContent:"center", marginTop:10, marginBottom:10}}>
-                            <Image source={{uri:'https://res.cloudinary.com/dvx36h3ub/image/upload/v1597666547/musee-arts-et-metiers-plan-ext_rgg5er.jpg'}} style={{height:70, marginTop:"auto", width:70, borderRadius:50, marginLeft:"2%"}}></Image>
+                            <Image source={{uri:picture}} style={{height:70, marginTop:"auto", width:70, borderRadius:50, marginLeft:"2%"}}></Image>
                             <View style={{display:"flex", justifyContent:"center", marginTop:25, paddingLeft:10}}>
                               <Text style={{fontSize:21, marginBottom:5}}>{name}</Text>
                               <Text>{hours}</Text>
