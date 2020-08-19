@@ -7,11 +7,9 @@ import Slider from "react-native-slider";
 export default function Filter(props) {
 
   // MODAL VISIBLE
-  // const [isVisibleFilterModal, setIsVisibleFilterModal] = useState(props.visible)
-  const [isVisibleCategeryModal, setIsVisibleCategeryModal] = useState(false)
-  // const [isVisibleNotesModal, setIsVisibleNotesModal] = useState(false)
+  const [isVisibleCategoryModal, setIsVisibleCategoryModal] = useState(false)
   const [isVisiblePriceModal, setIsVisiblePriceModal] = useState(false)
-// console.log(isVisibleFilterModal)
+
   // CATEGORIES CHECKBOXES
   const [isMonumentChecked, setIsMonumentChecked] = useState(true)
   const [isMuseumChecked, setIsMuseumChecked] = useState(true)
@@ -109,16 +107,16 @@ export default function Filter(props) {
             subtitle={categorySubtitle}
             bottomDivider
             chevron
-            onPress={() => setIsVisibleCategeryModal(true)}
+            onPress={() => setIsVisibleCategoryModal(true)}
             />
-
+{/* 
           <ListItem
             title="Notes"
             // subtitle={selectedRating}
             bottomDivider
             chevron
             // onPress={() => this.props.navigation.navigate("ListitemDetail")}
-            />
+            /> */}
 
           <ListItem
             title="Prix"
@@ -150,11 +148,11 @@ export default function Filter(props) {
           </View>
   </Modal>
 
-  {/* CATEGEORIE MODAL */}
+  {/* CATEGORIES MODAL */}
   <View>
   <Modal 
     animationType="slide"
-    visible={isVisibleCategeryModal}>
+    visible={isVisibleCategoryModal}>
           <View style={styles.ViewInModal2}>
 
           <Header
@@ -196,7 +194,7 @@ export default function Filter(props) {
               buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
               titleStyle={{color:"#57508C"}}
               title="Appliquer"
-              onPress={() => setIsVisibleCategeryModal(false)}
+              onPress={() => setIsVisibleCategoryModal(false)}
               color='#4D3D84'
                />
           </View>

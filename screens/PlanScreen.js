@@ -40,7 +40,7 @@ function PlanScreen (props) {
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch("http://10.2.3.92:3000/points-tour")
+            var allDataBack = await fetch("http://10.2.3.47:3000/points-tour")
             var allData = await allDataBack.json()
             // console.log('-------------', allData.guide,'Tableau ou pas' )
 
@@ -201,12 +201,12 @@ function PlanScreen (props) {
         // }
 
       
-   console.log(audioPosition, audioTime, 'HAMMMMMEDDDD BOSSSSSS')
+//    console.log(audioPosition, audioTime, 'HAMMMMMEDDDD BOSSSSSS')
     return (
             <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
                 <HeaderApp navigation={props.navigation}/>
-                
                     <View style={styles.centeredView}>
+
                         <Modal
                             animationType="slide"
                             transparent={true}
