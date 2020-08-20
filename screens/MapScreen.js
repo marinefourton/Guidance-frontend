@@ -112,7 +112,7 @@ if(infos.length == 0) {
 
 var infoDynamic = tourList.map((el, i)=>{
 
-   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id}/>
+   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id} />
 })
 
 var userFilter = (obj, hideModal) => {
@@ -135,7 +135,7 @@ var userFilter = (obj, hideModal) => {
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
-        setMonument(`${price}€ ∼${duration} `)
+        setMonument(`${price}€ ∼${duration} `) 
         setId(id)
         setPicture(picture)
        }
@@ -318,7 +318,7 @@ var userFilter = (obj, hideModal) => {
                                 </View>    
 
                                 <View style={{display:"flex",alignItems:"center"}}>
-                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}} />
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}}/>
                                     <Text style={{ fontSize: 15}}> Visiter </Text>
                                 </View> 
                             </View>                       
