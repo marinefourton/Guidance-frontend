@@ -40,7 +40,7 @@ function PlanScreen (props) {
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch("http://10.2.3.7:3000/points-tour")
+            var allDataBack = await fetch("http:/10.2.3.92:3000/points-tour")
             var allData = await allDataBack.json()
             // console.log('-------------', allData.guide,'Tableau ou pas' )
 
@@ -205,6 +205,9 @@ function PlanScreen (props) {
     return (
             <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
                 <HeaderApp navigation={props.navigation}/>
+
+                <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
+
                     <View style={styles.centeredView}>
 
                         <Modal

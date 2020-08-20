@@ -12,7 +12,7 @@ function SignInScreen(props, token) {
   const [userExists, setUserExists] = useState(false)
 
   const [listErrorsSignin, setErrorsSignin] = useState([])
-  const [tokenList, setTokenList] = useState('')
+  const [tokenList, setTokenList] = useState('')//tableau de token 
 
   useEffect(() => {
     AsyncStorage.getItem("saveToken", (err, value) => {   
@@ -20,8 +20,8 @@ function SignInScreen(props, token) {
     // console.log(value,"TempoToken")
     
     if (value) {      
-      setTokenList(value);  
-      props.addToken(value);
+      setTokenList(value);  //enferme le token ds un tableau de token pour pouviiur avoir accesa e lensemble des tokens 
+      props.addToken(value);//renvopi du token vers le store 
       props.navigation.navigate("Map")
      }
       // console.log(tokenList, "TokenLife")
@@ -32,7 +32,7 @@ function SignInScreen(props, token) {
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://10.2.3.7:3000/sign-in', {
+        const data = await fetch('http://10.2.3.92:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`

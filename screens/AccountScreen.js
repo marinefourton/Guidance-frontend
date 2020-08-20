@@ -12,11 +12,11 @@ function AccountScreen (props){
         
             <Header
             containerStyle={{
-              marginTop:0,
-              backgroundColor: '#4D3D84',
+              backgroundColor: 'white',
+              height:50
             }}
             placement="center"
-            centerComponent={{ text: 'Mon compte', style: { color: '#fff' } }}
+            centerComponent={{ text: 'MON COMPTE', style: { color: '#57508C', marginTop:-22 } }}
             rightComponent={<Ionicons 
                               name="ios-close" 
                               size={24} 

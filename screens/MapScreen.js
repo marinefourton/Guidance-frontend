@@ -44,6 +44,7 @@ function MapScreen (props) {
     const [color,setColor] = useState(false);
     const [latitudeItineraire,setLatitudeItineraire] = useState(0)
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
+    const [picture, setPicture] = useState("");
 
 
     const [infos,setInfos] = useState([]);
@@ -74,7 +75,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.7:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -136,9 +137,10 @@ var userFilter = (obj, hideModal) => {
         setDuration(duration)
         setMonument(`${price}€ ∼${duration} `)
         setId(id)
-    
-      
+        setPicture(picture)
        }
+
+       //console.log(picture);
 
        var colored 
        !color? colored ="white": colored ="red";     
@@ -154,6 +156,8 @@ var userFilter = (obj, hideModal) => {
     setlongitudeItineraire(longitude)
 
   }
+
+  
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
@@ -184,9 +188,12 @@ var userFilter = (obj, hideModal) => {
          .then(res=>console.log(res))
          .catch(err=>console.log(err));
      }  */
+ 
+
+
   
   const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+     await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
@@ -281,7 +288,7 @@ var userFilter = (obj, hideModal) => {
 
         <FooterApp navigation={props.navigation}/>
                 <Modal  animationType="slide" visible={modalVisible} transparent={true} style={{position:"relative"}} >
-                      <View  style = {styles.modalView}   >
+                      <View style = {styles.modalView}>
                         <TouchableOpacity   style={{ position:"absolute",right:20,top:10}}>
                                 <Ionicons 
                               name="ios-close" 
@@ -291,10 +298,15 @@ var userFilter = (obj, hideModal) => {
                               onPress={() => setModalVisible(false)}
                             />
                         </TouchableOpacity>
-                  
-          <Text style={{marginTop:25, fontSize:22, marginBottom:5}}>{name}</Text>
-          <Text>{hours}</Text>
-                                  <Text>{monument}</Text>
+                          <View style={{display:"flex", flexDirection:"row", justifyContent:"center", marginTop:10, marginBottom:10}}>
+                            <Image source={{uri:picture}} style={{height:70, marginTop:"auto", width:70, borderRadius:50, marginLeft:"2%"}}></Image>
+                            <View style={{display:"flex", justifyContent:"center", marginTop:25, paddingLeft:10}}>
+                              <Text style={{fontSize:21, marginBottom:5}}>{name}</Text>
+                              <Text>{hours}</Text>
+                              <Text>{monument}</Text>
+                            </View>
+                          </View>
+
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
                                                {colored}
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
@@ -329,6 +341,7 @@ const styles = StyleSheet.create({
     Map:{
         width:"100%",
         height:"100%"
+        
     },
     header:{
         color:"#4D3D84",
