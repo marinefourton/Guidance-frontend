@@ -15,11 +15,11 @@ export default function HeaderApp({navigation}) {
 
 
   if(navigation.state.routeName == "Account" && activeAcc == false) {
-    setColorAccIcon("#32d2db")
+    setColorAccIcon("#D9C8F7")
     setActiveAcc(true)
 
   }else if(navigation.state.routeName == "Chat" && activeChat == false){
-    setColorChatIcon("#32d2db")
+    setColorChatIcon("#D9C8F7")
     setActiveChat(true)
   }
 

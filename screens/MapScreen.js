@@ -80,7 +80,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.51:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -178,7 +178,7 @@ var userFilter = (obj, hideModal) => {
 
   
   const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+     await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
@@ -226,7 +226,7 @@ var userFilter = (obj, hideModal) => {
 
         <HeaderApp navigation={props.navigation}/>
                        
-        <View style={{margin:0,backgroundColor:"#636363",
+        <View style={{marginTop:-1,backgroundColor:"#636363",
             height:60, dispay:"flex", 
             justifyContent:"space-between", 
             alignItems:"center", 
@@ -234,7 +234,8 @@ var userFilter = (obj, hideModal) => {
             <View style={{display:"flex",
              flexDirection:"row",
              justifyContent:"space-between",
-             widtht:"30%"}}>
+             widtht:"30%",
+             }}>
                  <Ionicons name="ios-options" size={24} color="white" style={{marginLeft:8}} onPress={()=>setVisibleModal(true)}/>
                     <Text style={{color:"white",fontSize:20,marginLeft:8}}>Filtres</Text>
             </View>

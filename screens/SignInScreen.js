@@ -32,7 +32,7 @@ function SignInScreen(props, token) {
 
       var handleSubmitSignin = async () => {
      
-        const data = await fetch('http://10.2.3.51:3000/sign-in', {
+        const data = await fetch('http://10.2.3.92:3000/sign-in', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `usermailFromFront=${signInusermail}&userpwdFromFront=${signInuserpwd}`
@@ -88,7 +88,7 @@ function SignInScreen(props, token) {
           
             {/* {signIn} */}
 
-            <Input style={{font: 'white'}} onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
+            <Input onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
             <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             

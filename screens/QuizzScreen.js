@@ -46,13 +46,13 @@ function Quizz(props) {
     useEffect (() => {
         async function loadData() {
 
-            var updateHistory = await fetch(`http://10.2.3.51:3000/update-visit-history`, {
+            var updateHistory = await fetch(`http://10.2.3.92:3000/update-visit-history`, {
                 method: 'PUT',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `tourID=${props.tourID}&token=${props.searchToken}`
             });
             
-            const response = await fetch('http://10.2.3.51:3000/get-quizz', {
+            const response = await fetch('http://10.2.3.92:3000/get-quizz', {
                 method: 'POST',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: `tourID=${props.tourID}`
@@ -168,7 +168,7 @@ var conditionnalDisplay = [];
             </View> )
     } else {
         conditionnalDisplay.push (
-            <View style={{ width:"80%", marginTop:"auto", marginBottom:"25%", marginRight:"auto", marginLeft:"auto"}}> 
+            <View style={{ width:"80%", marginTop:20, marginBottom:"25%", marginRight:"auto", marginLeft:"auto"}}> 
     
             <Text style={{marginBottom:"5%", marginTop:"10%", fontSize: 20}}> Question {numero} / {nombreDeQuestions}</Text>
     
