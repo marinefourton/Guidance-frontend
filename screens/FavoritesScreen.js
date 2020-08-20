@@ -10,6 +10,9 @@ function FavoritesScreen (props) {
 
     const [myFavorites, setMyFavorites] = useState([])
     const [isLoaded, setLoaded] = useState(false)
+    const [id,setId] = useState("");
+    const [colored, setColored] = useState('red')
+
 
     useEffect(()=>{
         async function display(){
@@ -36,8 +39,16 @@ function FavoritesScreen (props) {
       }
 
 
-    var displayFavorites = [];
+      const handlePresse = async  () =>{
+        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${myFavorites[i]._id}`)
+         .then(resultat=>resultat.json())
+         .then(res=>res)
+         .catch(err=>console.log(err));
+     } 
 
+
+
+    var displayFavorites = [];
 
   
     for (let i=0; i<myFavorites.length; i++){
@@ -49,7 +60,7 @@ function FavoritesScreen (props) {
             <Card style={{position:"absolute"}} image={{uri:myFavorites[i].picture}}>
             <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
                 <Ionicons name="md-share" size={24} color="#FFFFFF" />
-                <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color="red" />
+                <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color={colored} onPress={()=>{setColored('white'),handlePresse(),props.saveIdLiked(id)}}/>
             </View>         
             <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
                 <View style={{width:"50%"}}>
@@ -69,7 +80,7 @@ function FavoritesScreen (props) {
                         <Text style={{ fontSize: 13 }}> Groupes </Text>
                     </View>    
                     <View style={{display:"flex",alignItems:"center", margin:2}}>
-                        <Ionicons name="md-play" size={24} color="#57508C" />
+                        <Ionicons name="md-play" size={24} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"), props.searchIdMonument(myFavorites[i]._id)}} />
                         <Text style={{ fontSize: 13 }}> Visiter </Text>
                     </View> 
                 </View>
@@ -123,6 +134,21 @@ function FavoritesScreen (props) {
     )
 }
 
+
+function MapDispatchToProps(dispatch){
+    return {
+      searchIdMonument: function(argument){
+        dispatch({type: 'selectVisit', idMonument: argument})
+      },
+      saveIdLiked: function(id){
+        dispatch({type: "savedLike", idLiked:id})
+    }
+
+      }
+  
+  }
+
+
 function mapStateToProps(state){
     return {
       searchToken: state.token
@@ -131,5 +157,5 @@ function mapStateToProps(state){
   
   export default connect(
     mapStateToProps,
-    null
+    MapDispatchToProps
   )(FavoritesScreen)

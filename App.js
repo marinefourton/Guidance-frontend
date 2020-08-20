@@ -34,11 +34,12 @@ import token from './reducers/token';
 import score from './reducers/score';
 import typeVisit from './reducers/typeVisite';
 import idMonument from './reducers/idMonument';
+import saveId from "../Guidance-Frontend/reducers/saveId"
 
 
 
-const store = createStore(combineReducers({token, score, typeVisit, idMonument}));
-// console.log(store.getState(), 'STORE INSIDE')
+const store = createStore(combineReducers({token, score, typeVisit, idMonument,saveId}));
+ console.log(store.getState(), 'STORE INSIDE')
 
 
 

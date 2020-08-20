@@ -12,13 +12,11 @@ import  { Ionicons } from "react-native-vector-icons";
     const [idArray,setIdArray] = ([]);
 
 
-    console.log(props)
+    // console.log(props)
 
   var saveIdMonument = props.nameId;
 
   // console.log(props.nameId,"voilaaaaaa")
-
-    var saveIdMonument = props.tour
 
    var colored ;
          !color? colored ="white": colored ="red";     
@@ -28,21 +26,21 @@ import  { Ionicons } from "react-native-vector-icons";
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err));
-
-       
-     
     } 
   
-  var redirectToGoogleMap = (lng, lat) => {
-    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-    const latLng = `${lat},${lng}`;
-    const label = 'Custom Label';
-    const url = Platform.select({
-      ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`
-    });
-    Linking.openURL(url); 
-  }
+    var redirectToGoogleMap = (lng, lat) => {
+      const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+      const latLng = `${lat},${lng}`;
+      const label = 'Custom Label';
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      Linking.openURL(url); 
+    }
+
+
+
 
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.tour.picture}}>
@@ -66,7 +64,7 @@ return (
                 <Text style={{ fontSize: 13 }}> Groupes </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
+                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => { props.navigation.navigate("Visit") , props.searchIdMonument(props.nameId)}} />
                 <Text style={{ fontSize: 13 }}> Visiter </Text>
             </View> 
         </View>

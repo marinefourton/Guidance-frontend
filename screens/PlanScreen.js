@@ -225,11 +225,18 @@ function PlanScreen (props) {
                     <View>
                         <Text style={{marginBottom:"2%", marginTop:'3%', fontSize:20, textAlign:'center'}}>{title}</Text>
                         <Text style={{marginBottom:"3%", fontSize:15, textAlign:"center"}}>Visite Guidée {props.typeVisit} </Text>
+                        <Button 
+                            buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+                            titleStyle={{color:"#57508C"}}
+                            title="Accédez au quizz"
+                            onPress={() => props.navigation.navigate("Quizz")}
+                            color='#4D3D84'
+                        />
                         <Image source={{uri:image}} style={{height:400, width:350, marginLeft: 1}}/>
 
                         {position}
                         
-                        <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"2%", color: "#FFFFFF", borderRadius: '100%'}}/>
+                        {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"2%", color: "#FFFFFF", borderRadius: '100%'}}/> */}
 
                      </View>
                 

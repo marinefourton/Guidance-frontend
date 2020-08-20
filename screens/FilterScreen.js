@@ -42,6 +42,7 @@ export default function Filter(props) {
 
   // Reverse Data Flow si filtres appliqués
   var sendToMap = () => {
+    
     props.userFilterParent({
       categories : tabCheckboxes,
       price: priceMax,
@@ -51,24 +52,19 @@ export default function Filter(props) {
 
     // Reverse Data Flow si modal fermée sans filtres appliqués
   var closeModal = () => {
-    props.userFilterParent({
-      categories : [{state: true,
-          signification: "Monuments"},
-         {state: true,
-          signification: "Musées"},
-        {state: true,
-          signification: "Parcs et Jardins"}
-        ],
-      price: 50,
-      showClosed: false
-    }, false)
+    props.userFilterParent(null, false)
   }
 
   return (
+
+  
+
     <View style={styles.container}>
 
+    
       {/* FILTER MODAL */}
       <Modal 
+      key={1}
     animationType="slide"
     visible={props.visible}
     transparent={true}
@@ -83,9 +79,9 @@ export default function Filter(props) {
             placement="center"
             leftComponent={<Text  
                               style={{ color: '#ffffff', width:100 }}
-                              onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false); setPriceMax(50); setIsSwitched(false)}}
+                              onPress={() => {setIsMonumentChecked(true); setIsMuseumChecked(true); setIsParkChecked(true); setPriceMax(50); setIsSwitched(false)}}
                               >
-                            Tout effacer
+                            Reinitialiser
                           </Text>}
             centerComponent={{ text: 'FILTRES', style: { color: '#fff' } }}
             rightComponent={<Ionicons 
@@ -107,7 +103,7 @@ export default function Filter(props) {
             subtitle={categorySubtitle}
             bottomDivider
             chevron
-            onPress={() => setIsVisibleCategoryModal(true)}
+            onPress={() => {closeModal() ,setIsVisibleCategoryModal(true)}}
             />
 {/* 
           <ListItem
@@ -123,7 +119,7 @@ export default function Filter(props) {
             subtitle={`Prix max : ${priceMax}€ `}
             bottomDivider
             chevron
-            onPress={() => setIsVisiblePriceModal(true)}
+            onPress={() => {closeModal(); setIsVisiblePriceModal(true)}}
             />
 
           <ListItem
@@ -149,12 +145,12 @@ export default function Filter(props) {
   </Modal>
 
   {/* CATEGORIES MODAL */}
-  <View>
-  <Modal 
-    animationType="slide"
-    visible={isVisibleCategoryModal}>
-          <View style={styles.ViewInModal2}>
+  
 
+<Modal 
+animationType="slide"
+visible={isVisibleCategoryModal}>
+  
           <Header
             containerStyle={{
               marginTop:-20,
@@ -165,9 +161,9 @@ export default function Filter(props) {
             centerComponent={{ text: 'CATEGORIES', style: { color: '#fff' } }}
             leftComponent={<Text  
               style={{ color: '#fff',  width:100  }}
-              onPress={() => {setIsMonumentChecked(false); setIsMuseumChecked(false); setIsParkChecked(false)}}
+              onPress={() => {setIsMonumentChecked(true); setIsMuseumChecked(true); setIsParkChecked(true)}}
               >
-            Tout effacer
+            Reinitialiser
           </Text>}
           />
 
@@ -194,18 +190,19 @@ export default function Filter(props) {
               buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
               titleStyle={{color:"#57508C"}}
               title="Appliquer"
-              onPress={() => setIsVisibleCategoryModal(false)}
+              onPress={() =>{ props.displayModal(true); setIsVisibleCategoryModal(false) } }
               color='#4D3D84'
                />
-          </View>
+ 
   </Modal>
-  </View>
+  {/* <View> */}
+  
+  {/* </View> */}
 
     {/* PRICE MODAL */}
     <Modal 
     animationType="slide"
     visible={isVisiblePriceModal}>
-          <View style={styles.ViewInModal2}>
 
             <Header
             containerStyle={{
@@ -247,11 +244,10 @@ export default function Filter(props) {
               buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
               titleStyle={{color:"#57508C"}}
               title="Appliquer"
-              onPress={() => setIsVisiblePriceModal(false)}
+              onPress={() => {props.displayModal(true); setIsVisiblePriceModal(false)}}
               color='#4D3D84'
                />
-          </View>
-  </Modal>
+    </Modal>
 
 
     </View>
@@ -274,6 +270,6 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    overflow: 'hidden',
+    overflow: "hidden"
   }
 });

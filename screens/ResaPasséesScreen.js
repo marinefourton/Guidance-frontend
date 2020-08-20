@@ -124,16 +124,16 @@ function ResaPasséesScreen(props) {
           </ButtonGroup> */}
 
           <Text>{pasDeVisite}</Text>
-          <ScrollView>
+          <ScrollView style={{marginBottom:50}}>
           {cardList}
           </ScrollView>
 
             
-            <Button title="Go to badges" onPress={() => props.navigation.navigate("MyBadges")}/>
+            {/* <Button title="Go to badges" onPress={() => props.navigation.navigate("MyBadges")}/>
             <Button title="Go to visit" onPress={() => props.navigation.navigate("Visit")}/>
             <Button title="Go to quizz" onPress={() => props.navigation.navigate("Quizz")}/>
             <Button title="Go to PlanScreen" onPress={() => props.navigation.navigate("Plan")}/>
-            <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.47:3000/save-monument")}/>
+            <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.92:3000/save-monument")}/> */}
 
         <FooterApp navigation={props.navigation}/>
         </View>
@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
     },
     switch: {
       marginTop:30,
-      marginBottom:30
     }
   });
 
