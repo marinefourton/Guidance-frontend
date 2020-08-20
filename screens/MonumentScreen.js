@@ -17,7 +17,6 @@ function MonumentScreen (props) {
             
             var rawResponse = await fetch (`http://10.2.3.92:3000/search-infos-monument?idMonument=${props.searchMonument}`);
             var response = await rawResponse.json();
-            // console.log('--------------',response, '--------------MERCI')
             setInfosMonument(response);
         } display()
         

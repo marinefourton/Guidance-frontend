@@ -90,7 +90,8 @@ function PlanScreen (props) {
         console.log('-----', title)
     },[])
 
-    async function runAudio(arg) {       
+    async function runAudio(arg) {
+       
          soundObject.setOnPlaybackStatusUpdate((test)=>{setAudioTime(test.durationMillis), setAudioPosition(test.positionMillis)})  
    
         try {
@@ -144,7 +145,6 @@ function PlanScreen (props) {
             soundObject.loadAsync({uri : sound});
             setInfoModal({title, illustration, sound})
             setModalVisible(true)
-
       };
 
       if(isPlaying === true){

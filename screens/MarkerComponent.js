@@ -7,7 +7,7 @@ import React, { useEffect , useState }from 'react';
 
 export default function MarkerComponent (props){
     const [modalVisible,setModalVisible] = useState(false);
-    console.log(props.tour.location.latitude)
+
 
     return (
         <View>
