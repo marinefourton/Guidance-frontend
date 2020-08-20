@@ -39,12 +39,7 @@ function FavoritesScreen (props) {
       }
 
 
-      const handlePresse = async  () =>{
-        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${myFavorites[i]._id}`)
-         .then(resultat=>resultat.json())
-         .then(res=>res)
-         .catch(err=>console.log(err));
-     } 
+      
 
 
 
@@ -53,6 +48,12 @@ function FavoritesScreen (props) {
   
     for (let i=0; i<myFavorites.length; i++){
 
+        const handlePresse = async  () =>{
+            await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${myFavorites[i]._id}`)
+             .then(resultat=>resultat.json())
+             .then(res=>res)
+             .catch(err=>console.log(err));
+         } 
         // console.log(myFavorites[0].location);
 
         displayFavorites.push(

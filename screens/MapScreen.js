@@ -200,7 +200,7 @@ var userFilter = (obj, hideModal) => {
   if(selectedIndex == 2){
     var displayMapList = (
 
-      <View style={{paddingTop: 85, paddingBottom:200}}>
+      <View style={{paddingTop: 55, paddingBottom:200}}>
   <ScrollView>
       {loader}
      {infoDynamic}
@@ -257,7 +257,7 @@ var userFilter = (obj, hideModal) => {
           
          <View style={{ position:"absolute", marginTop:"45%",  left:"7%", zIndex: 10}}>
           
-          <View>
+          <View style={{marginLeft:7}}>
         <SwitchButton
             onValueChange={(val) => setSelectedIndex(val)}      
             text1 = 'Carte'                 

@@ -88,7 +88,7 @@ function SignInScreen(props, token) {
           
             {/* {signIn} */}
 
-            <Input  onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
+            <Input style={{font: 'white'}} onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
             <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
