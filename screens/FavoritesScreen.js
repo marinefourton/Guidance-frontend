@@ -17,7 +17,7 @@ function FavoritesScreen (props) {
     useEffect(()=>{
         async function display(){
 
-            var rawResponse = await fetch (`http://10.2.3.92:3000/search-favorites?token=${props.searchToken}`);
+            var rawResponse = await fetch (`http://10.2.3.51:3000/search-favorites?token=${props.searchToken}`);
             var response = await rawResponse.json();
             var tempResponse = response
             setMyFavorites(tempResponse);

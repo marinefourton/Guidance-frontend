@@ -22,7 +22,7 @@ import  { Ionicons } from "react-native-vector-icons";
          !color? colored ="white": colored ="red";     
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err));
