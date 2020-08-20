@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
@@ -33,32 +33,36 @@ function MonumentScreen (props) {
       if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "interieur"){
           displayType.push(
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
-            <Card image={{uri:infosMonument.guide[0].urlcouv}}>     
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
-            </Card>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center"}}>
+            <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
+            <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Intérieur</Text>               </ImageBackground>
             </TouchableOpacity>
           );
       }else if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "exterieur"){
           displayType.push(
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
-            <Card image={{uri:infosMonument.guide[0].urlcouv}}>       
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
-            </Card>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:455}}>
+            <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
+            <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Extérieur</Text>   
+            </ImageBackground>
             </TouchableOpacity>
           );
       }
       else if(infosMonument.guide.length === 2){
           displayType.push(
-            <View>
+            <View style={{height:'100%'}}>
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
-            <Card image={{uri:infosMonument.guide[0].urlcouv}}>       
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Extérieur</Text>   
-            </Card>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:220, marginBottom:15}}>
+              <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
+              <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Extérieur</Text>   
+            </ImageBackground>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
-            <Card image={{uri:infosMonument.guide[1].urlcouv}}>     
-                <Text style={{fontWeight:"bold", fontSize:18, textTransform:"uppercase", textAlign:"center"}}>Intérieur</Text>   
-            </Card>
+            <ImageBackground source={{uri:infosMonument.guide[1].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:220}}>
+            <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
+            <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Intérieur</Text>   
+           
+           </ImageBackground>
             </TouchableOpacity>
             </View>
           );
@@ -71,7 +75,7 @@ function MonumentScreen (props) {
             
             <HeaderApp navigation={props.navigation}/>
 
-            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10, marginBottom:5 }} onPress={() => props.navigation.navigate("Map")}>
                 <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
                 <Text style={{marginLeft:5}}>Accueil</Text>
             </TouchableOpacity>

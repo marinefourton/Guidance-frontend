@@ -49,6 +49,7 @@ function MapScreen (props) {
     const [picture, setPicture] = useState("");
     const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
+    const [listIdFavorites,setListIdFavorites] = useState([]);
 
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
@@ -104,7 +105,7 @@ if(tourList.length == 0) {
 
 var infoDynamic = tourList.map((el, i)=>{
 
-   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id}/>
+   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id} />
 })
 
 var userFilter = (obj, hideModal) => {
@@ -127,7 +128,7 @@ var userFilter = (obj, hideModal) => {
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
-        setMonument(`${price}€ ∼${duration} `)
+        setMonument(`${price}€ ∼${duration} `) 
         setId(id)
         setPicture(picture)
        }
@@ -173,7 +174,7 @@ var userFilter = (obj, hideModal) => {
  
 
       var colored 
-      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
   
   const handlePresse = async  () =>{
@@ -181,7 +182,9 @@ var userFilter = (obj, hideModal) => {
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
+      setListIdFavorites("valeur qui remonte de la route dans listFavId")
   } 
+
 
      
 
@@ -308,7 +311,7 @@ var userFilter = (obj, hideModal) => {
                                 </View>    
 
                                 <View style={{display:"flex",alignItems:"center"}}>
-                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}} />
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}}/>
                                     <Text style={{ fontSize: 15}}> Visiter </Text>
                                 </View> 
                             </View>                       
@@ -359,8 +362,13 @@ const styles = StyleSheet.create({
       return {
         searchIdMonument: function(argument){
           dispatch({type: 'selectVisit', idMonument: argument})
-        }
+        },
+        saveIdLiked: function(id){
+          dispatch({type: "savedLike", idLiked:id})
       }
+
+        }
+    
     }
 
     function MapStateToProps(state){

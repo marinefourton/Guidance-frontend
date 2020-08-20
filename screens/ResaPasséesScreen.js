@@ -124,7 +124,7 @@ function ResaPasséesScreen(props) {
           </ButtonGroup> */}
 
           <Text>{pasDeVisite}</Text>
-          <ScrollView>
+          <ScrollView style={{marginBottom:50}}>
           {cardList}
           </ScrollView>
 
@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
     },
     switch: {
       marginTop:30,
-      marginBottom:10
     }
   });
 
