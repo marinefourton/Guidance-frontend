@@ -46,10 +46,10 @@ function MapScreen (props) {
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
     const [picture, setPicture] = useState("");
 
-
     const [infos,setInfos] = useState([]);
     const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
+    const [listIdFavorites,setListIdFavorites] = useState([]);
 
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
@@ -181,7 +181,7 @@ var userFilter = (obj, hideModal) => {
  
 
       var colored 
-      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
   
   const handlePresse = async  () =>{
@@ -189,7 +189,9 @@ var userFilter = (obj, hideModal) => {
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
+      setListIdFavorites("valeur qui remonte de la route dans listFavId")
   } 
+
 
      
 
@@ -367,8 +369,13 @@ const styles = StyleSheet.create({
       return {
         searchIdMonument: function(argument){
           dispatch({type: 'selectVisit', idMonument: argument})
-        }
+        },
+        saveIdLiked: function(id){
+          dispatch({type: "savedLike", idLiked:id})
       }
+
+        }
+    
     }
 
     function MapStateToProps(state){
