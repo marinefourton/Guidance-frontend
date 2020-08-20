@@ -21,18 +21,20 @@ function MapScreen (props) {
     const [latitude,setLatitude] = useState(48.866667);
     const [longitude,setLongitude] = useState(2.333333);
     const [inputValue,setInputValue] = useState("")
-    const [selectedIndex,setSelectedIndex] = useState(1)
-    const [filters, setFilters] = useState({
-        categories : [{state: true,
-            signification: "Monuments"},
-           {state: true,
-            signification: "Musées"},
-          {state: true,
-            signification: "Parcs et Jardins"}
-          ],
-        price: 50,
-        showClosed: false
-      });
+
+    const [selectedIndex,setSelectedIndex] = useState(1);
+    const defaultFilterVal  = {
+      categories : [{state: true,
+          signification: "Monuments"},
+         {state: true,
+          signification: "Musées"},
+        {state: true,
+          signification: "Parcs et Jardins"}
+        ],
+      price: 50,
+      showClosed: false
+    }
+    const [filters, setFilters] = useState(defaultFilterVal);
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
@@ -45,18 +47,20 @@ function MapScreen (props) {
     const [latitudeItineraire,setLatitudeItineraire] = useState(0)
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
     const [picture, setPicture] = useState("");
-
-
-    const [infos,setInfos] = useState([]);
     const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
 
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
         setVisibleModal(hideModal);
+        obj = !obj ? {...defaultFilterVal} : {...obj}
         setFilters(obj)
     }
 
+    
+    var displayModal = (val) => {
+      setVisibleModal(val);
+  }
 // USEEFFECT PERMISSION LOCALISATION
     useEffect(() => {
         const ask = async ()=>{
@@ -75,7 +79,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -87,22 +91,10 @@ function MapScreen (props) {
       getToursWithFilters();
       }, [filters, inputValue])
 
-  // version liste
-
-  useEffect(()=>{
-    const info = async ()=>{
-      await fetch("http://10.2.3.92:3000/info-tour")
-        .then((res)=>res.json())
-        .then((infoTour)=>setInfos(infoTour))
-        .catch((err)=>console.log(err)) 
-    }
-    info()
-},[])
-
 
 var loader = []
 
-if(infos.length == 0) {
+if(tourList.length == 0) {
     loader.push(
         <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
             <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
@@ -185,7 +177,7 @@ var userFilter = (obj, hideModal) => {
 
   
   const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));
@@ -323,7 +315,7 @@ var userFilter = (obj, hideModal) => {
                       </View>
                   </Modal>
 
-        <Filter visible={visibleModal} userFilterParent={userFilter}/>
+        <Filter visible={visibleModal} userFilterParent={userFilter} displayModal={displayModal}/>
         
         </View>
     )

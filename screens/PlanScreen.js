@@ -40,7 +40,7 @@ function PlanScreen (props) {
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch("http:/10.2.3.92:3000/points-tour")
+            var allDataBack = await fetch("http://10.2.3.47:3000/points-tour")
             var allData = await allDataBack.json()
             // console.log('-------------', allData.guide,'Tableau ou pas' )
 
@@ -206,8 +206,6 @@ function PlanScreen (props) {
             <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
                 <HeaderApp navigation={props.navigation}/>
 
-                <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
-
                     <View style={styles.centeredView}>
 
                         <Modal
@@ -261,20 +259,27 @@ function PlanScreen (props) {
 
                 <ScrollView>
                     <View>
+                        
                         <Text style={{marginLeft:"21%", marginBottom:"2%", fontSize:20}}>Eglise de Saint-Eustache</Text>
-                        <Text style={{marginLeft:"2%", marginBottom:"7%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
+                        <Text style={{marginLeft:"2%", marginBottom:"1%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
+                        <Button 
+                            buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+                            titleStyle={{color:"#57508C"}}
+                            title="Accédez au quizz"
+                            onPress={() => props.navigation.navigate("Quizz")}
+                            color='#4D3D84'
+                        />
+                        {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/> */}
                         <Image source={{uri:image}} style={{height:500, width:350, marginLeft: 1}}/>
 
                         {position}
                         
-
-                        <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
-
+                        {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/> */}
+                        <Text style={{marginLeft:"21%", marginBottom:"6%", fontSize:20}}></Text>
                      </View>
                 
                 </ScrollView>     
-
-      
+               
                 <FooterApp navigation={props.navigation}/>
             </View>
             
