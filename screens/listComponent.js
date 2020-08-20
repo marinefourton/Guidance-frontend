@@ -12,7 +12,6 @@ import  { Ionicons } from "react-native-vector-icons";
     const [idArray,setIdArray] = ([]);
 
 
-    console.log(props)
 
   var saveIdMonument = props.nameId;
 
@@ -20,14 +19,30 @@ import  { Ionicons } from "react-native-vector-icons";
 
     var saveIdMonument = props.tour
 
-   var colored ;
-         !color? colored ="white": colored ="red";     
+
+    console.log(props.arrayId,"prop")
+    var colored = "black";
+    var nom="md-heart-empty"
+
+    //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+
+var colored = "black";
+var nom="md-heart-empty"
+
+if(props.vrai){
+  colored = "red" 
+  nom = "md-heart"
+} 
+
+
+
 
   const handlePress = async  () =>{
-        await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
+        await  fetch(`http:///10.2.3.24:3000/send-favorites?token=${props.searchToken}&id=${props.nameId}`)
          .then(resultat=>resultat.json())
          .then(res=>res)
          .catch(err=>console.log(err));
+   
     } 
   
     var redirectToGoogleMap = (lng, lat) => {
@@ -44,12 +59,17 @@ import  { Ionicons } from "react-native-vector-icons";
 
 
 
+    //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
+
+
+
 return (
     <Card   style={{position:"absolute"}} image={{uri:props.tour.picture}}>
     <View style={{display:"flex", flexDirection:"row", position:"relative", bottom:150, left:260}}>
         <Ionicons name="md-share" size={24} color="#FFFFFF" />
-        <Ionicons style={{marginLeft:10}} name="md-heart" size={24} color={colored}   onPress={()=>{setColor(!color),handlePress()}}/>
-    </View>        
+        <Ionicons style={{marginLeft:10}} name={nom} size={24} color={colored} onPress={()=>{handlePress()}}/>
+
+   </View>        
     <View style={{display:"flex", flexDirection:"row", marginTop:-25}}>
         <View style={{width:"50%"}}>
             <Text style={{fontWeight:"bold", fontSize:18}}>{props.tour.title.substr(0,1).toUpperCase()+props.tour.title.substr(1)}</Text>
@@ -87,7 +107,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
     return {
-      searchToken: state.token
+      searchToken: state.token,
+      searchId:state.current
     }
   }
   

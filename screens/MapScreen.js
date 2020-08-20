@@ -46,10 +46,9 @@ function MapScreen (props) {
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
     const [picture, setPicture] = useState("");
 
-
-    const [infos,setInfos] = useState([]);
     const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
+    const [listIdFavorites,setListIdFavorites] = useState([]);
 
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
@@ -75,7 +74,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.24:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -91,9 +90,9 @@ function MapScreen (props) {
 
   useEffect(()=>{
     const info = async ()=>{
-      await fetch("http://10.2.3.92:3000/info-tour")
+      await fetch("http://10.2.3.24:3000/info-tour")
         .then((res)=>res.json())
-        .then((infoTour)=>setInfos(infoTour))
+        .then((infoTour)=>setTourList(infoTour))
         .catch((err)=>console.log(err)) 
     }
     info()
@@ -102,7 +101,7 @@ function MapScreen (props) {
 
 var loader = []
 
-if(infos.length == 0) {
+if(tourList.length == 0) {
     loader.push(
         <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
             <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
@@ -110,9 +109,21 @@ if(infos.length == 0) {
     )
 }
 
-var infoDynamic = tourList.map((el, i)=>{
 
-   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id}/>
+const handlePresse = async  () =>{
+  await  fetch(`http://10.2.3.24:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+   .then(resultat=>resultat.json())
+   .then(res=>setListIdFavorites(res.listFavId))
+   .catch(err=>console.log(err));
+} 
+
+
+var infoDynamic = tourList.map((el, i)=>{
+  var exist = false 
+  if(listIdFavorites.find(e => e == el._id)){
+    var exist = true
+  } 
+   return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id} arrayId = {listIdFavorites} leId = {id} vrai={exist} />
 })
 
 var userFilter = (obj, hideModal) => {
@@ -142,8 +153,7 @@ var userFilter = (obj, hideModal) => {
 
        //console.log(picture);
 
-       var colored 
-       !color? colored ="white": colored ="red";     
+
 
  /*    const handlePresse = async  () =>{
       await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
@@ -179,27 +189,19 @@ var userFilter = (obj, hideModal) => {
 
 
 
-      var colored 
-      !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse()}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
-  
-/*       const handlePresse = async  () =>{
-        await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-         .then(resultat=>resultat.json())
-         .then(res=>console.log(res))
-         .catch(err=>console.log(err));
-     }  */
- 
+      var colored = "black";
+      var nom="md-heart-empty"
 
+      //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
   
-  const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-      .then(resultat=>resultat.json())
-      .then(res=>res)
-      .catch(err=>console.log(err));
-  } 
 
-     
+if(listIdFavorites.find(el => el === id)){
+    colored = "red" 
+    nom = "md-heart"
+} 
+
+
 
     // switch button
   
@@ -308,7 +310,7 @@ var userFilter = (obj, hideModal) => {
                           </View>
 
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
-                                               {colored}
+                                  <Ionicons  name={nom} size={24} color={colored} onPress={()=>{handlePresse(),props.saveIdLiked(id)}}/>
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
                                   </View> 
                           <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
@@ -375,8 +377,13 @@ const styles = StyleSheet.create({
       return {
         searchIdMonument: function(argument){
           dispatch({type: 'selectVisit', idMonument: argument})
-        }
+        },
+        saveIdLiked: function(id){
+          dispatch({type: "savedLike", idLiked:id})
       }
+
+        }
+    
     }
 
     function MapStateToProps(state){

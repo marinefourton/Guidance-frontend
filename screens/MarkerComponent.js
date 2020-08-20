@@ -7,12 +7,12 @@ import React, { useEffect , useState }from 'react';
 
 export default function MarkerComponent (props){
     const [modalVisible,setModalVisible] = useState(false);
-    console.log(props.tour)
+
 
     return (
         <View>
 <Marker 
-key={props.index}
+key={props.tour.location.latitude+"-"+props.tour.location.longitude}
 pinColor={props.color}
 coordinate={{
 latitude:props.tour.location.latitude,

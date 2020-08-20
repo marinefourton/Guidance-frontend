@@ -94,7 +94,6 @@ function PlanScreen (props) {
     },[])
 
     async function runAudio(arg) {
-        console.log('shgduygfiudshfuihdsfuhdiofdoifdsoihfdhfduish==================',arg);
        
          soundObject.setOnPlaybackStatusUpdate((test)=>{setAudioTime(test.durationMillis), setAudioPosition(test.positionMillis)})  
    
@@ -111,7 +110,6 @@ function PlanScreen (props) {
         // soundObject.stopAsync();
 
         if(!arg){
-            console.log('hhgvdskjgcsbubf=======usjgvfdsjgb')
              await soundObject.pauseAsync(); 
           
         } else {
@@ -144,7 +142,6 @@ function PlanScreen (props) {
             setInfoModal({title, illustration, sound})
             
             setModalVisible(true)
-            console.log(infoModal, 'WHYNOT')
       };
            
         // if(props.typeVisit == 'interieur'){
