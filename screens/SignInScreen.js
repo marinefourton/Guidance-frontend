@@ -79,7 +79,7 @@ function SignInScreen(props, token) {
 
           
             
-          <KeyboardAvoidingView style={{width: "80%"}} behavior={"position"} enabled>
+          <View style={{width: "80%"}} behavior={"position"} enabled>
 
           <Image source={require('../assets/logo.png')} style={{width:100, height: 120, marginLeft:"32%"}}/>
             
@@ -88,16 +88,16 @@ function SignInScreen(props, token) {
           
             {/* {signIn} */}
 
-            <Input onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
+            <Input inputStyle={{color:"white"}} onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
-            <Input secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
+            <Input inputStyle={{color:"white"}} secureTextEntry={true} onChangeText={(e) => setSignInuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignin}
 
-            <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"60%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Connexion" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignin(token)}/>
+            <Button buttonStyle={{ borderRadius: 20, backgroundColor: '#ffffff', width:"60%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Connexion" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignin(token)}/>
             {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
-            </KeyboardAvoidingView>
+            </View>
           
 
             
