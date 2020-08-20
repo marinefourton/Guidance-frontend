@@ -68,7 +68,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.51:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -105,7 +105,7 @@ function MapScreen (props) {
        !color? colored ="white": colored ="red";     
    
    const handlePress = async  () =>{
-      await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+      await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${id}`)
        .then(resultat=>resultat.json())
        .then(res=>res)
        .catch(err=>console.log(err));
@@ -134,7 +134,7 @@ function MapScreen (props) {
       !color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
   
   const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.47:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+     await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${id}`)
       .then(resultat=>resultat.json())
       .then(res=>res)
       .catch(err=>console.log(err));

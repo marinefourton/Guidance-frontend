@@ -36,7 +36,7 @@ export default function List ({navigation}){
 
     // useEffect(()=>{
     //     const info = async ()=>{
-    //       await fetch("http://10.2.3.6:3000/info-tour")
+    //       await fetch("http://10.2.3.51:3000/info-tour")
     //         .then((res)=>res.json())
     //         .then((infoTour)=>setInfos(infoTour))
     //         .catch((err)=>console.log(err)) 
@@ -45,7 +45,7 @@ export default function List ({navigation}){
     // },[])
     // useEffect(()=>{
     //     const info = async ()=>{
-    //       await fetch("http://10.2.3.92:3000/info-tour")
+    //       await fetch("http://10.2.3.51:3000/info-tour")
     //         .then((res)=>res.json())
     //         .then((infoTour)=>setInfos(infoTour))
     //         .catch((err)=>console.log(err)) 
@@ -78,7 +78,7 @@ export default function List ({navigation}){
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.47:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.51:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`

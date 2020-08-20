@@ -6,6 +6,7 @@ import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
 import {connect} from "react-redux";
 
+
 function MonumentScreen (props) {
 
     const [infosMonument, setInfosMonument]=useState({});
@@ -14,9 +15,9 @@ function MonumentScreen (props) {
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch (`http://10.2.3.47:3000/search-infos-monument?idMonument=${props.searchMonument}`);
+            var rawResponse = await fetch (`http://10.2.3.51:3000/search-infos-monument?idMonument=${props.searchMonument}`);
             var response = await rawResponse.json();
-            console.log('--------------',response, '--------------MERCI')
+            // console.log('--------------',response, '--------------MERCI')
             setInfosMonument(response);
         } display()
         
