@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Modal, Switch, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Modal, Switch, TouchableOpacity, Image } from 'react-native';
 import { Button, Card } from 'react-native-elements'
 import {connect} from 'react-redux';
 import FooterApp from '../screens/footer';
@@ -12,6 +12,7 @@ function Quizz(props) {
     const[indexQuestion, setIndexQuestion] = useState(0);
     const[quizz, setQuizz] = useState([])
     const[score, setScore] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     let nombreDeQuestions=quizz.length;
     let bouton;
@@ -23,13 +24,13 @@ function Quizz(props) {
     //     console.log("je passe dans le useEffect")
     //     props.resetScore();
     //     let updateVisitHistory = async () => {
-    //         const response = await fetch(`http://10.2.3.47:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
+    //         const response = await fetch(`http://10.2.3.51:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
     //             method: 'PUT'
     //           });
     //     }
     //     updateVisitHistory();
     //     let getQuizz = async () => {
-    //         const response = await fetch('http://10.2.3.47:3000/get-quizz', {
+    //         const response = await fetch('http://10.2.3.51:3000/get-quizz', {
     //             method: 'POST',
     //             headers: {'Content-Type':'application/x-www-form-urlencoded'},
     //             body: `tourID=${props.tourID}`
@@ -57,9 +58,11 @@ function Quizz(props) {
                 body: `tourID=${props.tourID}`
             })
             const jsonResponse = await response.json()
-            setQuizz(jsonResponse)
+            setQuizz(jsonResponse);
+            setIsLoaded(true)
         }
         loadData()
+        props.resetScore();
 
     }, [])
 
@@ -154,16 +157,17 @@ if (quizz && quizz[indexQuestion]){
 
     let numero = indexQuestion+1;
 
+// affichage loader
 
-    return(
-        <View style={styles.container}>
-        <HeaderApp navigation={props.navigation}/>
+var conditionnalDisplay = [];
     
-            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
-                <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
-                <Text style={{marginLeft:5}}>Accueil</Text>
-            </TouchableOpacity>
-        
+    if(isLoaded == false) {
+        conditionnalDisplay.push (
+            <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Image source={require('../assets/load4.gif')} style={{marginTop:"40%"}}></Image>
+            </View> )
+    } else {
+        conditionnalDisplay.push (
             <View style={{ width:"80%", marginTop:"auto", marginBottom:"25%", marginRight:"auto", marginLeft:"auto"}}> 
     
             <Text style={{marginBottom:"5%", marginTop:"10%", fontSize: 20}}> Question {numero} / {nombreDeQuestions}</Text>
@@ -174,6 +178,21 @@ if (quizz && quizz[indexQuestion]){
             {bouton}
     
             </View>
+        )
+    }
+
+
+    return(
+        <View style={styles.container}>
+        <HeaderApp navigation={props.navigation}/>
+    
+            <TouchableOpacity style={{display:"flex", flexDirection:"row", marginLeft:10, paddingTop:10 }} onPress={() => props.navigation.navigate("Map")}>
+                <Ionicons name="ios-arrow-back" size={24} color="#57508C"/>
+                <Text style={{marginLeft:5}}>Accueil</Text>
+            </TouchableOpacity>
+        
+        {conditionnalDisplay}
+
             <FooterApp navigation={props.navigation}/>
     
         </View>);

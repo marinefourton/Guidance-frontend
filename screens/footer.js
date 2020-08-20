@@ -20,18 +20,18 @@ export default function FooterApp({navigation}) {
 
 
   if(navigation.state.routeName == "Map" && activeMap == false) {
-    setColorMapText({ color: "#32d2db", fontSize: 11 })
-    setColorMapIcon("#32d2db")
+    setColorMapText({ color: "#D9C8F7", fontSize: 11 })
+    setColorMapIcon("#D9C8F7")
     setActiveMap(true)
 
   }else if(navigation.state.routeName == "Favorites" && activeFav == false){
-    setColorFavText({ color: "#32d2db", fontSize: 11 })
-    setColorFavIcon("#32d2db")
+    setColorFavText({ color: "#D9C8F7", fontSize: 11 })
+    setColorFavIcon("#D9C8F7")
     setActiveFav(true)
 
   }else if(navigation.state.routeName == "Reserve" && activeRes == false){
-    setColorResText({ color: "#32d2db", fontSize: 11 })
-    setColorResIcon("#32d2db")
+    setColorResText({ color: "#D9C8F7", fontSize: 11 })
+    setColorResIcon("#D9C8F7")
     setActiveRes(true)
   }
 

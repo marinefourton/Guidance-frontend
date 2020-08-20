@@ -21,18 +21,20 @@ function MapScreen (props) {
     const [latitude,setLatitude] = useState(48.866667);
     const [longitude,setLongitude] = useState(2.333333);
     const [inputValue,setInputValue] = useState("")
-    const [selectedIndex,setSelectedIndex] = useState(1)
-    const [filters, setFilters] = useState({
-        categories : [{state: true,
-            signification: "Monuments"},
-           {state: true,
-            signification: "Musées"},
-          {state: true,
-            signification: "Parcs et Jardins"}
-          ],
-        price: 50,
-        showClosed: false
-      });
+
+    const [selectedIndex,setSelectedIndex] = useState(1);
+    const defaultFilterVal  = {
+      categories : [{state: true,
+          signification: "Monuments"},
+         {state: true,
+          signification: "Musées"},
+        {state: true,
+          signification: "Parcs et Jardins"}
+        ],
+      price: 50,
+      showClosed: false
+    }
+    const [filters, setFilters] = useState(defaultFilterVal);
     const [visibleModal, setVisibleModal]= useState(false);
     const [tourList, setTourList] = useState([]);
     const [modalVisible,setModalVisible] = useState(false);
@@ -45,7 +47,6 @@ function MapScreen (props) {
     const [latitudeItineraire,setLatitudeItineraire] = useState(0)
     const [longitudeItineraire,setlongitudeItineraire] = useState(0)
     const [picture, setPicture] = useState("");
-
     const [idArray,setIdArray] = ([]);
     const buttons = ["Carte","Liste"]
     const [listIdFavorites,setListIdFavorites] = useState([]);
@@ -53,9 +54,14 @@ function MapScreen (props) {
 // Fonction reverseDataFlow
     var userFilter = (obj, hideModal) => {
         setVisibleModal(hideModal);
+        obj = !obj ? {...defaultFilterVal} : {...obj}
         setFilters(obj)
     }
 
+    
+    var displayModal = (val) => {
+      setVisibleModal(val);
+  }
 // USEEFFECT PERMISSION LOCALISATION
     useEffect(() => {
         const ask = async ()=>{
@@ -85,18 +91,6 @@ function MapScreen (props) {
       }
       getToursWithFilters();
       }, [filters, inputValue])
-
-  // version liste
-
-  useEffect(()=>{
-    const info = async ()=>{
-      await fetch("http://10.2.3.24:3000/info-tour")
-        .then((res)=>res.json())
-        .then((infoTour)=>setTourList(infoTour))
-        .catch((err)=>console.log(err)) 
-    }
-    info()
-},[])
 
 
 var loader = []
@@ -146,7 +140,7 @@ var userFilter = (obj, hideModal) => {
         setName(title.substr(0,1).toUpperCase()+title.substr(1))
         setHours(hours)
         setDuration(duration)
-        setMonument(`${price}€ ∼${duration} `)
+        setMonument(`${price}€ ∼${duration} `) 
         setId(id)
         setPicture(picture)
        }
@@ -195,11 +189,13 @@ var userFilter = (obj, hideModal) => {
       //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
   
-
-if(listIdFavorites.find(el => el === id)){
-    colored = "red" 
-    nom = "md-heart"
-} 
+  const handlePresse = async  () =>{
+     await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+      .then(resultat=>resultat.json())
+      .then(res=>res)
+      .catch(err=>console.log(err));
+      setListIdFavorites("valeur qui remonte de la route dans listFavId")
+  } 
 
 
 
@@ -326,14 +322,14 @@ if(listIdFavorites.find(el => el === id)){
                                 </View>    
 
                                 <View style={{display:"flex",alignItems:"center"}}>
-                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}} />
+                                    <Ionicons name="md-play" size={40} color="#57508C" onPress={()=>{props.navigation.navigate("Visit"),props.searchIdMonument(id),setModalVisible(false)}}/>
                                     <Text style={{ fontSize: 15}}> Visiter </Text>
                                 </View> 
                             </View>                       
                       </View>
                   </Modal>
 
-        <Filter visible={visibleModal} userFilterParent={userFilter}/>
+        <Filter visible={visibleModal} userFilterParent={userFilter} displayModal={displayModal}/>
         
         </View>
     )

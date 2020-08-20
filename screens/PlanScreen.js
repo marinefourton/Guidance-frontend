@@ -2,13 +2,14 @@ console.disableYellowBox = true;
 import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, Image, Alert, Modal, StyleSheet,TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
-import Slider from "react-native-slider";
 import Scrubber from 'react-native-scrubber';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FooterApp from './footer';
 import HeaderApp from './Header';
 import {connect} from 'react-redux'; 
 import { Audio } from 'expo-av'; 
+import { withNavigationFocus } from 'react-navigation';
 
 
 const soundObject = new Audio.Sound();
@@ -17,7 +18,7 @@ function PlanScreen (props) {
 
     var cloudinary = "https://res.cloudinary.com/dvx36h3ub/image/upload/v1597066939/eglise-saint-eustache-plan_qaaqxd.png"; 
     
-    const [color,setColor] = useState('#a2a1e5');
+    const [colorInt,setColorInt] = useState([]);
     const [intPoint, setIntPoint] = useState([])
     const [extPoint, setExtPoint] = useState([])
     const [intPlan, setIntPlan] = useState('')
@@ -25,98 +26,82 @@ function PlanScreen (props) {
     const [illustration, setIllustration] = useState('')
     const [modalVisible, setModalVisible] = useState(false);
     const [infoModal, setInfoModal] = useState({title: '', illustration: '', sound: ''})
-    const [audioLive, setAudioLive] = useState ('')
+    const [title, setTitle] = useState('')
+
     const [isPlaying, setIsPlaying] = useState (false)
-    const [playbackInstance, setplaybackInstance] = useState()
-    const [currentIndex, setcurrentIndex] = useState (0)
-    const [volume, setvolume] = useState (1)
-    const [isBuffering, setisBuffering] = useState (false)
     const [audioPosition, setAudioPosition] = useState('')
     const [audioTime, setAudioTime] = useState('')
+    const [pointSelected, setPointSelected] = useState(null)
     
     var planInt = ''
     var planExt = ''
     var iconName = 'ios-play-circle'
+    var iconColor = '#a2a1e5'
+    
+    
+    props.isFocused ? console.log('focus') : console.log('pas focus')
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch("http:/10.2.3.92:3000/points-tour")
+            var allDataBack = await fetch(`http://10.2.3.51:3000/points-tour?guide=${props.typeVisit}&keyId=${props.idMonument}`)
             var allData = await allDataBack.json()
-            // console.log('-------------', allData.guide,'Tableau ou pas' )
+            console.log(allData, 'HANS INDUSTRY')
 
-            var allDataGuide = allData.guide
             var intData = []
             var extData = []
             var pointImage = []
             var sound = []
+            var colorI = []
+            var Title = []
            
-        
-            for(var i=0; i<allDataGuide.length; i++){
-                if(allDataGuide[i].type == 'interieur'){
-                    for(var j=0; j<allDataGuide[i].point.length; j++){
-                        var x = allDataGuide[i].point[j].coordx
-                        var y = allDataGuide[i].point[j].coordy
-                        var pointImage = allDataGuide[i].point[j].illustration
-                        var title= allDataGuide[i].point[j].title
-                        var sound = allDataGuide[i].point[j].audio[0].urlaudio
+            for(var i=0; i<allData.Guide.length; i++){
+                if(allData.Guide[i].type == props.typeVisit){
+                    for(var j=0; j<allData.Guide[i].point.length; j++){
+                        var x = allData.Guide[i].point[j].coordx
+                        var y = allData.Guide[i].point[j].coordy
+                        var pointImage = allData.Guide[i].point[j].illustration
+                        var title= allData.Guide[i].point[j].title
+                        var sound = allData.Guide[i].point[j].audio[0].urlaudio
+                        var Title = allData.placeName
                         
-                        // console.log(pointImage, 'Flute')
-                        // console.log('-------------', sound, '---------------------Bordellllllll')
-                        intData.push({x:x, y:y, pointImage:pointImage, title: title, sound:sound});
-                      
+                        
+                        
+                        if(props.typeVisit == "interieur"){
+                            intData.push({x:x, y:y, pointImage:pointImage, title:title, sound:sound, Title:Title});
+                            planInt = allData.Guide[i].urlPlan
+                            colorI.push(false)
+                        } else if (props.typeVisit == "exterieur"){
+                            extData.push({x:x, y:y, pointImage:pointImage, title:title, sound:sound, Title: Title})
+                            planExt = allData.Guide[i].urlPlan
+                        }
                     } 
-                    planInt = allDataGuide[i].urlPlan
-                } else if(allDataGuide[i].type == 'exterieur'){
-                    for(var j=0; j<allDataGuide[i].point.length; j++){
-                        var x = allDataGuide[i].point[j].coordx
-                        var y = allDataGuide[i].point[j].coordy
-                        var pointImage = allDataGuide[i].point[j].illustration
-                        var title= allDataGuide[i].point[j].title
-                        var sound = allDataGuide[i].point[j].audio
-                        
-                        extData.push({x:x, y:y, pointImage:pointImage, title:title, sound:sound})
-                    }
-                    planExt = allDataGuide[i].urlPlan
-                }
             }
-
             setIntPoint(intData)
             setExtPoint(extData)
             setIntPlan(planInt)
             setExtPlan(planExt)
             setModalVisible(false)
-            
-        }
-
-        loadData()
-       
-         
+            setColorInt(colorI)
+            setTitle(Title)
+            await soundObject.unloadAsync();
+            }
+         }
+        loadData() 
+        console.log('-----', title)
     },[])
 
     async function runAudio(arg) {
        
          soundObject.setOnPlaybackStatusUpdate((test)=>{setAudioTime(test.durationMillis), setAudioPosition(test.positionMillis)})  
    
-
-             
-         
         try {
         
-        // await soundObject.playAsync();
-        // setIsPlaying(true)
-        // soundObject.setVolumeAsync(1);
-        // Your sound is playing!
-        // await soundObject.pauseAsync(); 
-        // soundObject.stopAsync();
-
         if(!arg){
              await soundObject.pauseAsync(); 
           
         } else {
             await soundObject.playAsync();
-           
         }
-
         // Don't forget to unload the sound from memory
         // when you are done using the Sound object
         // await soundObject.unloadAsync();
@@ -125,31 +110,59 @@ function PlanScreen (props) {
         console.log(error);
       }
       
-      
       setIsPlaying(!isPlaying)
-    }
+    }   
 
-
-    // console.log('aaaaaaaaaaaaaa', planInt)
-    
-        // Logique de positionnement des points en fonction X et Y
-
-        var handleClick = (title, illustration, sound) =>{
-            setColor('#4D3D84')
-            soundObject.loadAsync({uri : sound});
+    async function runAudio2(arg2, sound) {  
            
-            // console.log(soundObject, 'SOUNDOBJECT')
+        soundObject.setOnPlaybackStatusUpdate((test)=>{setAudioTime(test.durationMillis), setAudioPosition(test.positionMillis)})  
+  
+       try {
+       
+       if(!arg2){
+            await soundObject.pauseAsync(); 
+         
+       } else {
+           await soundObject.loadAsync({uri:sound}),
+           await soundObject.playAsync();
+       }
+       // Don't forget to unload the sound from memory
+       // when you are done using the Sound object
+       // await soundObject.unloadAsync();
+       } catch (error2) {
+       // An error occurred!
+       console.log(error2);
+     }
+     
+     setIsPlaying(!isPlaying)
+   }   
+
+          
+
+        // Logique de positionnement des points en fonction X et Y
+        var handleClick = (title, illustration, sound, pos) =>{
+            // setColor('#4D3D84')
+            soundObject.loadAsync({uri : sound});
             setInfoModal({title, illustration, sound})
-            
             setModalVisible(true)
       };
-           
-        // if(props.typeVisit == 'interieur'){
 
-            var position = intPoint.map((point, i) => {
-                // console.log(point,'pooooooint')
-                // console.log(point.pointImage,'MERDEEEE')
-                // console.log(point, 'cacacacacacaacacc')
+      if(isPlaying === true){
+        iconName = 'pause-circle'
+        }else {
+        iconName = 'play-circle'
+        }
+
+       var handleClickExt = async () => {
+           await soundObject.unloadAsync()
+       }
+           
+        if(props.typeVisit == 'interieur'){
+
+            var position = intPoint.map((point, i) => { 
+                console.log(i) 
+                var color
+                pointSelected == i ? color='red' : color='blue'
                 // Fonction du OnPress sur l'icone                                      
                 return  <Ionicons 
                     key={i}
@@ -158,136 +171,134 @@ function PlanScreen (props) {
                     name="ios-radio-button-on" 
                     md="md-radio-button-on" 
                     color={color}
-                    onPress={() => handleClick(point.title, point.pointImage, point.sound)}
+                    onPress={() => {handleClick(point.title, point.pointImage, point.sound, i); setPointSelected(i)}}
                     />
                     
                     })
    
                      var image = intPlan
 
-                     if(isPlaying === true){
-                         iconName = 'ios-pause'
-                     }else {
-                        iconName = 'ios-play-circle'
-                    }
+        } else if(props.typeVisit == 'exterieur'){
 
-                   
-                    
-           
-
-        // } else 
-        // if(props.typeVisit == 'exterieur'){
-
-            // var position = extPoint.map((point, i) => {
-            //     console.log(point,'pooooooint')
-            //     // Fonction du OnPress sur l'icone                    
-            //        return <Ionicons 
-            //            key={i}
-            //            size='25' 
-            //            style={{zIndex: 1, position:"absolute", bottom:point.x, left:point.y }} 
-            //            name="ios-radio-button-off" 
-            //            md="md-radio-button-off" 
-            //            color="#a2a1e5"
-            //            />
-            //            // OnPress => (){}
-            //        }); 
-
-            //        var image = extPlan
-            //         )
-            //     }
-        // }
-
-      
-//    console.log(audioPosition, audioTime, 'HAMMMMMEDDDD BOSSSSSS')
+            var position = extPoint.map((point, i) => {
+                if(point.x != null || point.y != null){
+                // Fonction du OnPress sur l'icone 
+                             
+                   return <Ionicons 
+                       key={i}
+                       size={25} 
+                       style={{zIndex: 1, position:"absolute", bottom:point.x, left:point.y }} 
+                       name="ios-radio-button-off" 
+                       md="md-radio-button-off" 
+                       color="#a2a1e5"
+                       onPress={() => handleClick(point.title, point.pointImage, point.sound, i)}
+                       />
+                } else {
+                    return (
+                        <View style={{ flexDirection:'row', justifyContent:'space-around', width: 350, position:'absolute', bottom:80}}>
+                            <MaterialCommunityIcons style={{zIndex: 1, backgroundColor:'white' }} name={iconName} size={70} color='#57508C' onPress={() => runAudio2(!isPlaying, point.sound) }/> 
+                            <MaterialCommunityIcons style={{zIndex: 1, backgroundColor:'white', borderRadius:50 }} onPress={() => {handleClickExt(); soundObject.stopAsync();  setIsPlaying(false)}} name='stop-circle' size={70} color='#57508C' /> 
+                        </View> 
+                        )
+                }
+                   }) 
+                   var image = extPlan
+                }
+              
     return (
-            <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center"}}>
-                <HeaderApp navigation={props.navigation}/>
-
-                <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
-
-                    <View style={styles.centeredView}>
-
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            }}
-                        >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                  <Text style={styles.modalText}> {infoModal.title} </Text>
-                                  <Image source={{uri : infoModal.illustration}} style={{height: 200, width: 200}} />
-                                    
-                                    <View style={styles.controls}>
-                                        <TouchableOpacity style={styles.controls} >
-                                        <Ionicons onPress={() => runAudio(!isPlaying)} name={iconName} size={48} color='#444' />
-                                        <Ionicons onPress={() => {soundObject.stopAsync(); setIsPlaying(false)}} name='md-square' size={44} color='#444' /> 
-                                        </TouchableOpacity>
-                                        {/* <View>
-                                            <Scrubber 
-                                                value={0}
-                                                onSlidingComplete={}
-                                                totalDuration={1000}
-                                                trackColor='#666'
-                                                scrubbedColor='#8d309b'
-                                            />
-                                        </View> */}
-                                       
-                                            
-                                    </View>
-                                    
-                                    <TouchableHighlight
-                                     style={{ ...styles.openButton, backgroundColor: "#57508C" }}
-                                     onPress={() => {
-                                        setModalVisible(!modalVisible);
-                                        {soundObject.unloadAsync();}
-                                     }}
-                                     >
-                                     <Text style={styles.textStyle}>Fermer</Text>
-                                    </TouchableHighlight>
-                                </View>
-                            </View>
-                        </Modal>
-     
-                        
-                    </View>
-
+        <View style={{flexDirection: "column", flex:1, justifyContent: "center", alignItems: "center", backgroundColor: 'white'}}>
+            <HeaderApp navigation={props.navigation}/>
                 
-
                 <ScrollView>
                     <View>
-                        <Text style={{marginLeft:"21%", marginBottom:"2%", fontSize:20}}>Eglise de Saint-Eustache</Text>
-                        <Text style={{marginLeft:"2%", marginBottom:"7%", fontSize:15, textAlign:"center"}}>Visite Guidée interieur</Text>
-                        <Image source={{uri:image}} style={{height:500, width:350, marginLeft: 1}}/>
+                        <Text style={{marginBottom:"2%", marginTop:'3%', fontSize:20, textAlign:'center'}}>{title}</Text>
+                        <Text style={{marginBottom:"3%", fontSize:15, textAlign:"center"}}>Visite Guidée {props.typeVisit} </Text>
+                        <Button 
+                            buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+                            titleStyle={{color:"#57508C"}}
+                            title="Accédez au quizz"
+                            onPress={() => props.navigation.navigate("Quizz")}
+                            color='#4D3D84'
+                        />
+                        <Image source={{uri:image}} style={{height:400, width:350, marginLeft: 1}}/>
 
                         {position}
                         
-
-                        <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"5%", color: "#FFFFFF"}}/>
+                        {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"2%", color: "#FFFFFF", borderRadius: '100%'}}/> */}
 
                      </View>
                 
-                </ScrollView>     
+                </ScrollView>  
+
+                <View style={styles.centeredView}>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onBackdropPress={() => console.log("je cliiiiiiiique")}
+                    >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={{fontSize: 20, marginBottom: 15}}> {infoModal.title} </Text>
+                            <Image source={{uri : infoModal.illustration}} style={{height: 200, width: 200, borderRadius: 100}} />
+                                    
+                                <View style={styles.controls}>
+                                    <TouchableOpacity style={{display:'flex', flexDirection:'row', justifyContent:'space-around', width:150}} >
+                                    <MaterialCommunityIcons onPress={() => runAudio(!isPlaying)} name={iconName} size={48} color='#57508C' />
+                                    <MaterialCommunityIcons onPress={() => {soundObject.stopAsync(); setIsPlaying(false)}} name='stop-circle' size={48} color='#57508C' /> 
+                                    </TouchableOpacity>
+                                    {/* <View>
+                                        <Scrubber 
+                                            value={0}
+                                            
+                                            totalDuration={1000}
+                                            trackColor='#666'
+                                            scrubbedColor='#8d309b'
+                                        />
+                                    </View> */}
+                                
+                                </View>
+                                    
+                                <TouchableOpacity style={{ position:"absolute",right:20,top:10}}>
+                                 <Ionicons 
+                               name="ios-close" 
+                               size={36} 
+                               color="black" 
+                               position="absolute"
+                                    onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                    {soundObject.unloadAsync();}
+                                    setIsPlaying(false)
+                                    }}
+                                />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+     
+                        
+                </View> 
+   
 
       
-                <FooterApp navigation={props.navigation}/>
-            </View>
+            <FooterApp navigation={props.navigation}/>
+        </View>
             
             
     )
 }
 
 function mapStateToProps(state) {
-    return { typeVisit : state.typeVisit }
+    return { typeVisit : state.typeVisit, idMonument : state.idMonument}
   }
     
-  export default connect(
+   var redux = connect(
     mapStateToProps, 
     null
   )(PlanScreen);
 
+  export default withNavigationFocus(redux)
 
 
 const styles = StyleSheet.create({
@@ -295,46 +306,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 0
+    marginTop: 0, 
+    padding: 0
   },
   modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  openButton: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    elevation: 2,
-    marginTop: 20
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center", 
-    margin: 10,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  },
-  controls: {
-      justifyContent: 'space-around',
-      flexDirection: 'row',
-      width : '70%',
-      marginLeft: 10
-    //   backgroundColor: 'red'
+      marginTop: "auto",
+      width:'100%',
+      marginBottom: 50,
+      borderTopLeftRadius:20,
+      borderTopRightRadius:20,
+      backgroundColor: "white",
+      padding: 35,
+      display:"flex", 
+      alignItems:"center",
+      shadowColor: "#000",
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 3,
+      shadowOffset: {
+        width: 0,
+        height:1
   }
-});
+}});
 
 

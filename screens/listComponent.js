@@ -12,6 +12,7 @@ import  { Ionicons } from "react-native-vector-icons";
     const [idArray,setIdArray] = ([]);
 
 
+    // console.log(props)
 
   var saveIdMonument = props.nameId;
 
@@ -86,7 +87,7 @@ return (
                 <Text style={{ fontSize: 13 }}> Groupes </Text>
             </View>    
             <View style={{display:"flex",alignItems:"center", margin:2}}>
-                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => {props.searchIdMonument(saveIdMonument), props.navigation.navigate("Visit") }} />
+                <Ionicons name="md-play" size={24} color="#57508C" onPress={() => { props.navigation.navigate("Visit") , props.searchIdMonument(props.nameId)}} />
                 <Text style={{ fontSize: 13 }}> Visiter </Text>
             </View> 
         </View>
