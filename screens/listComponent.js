@@ -27,7 +27,7 @@ import  { Ionicons } from "react-native-vector-icons";
 
     //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
-var colored = "black";
+var colored = "white";
 var nom="md-heart-empty"
 
 if(props.vrai){

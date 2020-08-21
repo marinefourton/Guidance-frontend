@@ -114,7 +114,7 @@ const handlePresse = async  () =>{
 
 var infoDynamic = tourList.map((el, i)=>{
   var exist = false 
-  if(listIdFavorites.find(e => e == el._id)){
+  if(listIdFavorites.find(e => e ==  el._id)){
     var exist = true
   } 
    return  <ListComponent tour={el} navigation={props.navigation} nameId = {el._id} arrayId = {listIdFavorites} leId = {id} vrai={exist} />
@@ -180,22 +180,18 @@ var userFilter = (obj, hideModal) => {
         Linking.openURL(url); 
       }
 
+    var colored = "black"
+    var nom = "md-heart-empty"
 
 
 
-      var colored = "black";
-      var nom="md-heart-empty"
+       if(!color){
+       colored = "red"
+       nom = "md-heart"
+      }
 
-      //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
-  
-  const handlePresse = async  () =>{
-     await  fetch(`http://10.2.3.51:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-      .then(resultat=>resultat.json())
-      .then(res=>res)
-      .catch(err=>console.log(err));
-      setListIdFavorites("valeur qui remonte de la route dans listFavId")
-  } 
+
 
 
 
@@ -306,7 +302,7 @@ var userFilter = (obj, hideModal) => {
                           </View>
 
                                   <View style={{display:"flex", flexDirection:"row", position:"absolute", left:30, top:20}}>
-                                  <Ionicons  name={nom} size={24} color={colored} onPress={()=>{handlePresse(),props.saveIdLiked(id)}}/>
+                                       <Ionicons  name={nom} size={24} color={colored} onPress={()=>{setColor(!color),handlePresse()}}/>
                                        <Ionicons  style={{marginLeft:10}}  name="md-share" size={24} color="#262626" />
                                   </View> 
                           <View style={{display:"flex", alignItems:"center", flexDirection:"row", marginTop:15, marginBottom:-10, width:"100%", justifyContent:"space-around"}}>
