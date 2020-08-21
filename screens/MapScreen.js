@@ -80,7 +80,7 @@ function MapScreen (props) {
 
         let getToursWithFilters = async () => {
 
-        const response = await fetch('http://10.2.3.24:3000/display-filtered-tours', {
+        const response = await fetch('http://10.2.3.92:3000/display-filtered-tours', {
           method: 'POST',
           headers: {'Content-Type':'application/x-www-form-urlencoded'},
           body: `categories=${JSON.stringify(filters.categories)}&price=${filters.price}&showClosed=${filters.showClosed}&title=${inputValue}`
@@ -148,20 +148,12 @@ var userFilter = (obj, hideModal) => {
        //console.log(picture);
 
 
-
- /*    const handlePresse = async  () =>{
-      await  fetch(`http://10.2.3.7:3000/send-favorites?token=${props.searchToken}&id=${id}`)
-       .then(resultat=>resultat.json())
-       .then(res=>res)
-       .catch(err=>console.log(err));
-   }  */
    var handleItineraire = (latitude,longitude) =>{
     setLatitudeItineraire(latitude)
     setlongitudeItineraire(longitude)
 
   }
 
-  
       return (
         <MarkerComponent index={i} color={color} tour={tour} tourid ={tour._id} latitude={latitude} longitude={longitude} modal = {modalVisible} setModal = {setModalVisible}
         handleClickParent = {handleClick}
@@ -194,13 +186,12 @@ var userFilter = (obj, hideModal) => {
 
 
 
-
     // switch button
   
   if(selectedIndex == 2){
     var displayMapList = (
 
-      <View style={{paddingTop: 85, paddingBottom:200}}>
+      <View style={{paddingTop: 55, paddingBottom:200}}>
   <ScrollView>
       {loader}
      {infoDynamic}
@@ -233,7 +224,7 @@ var userFilter = (obj, hideModal) => {
 
         <HeaderApp navigation={props.navigation}/>
                        
-        <View style={{margin:0,backgroundColor:"#636363",
+        <View style={{marginTop:-1,backgroundColor:"#636363",
             height:60, dispay:"flex", 
             justifyContent:"space-between", 
             alignItems:"center", 
@@ -241,7 +232,8 @@ var userFilter = (obj, hideModal) => {
             <View style={{display:"flex",
              flexDirection:"row",
              justifyContent:"space-between",
-             widtht:"30%"}}>
+             widtht:"30%",
+             }}>
                  <Ionicons name="ios-options" size={24} color="white" style={{marginLeft:8}} onPress={()=>setVisibleModal(true)}/>
                     <Text style={{color:"white",fontSize:20,marginLeft:8}}>Filtres</Text>
             </View>
@@ -257,7 +249,7 @@ var userFilter = (obj, hideModal) => {
           
          <View style={{ position:"absolute", marginTop:"45%",  left:"7%", zIndex: 10}}>
           
-          <View>
+          <View style={{marginLeft:7}}>
         <SwitchButton
             onValueChange={(val) => setSelectedIndex(val)}      
             text1 = 'Carte'                 

@@ -53,7 +53,7 @@ function Win(props) {
     useEffect(() => {
         setScore(props.recupScore);
         let updatePoints = async () => {
-            const response = await fetch(`http://10.2.3.24:3000/update-point/${props.searchToken}/${props.recupScore}`, {
+            const response = await fetch(`http://10.2.3.92:3000/update-point/${props.searchToken}/${props.recupScore}`, {
                 method: 'PUT'
               });
             const jsonResponse = await response.json()
@@ -92,7 +92,7 @@ function Win(props) {
         
 
             <View style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
-            <Text style={{display:"flex", alignItems:"center", marginTop:65, marginBottom:20, textTransform:"uppercase", fontSize:16}}> {resultatDuQuizz} </Text>
+            <Text style={{display:"flex", alignItems:"center", marginTop:105, marginBottom:20, textTransform:"uppercase", fontSize:16, fontWeight:'bold'}}> {resultatDuQuizz} </Text>
                 <Text style={{marginBottom: 30, width:250,textAlign: 'center'}}> {plusQue} </Text>
                 <Text style={{marginBottom: 10, textAlign: 'center'}}> Vous êtes actuellement </Text>
                 <Image source={badge}/>

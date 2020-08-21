@@ -83,11 +83,11 @@ function SignUpScreen (props, token) {
           
 
 
-            <Input onChangeText={(e)=> setSignUpuserpseudo(e)} placeholder="pseudo" /> 
+            <Input inputStyle={{color:"white"}} onChangeText={(e)=> setSignUpuserpseudo(e)} placeholder="pseudo" /> 
 
-            <Input onChangeText={(e) => setSignUpusermail(e)}  placeholder="email" />
+            <Input inputStyle={{color:"white"}} onChangeText={(e) => setSignUpusermail(e)}  placeholder="email" />
 
-            <Input onChangeText={(e) => setSignUpuserpwd(e)} placeholder="mot de passe" />
+            <Input inputStyle={{color:"white"}} onChangeText={(e) => setSignUpuserpwd(e)} placeholder="mot de passe" />
             
             {tabErrorsSignup}
           

@@ -43,7 +43,7 @@ function PlanScreen (props) {
     
     useEffect(()=>{
         const loadData = async ()=>{
-            var allDataBack = await fetch(`http://10.2.3.51:3000/points-tour?guide=${props.typeVisit}&keyId=${props.idMonument}`)
+            var allDataBack = await fetch(`http://10.2.3.92:3000/points-tour?guide=${props.typeVisit}&keyId=${props.idMonument}`)
             var allData = await allDataBack.json()
             console.log(allData, 'HANS INDUSTRY')
 
@@ -162,7 +162,7 @@ function PlanScreen (props) {
             var position = intPoint.map((point, i) => { 
                 console.log(i) 
                 var color
-                pointSelected == i ? color='red' : color='blue'
+                pointSelected == i ? color='#4D3D84' : color='#a2a1e5'
                 // Fonction du OnPress sur l'icone                                      
                 return  <Ionicons 
                     key={i}
@@ -195,10 +195,14 @@ function PlanScreen (props) {
                        />
                 } else {
                     return (
-                        <View style={{ flexDirection:'row', justifyContent:'space-around', width: 350, position:'absolute', bottom:80}}>
-                            <MaterialCommunityIcons style={{zIndex: 1, backgroundColor:'white' }} name={iconName} size={70} color='#57508C' onPress={() => runAudio2(!isPlaying, point.sound) }/> 
-                            <MaterialCommunityIcons style={{zIndex: 1, backgroundColor:'white', borderRadius:50 }} onPress={() => {handleClickExt(); soundObject.stopAsync();  setIsPlaying(false)}} name='stop-circle' size={70} color='#57508C' /> 
-                        </View> 
+                        <View style={{ flexDirection:'row', justifyContent:'space-around', width: 350, position:'absolute', bottom:80, padding: 30}}>
+                            <View style={{backgroundColor:'white', borderRadius:50, height:50, width:50, position:'absolute', bottom:40, left:80 }}></View>
+                                <MaterialCommunityIcons style={{zIndex: 1}} name={iconName} size={70} color='#57508C' onPress={() => runAudio2(!isPlaying, point.sound) }/> 
+                            
+                            <View style={{backgroundColor:'white', borderRadius:50, height:50, width:50, position:'absolute', bottom:40, right:80 }}></View>
+                                <MaterialCommunityIcons style={{zIndex: 1 }} onPress={() => {handleClickExt(); soundObject.stopAsync();  setIsPlaying(false)}} name='stop-circle' size={70} color='#57508C' /> 
+                        </View>
+                        
                         )
                 }
                    }) 
@@ -213,16 +217,17 @@ function PlanScreen (props) {
                     <View>
                         <Text style={{marginBottom:"2%", marginTop:'3%', fontSize:20, textAlign:'center'}}>{title}</Text>
                         <Text style={{marginBottom:"3%", fontSize:15, textAlign:"center"}}>Visite Guidée {props.typeVisit} </Text>
+                       
+                        <Image source={{uri:image}} style={{height:435, width:350, marginLeft: 1, borderRadius:20}}/>
+
+                        {position}
                         <Button 
-                            buttonStyle={{margin:15, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
+                            buttonStyle={{margin:20, backgroundColor:"white", borderColor:"#57508C", borderWidth:1, width:"60%", borderRadius:30, marginRight:"auto", marginLeft:"auto"}}
                             titleStyle={{color:"#57508C"}}
                             title="Accédez au quizz"
                             onPress={() => props.navigation.navigate("Quizz")}
                             color='#4D3D84'
                         />
-                        <Image source={{uri:image}} style={{height:400, width:350, marginLeft: 1}}/>
-
-                        {position}
                         
                         {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"2%", color: "#FFFFFF", borderRadius: '100%'}}/> */}
 
@@ -240,7 +245,7 @@ function PlanScreen (props) {
                     >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={{fontSize: 20, marginBottom: 15}}> {infoModal.title} </Text>
+                            <Text style={{fontSize: 20, marginBottom: 15, marginTop:-20}}> {infoModal.title} </Text>
                             <Image source={{uri : infoModal.illustration}} style={{height: 200, width: 200, borderRadius: 100}} />
                                     
                                 <View style={styles.controls}>
@@ -311,6 +316,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
       marginTop: "auto",
+      height: 330,
       width:'100%',
       marginBottom: 50,
       borderTopLeftRadius:20,

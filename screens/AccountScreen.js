@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { ListItem, Header} from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 function AccountScreen (props){ 
     return (
@@ -16,15 +17,17 @@ function AccountScreen (props){
               height:50
             }}
             placement="center"
-            centerComponent={{ text: 'MON COMPTE', style: { color: '#57508C', marginTop:-22 } }}
+            centerComponent={{ text: 'MON COMPTE', style: { color: '#57508C', marginTop:-28 } }}
             rightComponent={<Ionicons 
                               name="ios-close" 
                               size={24} 
-                              color="#fff" 
+                              color="#57508C" 
+                              style={{marginTop:-28, marginRight: 10}}
                               onPress={() => props.navigation.navigate("Map")}
                             />}
             />
 
+            <ScrollView style={{marginBottom:50}}>
             <ListItem
             title="Mes paramètres"
             bottomDivider
@@ -80,6 +83,14 @@ function AccountScreen (props){
             chevron
             onPress={() => setIsVisibleCategoryModal(true)}
             />
+
+            <ListItem
+            title="Déconnexion"
+            bottomDivider
+            onPress={() => props.navigation.navigate('SignIn')}
+            />
+
+        </ScrollView>
 
         <FooterApp navigation={props.navigation}/>
     </View>

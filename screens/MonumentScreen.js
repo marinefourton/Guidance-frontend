@@ -15,7 +15,7 @@ function MonumentScreen (props) {
     useEffect(()=>{
         async function display(){
             
-            var rawResponse = await fetch (`http://10.2.3.24:3000/search-infos-monument?idMonument=${props.searchMonument}`);
+            var rawResponse = await fetch (`http://10.2.3.92:3000/search-infos-monument?idMonument=${props.searchMonument}`);
             var response = await rawResponse.json();
             setInfosMonument(response);
         } display()
@@ -33,7 +33,7 @@ function MonumentScreen (props) {
       if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "interieur"){
           displayType.push(
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
-            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center"}}>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:558}}>
             <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
             <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Intérieur</Text>               </ImageBackground>
             </TouchableOpacity>
@@ -41,7 +41,7 @@ function MonumentScreen (props) {
       }else if(infosMonument.guide.length === 1 && infosMonument.guide[0].type === "exterieur"){
           displayType.push(
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
-            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:455}}>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:558}}>
             <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
             <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Extérieur</Text>   
             </ImageBackground>
@@ -52,13 +52,13 @@ function MonumentScreen (props) {
           displayType.push(
             <View style={{height:'100%'}}>
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('exterieur')}}>
-            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:220, marginBottom:15}}>
+            <ImageBackground source={{uri:infosMonument.guide[0].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:271, marginBottom:15}}>
               <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
               <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Extérieur</Text>   
             </ImageBackground>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {props.navigation.navigate("Plan"), props.selectVisit('interieur')}}>
-            <ImageBackground source={{uri:infosMonument.guide[1].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:220}}>
+            <ImageBackground source={{uri:infosMonument.guide[1].urlcouv}} style={{resizeMode: "cover", justifyContent: "center", height:272}}>
             <View style={{backgroundColor:'black', height:'100%', opacity:0.4, position:'relative'}}></View>
             <Text style={{color:'#dbdbdb', fontSize:28, textTransform:"uppercase", textAlign:"center", position:'absolute', right:'29%', top:'45%'}}>Intérieur</Text>   
            
