@@ -34,7 +34,6 @@ export default function Filter(props) {
 
   //PRICE
   const [priceMax, setPriceMax] = useState(50);
-  // console.log(priceMax);
 
   // SWITCH
   const [isSwitched, setIsSwitched] = useState(false);
@@ -92,12 +91,6 @@ export default function Filter(props) {
                             />}
           />
 
-          {/* <ListItem
-            title="Filtres"
-            bottomDivider
-            rightIcon={<Ionicons name="ios-close" size={24} color="black" /> }
-            /> */}
-
           <ListItem
             title="Catégories"
             subtitle={categorySubtitle}
@@ -105,14 +98,7 @@ export default function Filter(props) {
             chevron
             onPress={() => {closeModal() ,setIsVisibleCategoryModal(true)}}
             />
-{/* 
-          <ListItem
-            title="Notes"
-            // subtitle={selectedRating}
-            bottomDivider
-            chevron
-            // onPress={() => this.props.navigation.navigate("ListitemDetail")}
-            /> */}
+
 
           <ListItem
             title="Prix"
@@ -195,9 +181,7 @@ visible={isVisibleCategoryModal}>
                />
  
   </Modal>
-  {/* <View> */}
-  
-  {/* </View> */}
+
 
     {/* PRICE MODAL */}
     <Modal 
@@ -265,8 +249,6 @@ const styles = StyleSheet.create({
   ViewInModal: {
     marginTop:"auto",
     marginBottom:50,
-    // justifyContent: 'flex-end',
-    // margin: 3,
     backgroundColor:"white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

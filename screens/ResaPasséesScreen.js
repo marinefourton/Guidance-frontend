@@ -1,7 +1,7 @@
 console.disableYellowBox = true;
 import React, { useEffect , useState }from 'react';
 import { Text, View, ScrollView, StyleSheet} from 'react-native';
-import { ButtonGroup, Button, Card, TouchableOpacity} from "react-native-elements";
+import { Card } from "react-native-elements";
 import SwitchButton from 'switch-button-react-native';
 import {connect} from 'react-redux';
 import FooterApp from './footer';
@@ -113,28 +113,12 @@ function ResaPasséesScreen(props) {
       </View>
 
 
-            {/* <ButtonGroup 
-            buttons={buttons}
-            selectedButtonStyle={{backgroundColor:"white",borderWidth:1,borderColor:"#57508C"}}
-            containerStyle={{height:50,width:300,borderRadius:10,backgroundColor:"#57508C"}}
-            selectedIndex={selectedIndex}
-            selectedTextStyle={{color:"#57508C"}}
-            textStyle={{color:"white"}}
-            >
-          </ButtonGroup> */}
-
           <Text>{pasDeVisite}</Text>
           <ScrollView style={{marginBottom:50}}>
           {cardList}
           </ScrollView>
 
             
-            {/* <Button title="Go to badges" onPress={() => props.navigation.navigate("MyBadges")}/>
-            <Button title="Go to visit" onPress={() => props.navigation.navigate("Visit")}/>
-            <Button title="Go to quizz" onPress={() => props.navigation.navigate("Quizz")}/>
-            <Button title="Go to PlanScreen" onPress={() => props.navigation.navigate("Plan")}/>
-            <Button title="Add monument BDD" onPress={() => fetch ("http://10.2.3.92:3000/save-monument")}/> */}
-
         <FooterApp navigation={props.navigation}/>
         </View>
     )

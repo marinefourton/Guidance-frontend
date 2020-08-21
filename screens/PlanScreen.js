@@ -1,8 +1,7 @@
 console.disableYellowBox = true;
 import React, {useState, useEffect} from 'react';
-import { Text, View, ScrollView, Image, Alert, Modal, StyleSheet,TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, Image, Modal, StyleSheet,TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
-import Scrubber from 'react-native-scrubber';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FooterApp from './footer';
@@ -45,7 +44,6 @@ function PlanScreen (props) {
         const loadData = async ()=>{
             var allDataBack = await fetch(`http://10.2.3.92:3000/points-tour?guide=${props.typeVisit}&keyId=${props.idMonument}`)
             var allData = await allDataBack.json()
-            console.log(allData, 'HANS INDUSTRY')
 
             var intData = []
             var extData = []
@@ -87,7 +85,6 @@ function PlanScreen (props) {
             }
          }
         loadData() 
-        console.log('-----', title)
     },[])
 
     async function runAudio(arg) {
@@ -102,12 +99,9 @@ function PlanScreen (props) {
         } else {
             await soundObject.playAsync();
         }
-        // Don't forget to unload the sound from memory
-        // when you are done using the Sound object
-        // await soundObject.unloadAsync();
+
         } catch (error) {
-        // An error occurred!
-        console.log(error);
+
       }
       
       setIsPlaying(!isPlaying)
@@ -126,12 +120,9 @@ function PlanScreen (props) {
            await soundObject.loadAsync({uri:sound}),
            await soundObject.playAsync();
        }
-       // Don't forget to unload the sound from memory
-       // when you are done using the Sound object
-       // await soundObject.unloadAsync();
+
        } catch (error2) {
-       // An error occurred!
-       console.log(error2);
+
      }
      
      setIsPlaying(!isPlaying)
@@ -141,7 +132,6 @@ function PlanScreen (props) {
 
         // Logique de positionnement des points en fonction X et Y
         var handleClick = (title, illustration, sound, pos) =>{
-            // setColor('#4D3D84')
             soundObject.loadAsync({uri : sound});
             setInfoModal({title, illustration, sound})
             setModalVisible(true)
@@ -160,7 +150,6 @@ function PlanScreen (props) {
         if(props.typeVisit == 'interieur'){
 
             var position = intPoint.map((point, i) => { 
-                console.log(i) 
                 var color
                 pointSelected == i ? color='#4D3D84' : color='#a2a1e5'
                 // Fonction du OnPress sur l'icone                                      
@@ -229,7 +218,6 @@ function PlanScreen (props) {
                             color='#4D3D84'
                         />
                         
-                        {/* <Button type="solid" title= "Accédez au Quizz" onPress={() => props.navigation.navigate("Quizz")} style={{width:200, marginLeft:"22%", marginTop:"2%", color: "#FFFFFF", borderRadius: '100%'}}/> */}
 
                      </View>
                 
@@ -253,15 +241,6 @@ function PlanScreen (props) {
                                     <MaterialCommunityIcons onPress={() => runAudio(!isPlaying)} name={iconName} size={48} color='#57508C' />
                                     <MaterialCommunityIcons onPress={() => {soundObject.stopAsync(); setIsPlaying(false)}} name='stop-circle' size={48} color='#57508C' /> 
                                     </TouchableOpacity>
-                                    {/* <View>
-                                        <Scrubber 
-                                            value={0}
-                                            
-                                            totalDuration={1000}
-                                            trackColor='#666'
-                                            scrubbedColor='#8d309b'
-                                        />
-                                    </View> */}
                                 
                                 </View>
                                     

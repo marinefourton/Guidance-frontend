@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Modal, Switch, TouchableOpacity, Image } from 'react-native';
-import { Button, Card } from 'react-native-elements'
+import { StyleSheet, Text, View,  TouchableOpacity, Image } from 'react-native';
+import { Button } from 'react-native-elements'
 import {connect} from 'react-redux';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
@@ -19,28 +19,6 @@ function Quizz(props) {
     let QCM;
     let question;
 
-    // A DECOMMENTER : AU CHARGEMENT DU SCREEN : REINITIALISATION DU SCORE A 0 DANS LE STORE, RECUP DE L'ID DU TOUR ET DONC LE QUIZZ, AJOUTER LA VISITE A L'HISTORIQUE
-    // useEffect(() => {
-    //     console.log("je passe dans le useEffect")
-    //     props.resetScore();
-    //     let updateVisitHistory = async () => {
-    //         const response = await fetch(`http://10.2.3.92:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
-    //             method: 'PUT'
-    //           });
-    //     }
-    //     updateVisitHistory();
-    //     let getQuizz = async () => {
-    //         const response = await fetch('http://10.2.3.92:3000/get-quizz', {
-    //             method: 'POST',
-    //             headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    //             body: `tourID=${props.tourID}`
-    //         })
-    //         const jsonResponse = await response.json()
-    //         console.log("reponse du back", jsonResponse)
-    //         setQuizz(jsonResponse.quizz)
-    //     }
-    //     getQuizz();
-    //     }, [])
 
     // Au chargement, on recupére le quizz et on enregistre le tour dans l'historique
     useEffect (() => {
@@ -65,23 +43,6 @@ function Quizz(props) {
         props.resetScore();
 
     }, [])
-
-
-    // const[quizz, setQuizz] = useState([
-    //             {question: "De quoi est mort Oscar Wilde ?",
-    //              reponses: ["D'une meningite" , "De la tuberculose", "Il n'est pas mort", "D'amour"],
-    //              win: "D'une meningite"},
-    //              {question: "c'est la question B",
-    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-    //              win: "reponse B"},
-    //              {question: "c'est la question C",
-    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-    //              win: "reponse C"},
-    //              {question: "c'est la question D",
-    //              reponses: ["reponse A" , "reponse B", "reponse C", "reponse D"],
-    //              win: "reponse D"}
-    //         ]
-    // );
 
 
 
@@ -229,4 +190,3 @@ const styles = StyleSheet.create({
   }
 });
 
-//<Text style={{marginBottom:"5%", marginTop:"10%", fontSize: 15}}>{selectedTour.quizz[indexQuestion].question}</Text>

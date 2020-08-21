@@ -1,7 +1,6 @@
-import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity} from 'react-native';
-import MapView , { Marker } from 'react-native-maps';
-import  { Ionicons } from "react-native-vector-icons";
-import React, { useEffect , useState }from 'react';
+import { View } from 'react-native';
+import { Marker } from 'react-native-maps';
+import React, { useState }from 'react';
 
 
 

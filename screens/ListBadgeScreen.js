@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
 import {connect} from "react-redux"
@@ -43,7 +43,6 @@ function BadgesScreen (props) {
     },[]);
 
 
-    // console.log('badges', myBadges);
 
     var displayBadges = [];
 

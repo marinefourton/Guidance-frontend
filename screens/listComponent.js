@@ -1,8 +1,8 @@
 console.disableYellowBox = true;
-import React, { useEffect , useState }from 'react';
-import { Text, View ,StyleSheet ,Image,ScrollView, Linking} from 'react-native';
+import React, { useState }from 'react';
+import { Text, View, Linking} from 'react-native';
 import {connect} from "react-redux";
-import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
+import { Card } from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
 
  function ListComponent (props){
@@ -12,20 +12,9 @@ import  { Ionicons } from "react-native-vector-icons";
     const [idArray,setIdArray] = ([]);
 
 
-    // console.log(props)
-
-  var saveIdMonument = props.nameId;
-
-  // console.log(props.nameId,"voilaaaaaa")
-
-    var saveIdMonument = props.tour
-
-
-    console.log(props.arrayId,"prop")
     var colored = "white";
     var nom="md-heart-empty"
 
-    //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
 
 var colored = "white";
 var nom="md-heart-empty"
@@ -56,12 +45,6 @@ if(props.vrai){
       });
       Linking.openURL(url); 
     }
-
-
-
-
-    //!color? colored = <Ionicons  name="md-heart-empty" size={24} color="black"  onPress={()=>{setColor(!color),handlePresse(),props.saveIdLiked(id)}}/>: colored = <Ionicons  name="md-heart" size={24} color="red" onPress={()=>{setColor(!color),handlePresse()}}/>;     
-
 
 
 return (

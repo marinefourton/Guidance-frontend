@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
-import { Card } from 'react-native-elements';
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
@@ -23,9 +22,6 @@ function MonumentScreen (props) {
     },[]);
     
 
-    // console.log(infosMonument.guide[0].type,infosMonument.guide[0].urlcouv);
-    // console.log(infosMonument.guide[1].type,infosMonument.guide[1].urlcouv);
-    // console.log(infosMonument.guide.length);
 
     var displayType = [];
 

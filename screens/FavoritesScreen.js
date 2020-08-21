@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
@@ -25,7 +25,6 @@ function FavoritesScreen (props) {
         }display()
     },[]);
 
-    // console.log(myFavorites,"respoooooonse2")
 
     var redirectToGoogleMap = (lng, lat) => {
         const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
@@ -54,7 +53,6 @@ function FavoritesScreen (props) {
              .then(res=>res)
              .catch(err=>console.log(err));
          } 
-        // console.log(myFavorites[0].location);
 
         displayFavorites.push(
 
@@ -115,7 +113,7 @@ function FavoritesScreen (props) {
 
     return (
 
-        <View style={{paddingTop: 10, paddingBottom:50, flex:1, backgroundColor:"white"}}>
+        <View style={{ paddingBottom:50, flex:1, backgroundColor:"white"}}>
 
             <HeaderApp navigation={props.navigation}/>
 

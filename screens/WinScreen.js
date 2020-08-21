@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Button, Card } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import {connect} from 'react-redux';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
@@ -11,8 +11,6 @@ function Win(props) {
 
     const[score, setScore] = useState();
     const[userPoints, setUserPoints] = useState();
-    console.log(userPoints)
-    console.log(score)
 
     var badgesList = [
         { points:0 ,src:"../assets/badge-0-miles.jpg", name:"Beginner"},
@@ -57,7 +55,6 @@ function Win(props) {
                 method: 'PUT'
               });
             const jsonResponse = await response.json()
-            // console.log(jsonResponse)
             setUserPoints(jsonResponse.userpoints)
         }
         updatePoints();

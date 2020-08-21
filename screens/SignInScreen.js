@@ -1,6 +1,6 @@
 console.disableYellowBox = true;
 import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, Image, AsyncStorage } from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import {connect} from 'react-redux';
 
@@ -17,18 +17,15 @@ function SignInScreen(props, token) {
   useEffect(() => {
     AsyncStorage.getItem("saveToken", (err, value) => {   
        
-    // console.log(value,"TempoToken")
     
     if (value) {      
       setTokenList(value);  //enferme le token ds un tableau de token pour pouviiur avoir accesa e lensemble des tokens 
       props.addToken(value);//renvopi du token vers le store 
       props.navigation.navigate("Map")
      }
-      // console.log(tokenList, "TokenLife")
      
   })
 }, []);
-// console.log(tokenList, "Test Hans")
 
       var handleSubmitSignin = async () => {
      
@@ -57,22 +54,8 @@ function SignInScreen(props, token) {
         return(<Text style={{color:"#aaaaaa", marginLeft:"35%", marginBottom:"3%"}}>{error}</Text>)
       })
     
-      // var Labas = function(props){
-      //   props.navigation.navigate("Map")
-      // }; 
-      // var signIn; 
-      // if(!tokenList){
-      //   signIn =
-      //   <View>
-      //   <Input onChangeText={(e) => setSignInusermail(e)}  placeholder="usermail" />
-      //   <Input onChangeText={(e) => setSignInuserpwd(e)} placeholder="userpwd" />
-      //   </View>
-      // } else {
-      //   Labas; 
-        // signIn = <Text style={{margin: 25, color:"#FF0000",textAlign: "center", fontSize: 20}}>Welcome back {signInusermail}!</Text>
-      // }
 
-    return (
+      return (
       
         <ImageBackground source={require('../assets/background-home.jpg')} style={{flex:1}}>
         <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
@@ -86,7 +69,6 @@ function SignInScreen(props, token) {
 
             <Text style={{fontSize: 50, color: '#FFFFFF', marginLeft:"10%", marginBottom:"8%"}}> Guidance</Text>
           
-            {/* {signIn} */}
 
             <Input inputStyle={{color:"white"}} onChangeText={(e) => setSignInusermail(e)}  placeholder="email" />
 
@@ -95,7 +77,6 @@ function SignInScreen(props, token) {
             {tabErrorsSignin}
 
             <Button buttonStyle={{ borderRadius: 20, backgroundColor: '#ffffff', width:"60%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Connexion" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignin(token)}/>
-            {/* <Button title="Go to map" onPress={() => props.navigation.navigate("Map")}/> */}
 
             </View>
           
@@ -135,14 +116,6 @@ const styles = StyleSheet.create({
     },
   });
 
-  // function mapStateToProps(state){
-  //   return {token: state.token}
-  // }
-  
-  // export default connect(
-  //   null,
-  //   mapStateToProps
-  // )(HomeScreen)
 
   function mapDispatchToProps(dispatch){
     return {

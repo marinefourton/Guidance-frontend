@@ -1,5 +1,5 @@
 console.disableYellowBox = true;
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import {connect} from 'react-redux';
@@ -17,23 +17,9 @@ function SignUpScreen (props, token) {
 
   const [listErrorsSignup, setErrorsSignup] = useState([])
 
-//   useEffect(() => {
-//     AsyncStorage.getItem("saveToken", (err, value) => {   
-       
-//     console.log(value,"TempoToken")
-    
-//     if (value) {      
-//       setTokenList(value);  
-//      }
-//       console.log(tokenList, "TokenLife")
-     
-//   })
-// }, []);
-// console.log(tokenList, "Test Hans")
 
 
     var handleSubmitSignup = async () => {
-        // console.log(signUpuserpseudo, "Pseudo")
     
         const data = await fetch('http://10.2.3.92:3000/sign-up', {
           method: 'POST',
@@ -42,7 +28,6 @@ function SignUpScreen (props, token) {
         })
     
         const body = await data.json()
-        // console.log(body, '')
     
         if(body.result == true){
           props.navigation.navigate("Map"),
@@ -51,21 +36,14 @@ function SignUpScreen (props, token) {
           AsyncStorage.setItem("saveToken", body.token); 
           setTokenList(body.token),
           setUserExists(true)
-          // console.log(body.token, 'BODYTOKEN')
           
         } else {
           setErrorsSignup(body.error)
         }
       }
-      // console.log(tokenList, "EtatTokenList?")
 
       
-      //   if(userExists == true){
-      //   return (<Text> Utilisateur déjà existant </Text>)
-       
-      // }
-     
-    
+
       var tabErrorsSignup = listErrorsSignup.map((error) => {
         return(<Text style={{color:"#aaaaaa", marginLeft:"35%", marginBottom:"3%"}}>{error}</Text>)
       })
@@ -92,11 +70,9 @@ function SignUpScreen (props, token) {
             {tabErrorsSignup}
           
 
-            {/* <Button title="Go to map" onPress={() => navigation.navigate("BottomNavigator")}/> */}
 
             <View style={{flexDirection : "row", justifyContent: "center", alignItems: "center"}}>
 
-            {/* <Button type="solid" title= "Annuler" onPress={() => props.navigation.navigate("Home")} style={{width:120, marginLeft:"15%", marginBottom:"15%"}}/>  */}
             <Button buttonStyle={{ color:"red",borderRadius: 20, backgroundColor: '#ffffff', width:"85%", marginTop:"8%", marginLeft:"auto", marginRight:"auto"}}type="solid" title="Valider" titleStyle={{color:"#57508C"}} onPress={() => handleSubmitSignup(token)}/>
             </View>
             </KeyboardAvoidingView>

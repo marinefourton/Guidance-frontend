@@ -4,9 +4,8 @@ import { Text, View ,StyleSheet ,Image,Modal,TouchableOpacity,Linking, ScrollVie
 import MapView , { Marker } from 'react-native-maps';
 import * as Permissions from "expo-permissions";
 import * as Location from 'expo-location';
-import { Header ,SearchBar,ButtonGroup, withTheme,Button,Card} from "react-native-elements";
+import { SearchBar } from "react-native-elements";
 import  { Ionicons } from "react-native-vector-icons";
-import { FontAwesome } from '@expo/vector-icons'; 
 import Filter from "../screens/FilterScreen";
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
@@ -145,7 +144,6 @@ var userFilter = (obj, hideModal) => {
         setPicture(picture)
        }
 
-       //console.log(picture);
 
 
    var handleItineraire = (latitude,longitude) =>{
@@ -177,7 +175,7 @@ var userFilter = (obj, hideModal) => {
 
 
 
-       if(!color){
+   if(color){
        colored = "red"
        nom = "md-heart"
       }
@@ -342,8 +340,6 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       padding: 35,
       display:"flex", 
-     // flexDirection:"row",
-      // justifyContent:"space-around",
       alignItems:"center",
       shadowColor: "#000",
       shadowOpacity: 0.25,

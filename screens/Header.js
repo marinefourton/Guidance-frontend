@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Image } from "react-native";
+import { Image } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import { Header } from "react-native-elements";
 import { FontAwesome } from '@expo/vector-icons';

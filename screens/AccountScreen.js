@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { ListItem, Header} from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 import FooterApp from '../screens/footer';
 import HeaderApp from '../screens/Header';
-// import { ScrollView } from 'react-native-gesture-handler';
 
 function AccountScreen (props){ 
     return (
@@ -103,16 +102,6 @@ function AccountScreen (props){
           alignItems: 'center',
           justifyContent: 'center'
         }
-        // ViewInModal: {
-        //   marginTop:"auto",
-        //   marginBottom:50,
-        //   // justifyContent: 'flex-end',
-        //   // margin: 3,
-        //   backgroundColor:"white",
-        //   borderTopLeftRadius: 20,
-        //   borderTopRightRadius: 20,
-        //   overflow: 'hidden',
-        // }
       });
       
 export default AccountScreen
