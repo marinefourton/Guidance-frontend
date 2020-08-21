@@ -9,8 +9,8 @@ import HeaderApp from '../screens/Header';
 
 function Win(props) {
 
-    const[score, setScore] = useState(0);
-    const[userPoints, setUserPoints] = useState(0);
+    const[score, setScore] = useState();
+    const[userPoints, setUserPoints] = useState();
     console.log(userPoints)
     console.log(score)
 

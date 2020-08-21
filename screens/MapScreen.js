@@ -105,7 +105,7 @@ if(tourList.length == 0) {
 
 
 const handlePresse = async  () =>{
-  await  fetch(`http://10.2.3.24:3000/send-favorites?token=${props.searchToken}&id=${id}`)
+  await  fetch(`http://10.2.3.92:3000/send-favorites?token=${props.searchToken}&id=${id}`)
    .then(resultat=>resultat.json())
    .then(res=>setListIdFavorites(res.listFavId))
    .catch(err=>console.log(err));

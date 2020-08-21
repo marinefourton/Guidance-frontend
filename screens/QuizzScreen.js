@@ -24,13 +24,13 @@ function Quizz(props) {
     //     console.log("je passe dans le useEffect")
     //     props.resetScore();
     //     let updateVisitHistory = async () => {
-    //         const response = await fetch(`http://10.2.3.51:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
+    //         const response = await fetch(`http://10.2.3.92:3000/update-visit-history/${props.searchToken}/${props.tourID}`, {
     //             method: 'PUT'
     //           });
     //     }
     //     updateVisitHistory();
     //     let getQuizz = async () => {
-    //         const response = await fetch('http://10.2.3.51:3000/get-quizz', {
+    //         const response = await fetch('http://10.2.3.92:3000/get-quizz', {
     //             method: 'POST',
     //             headers: {'Content-Type':'application/x-www-form-urlencoded'},
     //             body: `tourID=${props.tourID}`
